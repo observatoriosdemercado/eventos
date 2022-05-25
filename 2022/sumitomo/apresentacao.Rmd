@@ -145,23 +145,25 @@ knitr::include_graphics("img_r/fig2.png")
 ```
 
 ---
-class: center
+class: center, middle
 ### ACESSO ÀS INFORMAÇÕES DOS OBSERVATÓRIOS 
 
-.pull-left[
-```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics("img_r/fig4_sumi.png")
-```
-]
+.left-column[
 
-.pull-right[
+- Entrar no site da Embrapa Semiárido
 
-- Entrar no site da Embrapa Semiárido (https://www.embrapa.br/semiarido)
+www.embrapa.br/semiarido
 
 - Do lado direito, canto inferior aparecem os logos dos dois observatórios, de manga e de uva.
 
 - **É só clicar no Observatório de interesse!**
 
+]
+
+.right-column[
+```{r, echo=FALSE, out.width="78%"}
+knitr::include_graphics("img_r/fig4_sumi.png")
+```
 ]
 ---
 class: center
@@ -189,7 +191,7 @@ knitr::include_graphics("img_r/fig5_sumi.png")
 class: center
 ### ANÁLISE DA DEMANDA DE UVA
 
-```{r sumimoto_1}
+```{r sumitomo_1}
 #Direcionado o R para o Diretorio a ser trabalhado
 setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_uva')
 
@@ -240,7 +242,7 @@ ggplotly(g4) %>%
 class: center
 ### ANÁLISE DA DEMANDA DE MANGA
 
-```{r sumimoto_2}
+```{r sumitomo_2}
 #Direcionado o R para o Diretorio a ser trabalhado
 setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
 
@@ -285,7 +287,7 @@ ggplotly(g4) %>%
 class: center
 ### ANÁLISE DOS PREÇOS DE UVA NEGRA SEM SEMENTE EMBALADA
 
-``` {r sumimoto_3}
+``` {r sumitomo_3}
 library(imputeTS)
 library(tsutils)
 data <- as.Date("2022-05-20")
@@ -526,7 +528,7 @@ ggplotly(g7) %>%
 class: center
 ### ANÁLISE DOS PREÇOS DE UVA NEGRA SEM SEMENTE EMBALADA
 
-``` {r sumimoto_3A}
+``` {r sumitomo_3A}
 g5 <- ggplot()+
   geom_col(data=tableb2, aes(x=Semanas, y=value, fill=variable), size=2, width = 0.7,
            position = "dodge")+
@@ -562,7 +564,7 @@ ggplotly(g5) %>%
 class: center
 ### ANÁLISE DOS PREÇOS DE MANGA PALMER
 
-``` {r sumimoto_4}
+``` {r sumitomo_4}
 #Direcionado o R para o Diretorio a ser trabalhado
 setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
 
@@ -708,7 +710,7 @@ ggplotly(g3) %>%
 class: center
 ### ANÁLISE DOS PREÇOS DE MANGA PALMER
 
-``` {r sumimoto_4a}
+``` {r sumitomo_4a}
 g1 <- ggplot()+
   geom_col(data=tableb2, aes(x=Semanas, y=value, fill=variable), size=2, width = 0.7,
            position = "dodge")+
@@ -744,7 +746,7 @@ ggplotly(g1) %>%
 class: center
 ### EXPECTATIVAS E DESAFIOS - EXPORTAÇÕES DE UVA
 
-``` {r sumimoto_5}
+``` {r sumitomo_5}
 #Direcionado o R para o Diretorio a ser trabalhado
 setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_uva')
 
@@ -1000,7 +1002,7 @@ ggplotly(g7) %>%
 class: center
 ### EXPORTAÇÕES DE MANGA
 
-``` {r sumimoto_6}
+``` {r sumitomo_6}
 #Direcionado o R para o Diretorio a ser trabalhado
 setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
 
@@ -1251,7 +1253,7 @@ ggplotly(g7) %>%
 class: center
 ### TAXA DE CÂMBIO ESPERADA PARA DEZEMBRO/2022
 
-``` {r sumimoto_7}
+``` {r sumitomo_7}
 dados6 <- get_market_expectations("monthly", "Câmbio", start_date = "2022-01-01")
 dados6 <- dados6 %>% filter (baseCalculo == 0) 
 dates <- dados6$Data[dados6$DataReferencia=='12/2022']
@@ -1289,7 +1291,7 @@ knitr::include_graphics("img_r/fig6_sumi.png")
 ```
 ---
 
-### NECESSIDADE DE AUMENTAR A **DEMANDA** 
+### NECESSIDADE DE AUMENTAR A **DEMANDA** INTERNA E EXTERNA 
 
 ### NECESSIDADE DE REDUÇÃO DE **CUSTOS**
 
@@ -1297,7 +1299,7 @@ knitr::include_graphics("img_r/fig6_sumi.png")
 
 ### PENSAR TAMBÉM A **GESTÃO** DO NEGÓCIO, TODO CENTAVO É RELEVANTE
 
-### MENTALIDADE DE **UNIÃO**, FORMAR **COOPERATIVAS** ou **ASSOCIAÇÕES**
+### MENTALIDADE DE **UNIÃO**, FORMAR **COOPERATIVAS** OU **ASSOCIAÇÕES**
 
 ### CONSEGUIR **AGREGAR VALOR** AS FRUTAS
 
@@ -1307,7 +1309,7 @@ class: center, middle
 ### IMPORTÂNCIA DA FRUTICULTURA DO VALE DO SÃO FRANCISCO
 
 .pull-left[
-``` {r sumimoto_8}
+``` {r sumitomo_8}
 #Direcionado o R para o Diretorio a ser trabalhado
 setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_caged')
 
@@ -1421,7 +1423,7 @@ ggplotly(g1) %>%
 ```
 ]
 .pull-right[
-``` {r sumimoto_9}
+``` {r sumitomo_9}
 #Direcionado o R para o Diretorio a ser trabalhado
 setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_caged')
 
