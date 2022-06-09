@@ -1569,9 +1569,51 @@ knitr::include_graphics("img_r/fig14.png")
 ---
 ### PROFISSIONALIZAR, CUIDAR DA GESTÃO DO NEGÓCIO
 
-```{r, echo=FALSE, out.width="100%"}
+```{r, echo=FALSE, out.width="95%"}
 knitr::include_graphics("img_r/fig18.png")
 ```
+
+---
+class: center
+### PRECISAMOS FAZER CONTA! SEMPRE! TODA HORA! 
+
+.pull-left[
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img_r/fig19.png")
+```
+Fonte: Instagram, 2021.
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img_r/fig20.png")
+```
+]
+
+---
+class: center
+### PRECISAMOS FAZER CONTA! SEMPRE! TODA HORA! 
+
+.pull-left[
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img_r/fig21.png")
+```
+]
+
+.pull-right[
+
+#### LUCRO = RECEITA – CUSTOS
+
+#### RECEITA = PREÇO X QUANTIDADE
+
+
+## **RECEITA NÃO É LUCRO!**
+
+
+#### UMA PARTE DO LUCRO POSITIVO SE TORNA A RECEITA DA FAMÍLIA, QUE COBRE OS CUSTOS DA FAMÍLIA. 
+
+#### A OUTRA PARTE É PARA COBRIR OS CUSTOS DA EMPRESA E PARA FAZER INVESTIMENTOS.
+]
 
 ---
 class: center, middle
