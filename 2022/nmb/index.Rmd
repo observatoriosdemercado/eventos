@@ -1,0 +1,234 @@
+---
+title: "ANÁLISE DO MERCADO BRASILEIRO DE MANGAS: A CONTRIBUIÇÃO DO OBSERVATÓRIO DE MERCADO DA EMBRAPA SEMIÁRIDO"
+author: 'João Ricardo Lima<br><span style = "font-size: 70%;">D.Sc em Economia Aplicada<br>joao.ricardo@embrapa.br'
+date: "<span style = 'font-size: 70%;'>`r format(Sys.Date(), '%d de %B de %Y')`</span>"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: FALSE
+      ratio: "16:9"
+      navigation: 
+        scroll: false
+params:
+  references: FALSE # TRUE = mostrar último slide com referências
+  references_path: "https://gist.githubusercontent.com/analisemacro/1521d6cd7d9239cc2343269ca6f99a0a/raw/58d10d00e7a55ef38aac695693cc5513952fbb1a/references.bib" # caminho para arquivo .bib
+  logo_slides: "https://bit.ly/3JJ2ZXA"
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+# Dependências dos slides/aula
+library(knitr)          # CRAN v1.33
+library(rmarkdown)      # CRAN v2.10
+library(xaringan)       # CRAN v0.22
+library(xaringanthemer) # CRAN v0.3.0
+library(xaringanExtra)  # [github::gadenbuie/xaringanExtra] v0.5.5
+library(RefManageR)     # CRAN v1.3.0
+library(ggplot2)        # CRAN v3.3.5
+library(fontawesome)    # [github::rstudio/fontawesome] v0.1.0
+
+# Opções de chunks
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  echo       = FALSE,
+  warning    = FALSE,
+  message    = FALSE,
+  fig.retina = 3,
+  fig.width  = 11,
+  fig.asp    = 0.618,
+  out.width  = "100%",
+  fig.align  = "center",
+  comment    = "#"
+  )
+
+# Cores para gráficos
+colors <- c(
+  blue       = "#282f6b",
+  red        = "#b22200",
+  yellow     = "#eace3f",
+  green      = "#224f20",
+  purple     = "#5f487c",
+  orange     = "#b35c1e",
+  turquoise  = "#419391",
+  green_two  = "#839c56",
+  light_blue = "#3b89bc",
+  gray       = "#666666"
+  )
+```
+
+```{r xaringan, echo=FALSE}
+# Tema da apresentação
+xaringanthemer::style_mono_light(
+  base_color                      = unname(colors["blue"]),
+  title_slide_background_image    = params$logo_slides, 
+  title_slide_background_size     = 12,
+  title_slide_background_position = "bottom 10px right 20px",
+  title_slide_background_color    = "white",
+  title_slide_text_color          = unname(colors["blue"]),
+  footnote_position_bottom        = "15px"
+  )
+
+# Opções extras do tema
+xaringanExtra::use_progress_bar(
+  color    = colors["blue"], 
+  location = "bottom"
+  )
+xaringanExtra::use_extra_styles(
+  hover_code_line         = TRUE,
+  mute_unhighlighted_code = FALSE
+  )
+xaringanExtra::use_panelset()
+```
+
+```{css, echo=FALSE}
+pre {
+  white-space: pre-wrap;
+  overflow-y: scroll !important;
+  max-height: 45vh !important;
+  overflow-x: auto;
+  max-width: 100%;
+}
+```
+
+```{r load_refs, echo=FALSE, eval=params$references}
+# Configuração de citações
+RefManageR::BibOptions(
+  check.entries = FALSE,
+  bib.style     = "authoryear",
+  cite.style    = "authoryear",
+  style         = "markdown",
+  hyperlink     = FALSE,
+  dashed        = FALSE
+  )
+if(params$references){
+  temp_refbib <- tempdir()
+  download.file(
+    url      = params$references_path, 
+    destfile = paste0(temp_refbib, "/references.bib"), 
+    mode     = "wb"
+    )
+  myBib <- RefManageR::ReadBib(paste0(temp_refbib, "/references.bib"), check = FALSE)
+  }
+
+# Como citar?
+# RefManageR::TextCite(myBib, "id_da_citacao")
+```
+
+```{r utils, echo=FALSE}
+# Função que pega um arquivo .Rmd, condicionalmente o renderiza, 
+# e embute o conteúdo do mesmo formatado como Markdown puro 
+# no output do documento atual
+print_rmd <- function(file, encoding = "UTF-8", render = TRUE){
+  if(render){rmarkdown::render(input = file, quiet = TRUE)}
+  rmd <- readLines(con = file, encoding = encoding)
+  cat("```md\n")
+  cat(rmd, sep = "\n")
+  cat("```\n")
+}
+```
+
+### A PRODUÇÃO DE RIQUEZA NO BRASIL
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img_r/fig15.png")
+```
+Fonte: Navarro, 2021.
+
+---
+class: center
+
+### A IMPORTÂNCIA DA PRODUÇÃO DE HF NO NORDESTE
+
+```{r, echo=FALSE, out.width="90%"}
+knitr::include_graphics("img_r/fig16.png")
+```
+Fonte: CNA, 2021.
+
+---
+class: center
+
+### A TECNOLOGIA
+
+```{r, echo=FALSE, out.width="98%"}
+knitr::include_graphics("img_r/fig17.png")
+```
+
+---
+class: center
+
+### OBSERVATÓRIOS DE MERCADO DE UVA E MANGA DA EMBRAPA
+
+```{r, echo=FALSE, out.width="94%"}
+knitr::include_graphics("img_r/fig1.png")
+```
+---
+class: center
+### COLETA, TRATAMENTO E DIVULGAÇÃO DE INFORMAÇÕES
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img_r/fig2.png")
+```
+
+---
+class: center, middle
+### ACESSO ÀS INFORMAÇÕES DOS OBSERVATÓRIOS 
+
+.left-column[
+
+- Entrar no site da Embrapa Semiárido
+
+www.embrapa.br/semiarido
+
+- Do lado direito, canto inferior aparecem os logos dos dois observatórios, de manga e de uva.
+
+- **É só clicar no Observatório de interesse!**
+
+]
+
+.right-column[
+```{r, echo=FALSE, out.width="78%"}
+knitr::include_graphics("img_r/fig4_sumi.png")
+```
+]
+---
+class: center
+### EXEMPLO NO SITE DO OBSERVATÓRIO DA MANGA
+
+.pull-left[
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img_r/fig5_nmb.png")
+```
+]
+
+.pull-right[
+
+- No site do Observatório de Mercado de Manga (https://www.embrapa.br/observatorio-da-manga) existem colunas com diversas informações (mercado interno, exportações, emprego)!
+
+- Contudo, os observatórios tem gerado muito mais informações do que estas disponibilizadas neste link. 
+
+- Basicamente existem 3 formas de se ter acesso as informações completas: a) um site da internet; b) um documento pdf; c) A Dashboard (Painel) do Observatório.
+
+- Qualquer opção que se clicar no site irá abrir opções para os outros links.
+
+]
+
+---
+class: center, middle
+
+# OBRIGADO!
+
+
+João Ricardo F. de Lima <br>
+Email: joao.ricardo@embrapa.br
+
+
+https://www.embrapa.br/observatorio-da-manga <br>
+
+
+Telefones:<br>
+87-3866-3667  
+87-99961-5799 
