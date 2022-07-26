@@ -217,6 +217,99 @@ knitr::include_graphics("img_r/fig5_nmb.png")
 ]
 
 ---
+class: center
+### ANÁLISE DA OFERTA DE MANGA
+```{r, echo=FALSE, out.width="86%"}
+knitr::include_graphics("img_r/fig7.png")
+```
+
+---
+### NECESSIDADE DE REDUÇÃO DE **CUSTOS**
+
+```{r, echo=FALSE, out.width="88%"}
+knitr::include_graphics("img_r/fig8.png")
+```
+
+---
+### NECESSIDADE DE REDUÇÃO DE **CUSTOS**
+
+```{r, echo=FALSE, out.width="88%"}
+knitr::include_graphics("img_r/fig9.png")
+```
+
+---
+### NECESSIDADE DE **UNIÃO**, FORMAR **COOPERATIVAS**
+
+```{r, echo=FALSE, out.width="75%"}
+knitr::include_graphics("img_r/cooperativa3.png")
+```
+Fonte: Anuário do Cooperativismo reprocessado por Lima (2021).
+
+---
+### CONSEGUIR **AGREGAR VALOR** AS FRUTAS
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img_r/fig11.png")
+```
+
+---
+### NECESSIDADE DE AUMENTAR A **DEMANDA** INTERNA E EXTERNA
+
+```{r, echo=FALSE, out.width="40%"}
+knitr::include_graphics("img_r/fig13.png")
+```
+
+---
+### PROFISSIONALIZAR, CUIDAR DA GESTÃO DO NEGÓCIO
+
+```{r, echo=FALSE, out.width="95%"}
+knitr::include_graphics("img_r/fig18.png")
+```
+
+---
+class: center
+### PRECISAMOS FAZER CONTA! SEMPRE! TODA HORA! 
+
+.pull-left[
+```{r, echo=FALSE, out.width="90%"}
+knitr::include_graphics("img_r/fig19.png")
+```
+Fonte: Instagram, 2021.
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="90%"}
+knitr::include_graphics("img_r/fig20.png")
+```
+]
+
+---
+class: center
+### PRECISAMOS FAZER CONTA! SEMPRE! TODA HORA! 
+
+.pull-left[
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img_r/fig21.png")
+```
+]
+
+.pull-right[
+
+#### LUCRO = RECEITA – CUSTOS
+
+#### RECEITA = PREÇO X QUANTIDADE
+
+
+## **RECEITA NÃO É LUCRO!**
+
+
+#### UMA PARTE DO LUCRO POSITIVO SE TORNA A RECEITA DA FAMÍLIA, QUE COBRE OS CUSTOS DA FAMÍLIA. 
+
+#### A OUTRA PARTE É PARA COBRIR OS CUSTOS DA EMPRESA E PARA FAZER INVESTIMENTOS.
+
+]
+
+---
 class: center, middle
 
 # OBRIGADO!
