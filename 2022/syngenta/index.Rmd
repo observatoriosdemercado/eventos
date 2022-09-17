@@ -1,7 +1,7 @@
 ---
 title: "MERCADO DE MANGA: TENDÊNCIAS E DESAFIOS"
 author: 'João Ricardo Lima<br><span style = "font-size: 70%;">D.Sc em Economia Aplicada<br>joao.ricardo@embrapa.br'
-date: "<span style = 'font-size: 70%;'>`r format(Sys.Date(), '%d de %B de %Y')`</span>"
+date: "<span style = 'font-size: 70%;'> 20 de Setembro de 2022.</span>"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -170,7 +170,7 @@ class: left, middle
 - Novembro de 2021 - Boletim com informações Gerais IBGE/PAM
 - Maio de 2022 - Boletim Consumo Manga - BGE/POF
 - Julho de 2022 - Incorporação das Informações do NMB
-- Setembro de 2022 - Informações CEAGESP - Gabriel
+- Setembro de 2022 - Boletim com informações Gerais IBGE/PAM e Informações CEAGESP - Gabriel
 ]
 
 .pull-right[
@@ -219,7 +219,7 @@ class: center
 ### EXEMPLO NO SITE DO OBSERVATÓRIO DA MANGA
 
 .pull-left[
-```{r, echo=FALSE, out.width="100%"}
+```{r, echo=FALSE, out.width="90%"}
 knitr::include_graphics("img_r/fig4.png")
 ```
 ]
@@ -249,7 +249,7 @@ class: center
 ### BOLETIM DOS PREÇOS EM PDF
 
 ```{r, echo=FALSE, out.width="70%"}
-knitr::include_graphics("img_r/boletim3.png")
+knitr::include_graphics("img_r/boletim2.png")
 ```
 
 ---
@@ -257,15 +257,15 @@ class: center
 ### BOLETIM DOS PREÇOS DE MANGA EM HTML
 
 ```{r, echo=FALSE}
-knitr::include_app("https://bit.ly/3L1nlxk", height = "500px")
+knitr::include_app("https://bit.ly/3RSBxLI", height = "500px")
 ```
 
 ---
 class: center
-### BOLETIM DO EMPREGO NA MANGA EM HTML
+### INFORMAÇÕES CULTURA DA MANGA NA PAM/IBGE EM HTML
 
 ```{r, echo=FALSE}
-knitr::include_app("https://bit.ly/3AtfXG9", height = "500px")
+knitr::include_app("https://bit.ly/3RUwcDE", height = "500px")
 ```
 
 ---
@@ -337,7 +337,7 @@ class: center
 ```{r syngenta1}
 #Direcionado o R para o Diretorio a ser trabalhado
 #setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
-setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga/2022')
 
 #Inicio do Script
 #Pacotes a serem utilizados
@@ -371,9 +371,13 @@ options(digits=4)
 today <- as.Date("2022-01-01")
 date <- seq(as.Date('2021-01-01'),to=as.Date('2021-12-01'),by='1 month')
 
+mycolors2 <- c("darkgray", "lightblue3", "orange", "darkblue", "red", "darkgreen", "gold")
+mycolors3 <- c("darkblue", "orange")
+
 #Entrando dados no R
-dados <- read_excel("manga_ibge2020.xlsx", col_names = TRUE)
-dados$produtividade <- round(dados$produtividade,0)
+dados1 <- read_excel("area_regioes.xlsx", col_names = TRUE)
+#dados1 <- dados1[c(1,3,4),]
+dados1m <- melt(dados1, id.var='regiao')
 
 #Gráfico com Ggplot2 Palmer
 
@@ -382,30 +386,28 @@ mycolor2 <- "darkgreen"
 mycolor3 <- "blue"
 mycolor4 <- "red"
 
-g1 <- dados %>% 
-  filter(abrangencia=='brasil') %>% 
-  ggplot() +  #estetica vai valer para todos os geom's
-  geom_col(aes(x=ano, y=area, fill="Área Manga (Hectares)"), lwd=1)+
-  scale_fill_manual(values=mycolor1)+
-  labs(y= "Hectares", x= "Anos", title='Evolução da Área com Manga no Brasil: 2016-2020',
-       caption = "Fonte: IBGE (2022)") +
-  scale_y_continuous(limits=c(0, 75000), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
-  theme_classic()+ #Definindo tema
-  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=5)),
-        axis.text.y=element_text(hjust=1, size=12, margin = margin(l=20)),
-        axis.title.x = element_text(size=12, face = "bold", margin = margin(b=0)),
-        axis.title.y = element_text(size=12, face = "bold", margin = margin(l=20)),
-        plot.title = element_text(hjust = 0.5, size=14),
-        plot.caption = element_text(hjust = 0, size=8),
+g1 <- ggplot()+
+  geom_col(data=dados1m, aes(x=reorder(regiao, -value), y=value/1000, fill=variable), lwd=1, position = "dodge")+ scale_fill_manual(values=mycolors2)+
+  labs(y= "Área Plantada de Manga (1000 ha)", x= "Brasil e Regiões", title='',
+       caption = "Fonte: PAM/IBGE reprocessado pelo Observatório de Mercado de Manga da Embrapa")+
+  theme_minimal()+
+  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=20)),
+        axis.text.y=element_text(hjust=0.5, size=12, margin = margin(l=20)),
+        axis.title.y = element_text(size=12, face = "bold"),
+        axis.title.x = element_text(size=12, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5, size=12),
+        plot.caption = element_text(hjust = 0, size=12),
         legend.position = "bottom", legend.title = element_blank(),
-        legend.text=element_text(size=12))
+        legend.text=element_text(size=12)) # Definindo posição da legenda
 
 ggplotly(g1) %>%
   layout(legend = list(
-                      orientation = "h", 
-                      x=0.35, 
-                      y=-0.3,
-                      title=''))
+    orientation = "h",
+    x=0.25,
+    y=-0.2,
+    title=''))
 ```
 
 ---
@@ -414,30 +416,36 @@ class: center
 ### ANÁLISE DA OFERTA DE MANGA - IBGE
 
 ```{r syngenta2}
-g2 <- dados %>% 
-  filter(abrangencia=='brasil') %>% 
-  ggplot() +  #estetica vai valer para todos os geom's
-  geom_col(aes(x=ano, y=quantidade/1000, fill="Volume (Mil Toneladas)"), lwd=1)+
-  scale_fill_manual(values=mycolor2)+
-  labs(y= "Mil Toneladas", x= "Anos", title='Evolução do Volume com Manga no Brasil: 2016-2020',
-       caption = "Fonte: IBGE (2022)") +
-  scale_y_continuous(limits=c(0, 1600), n.breaks = 6, expand = expansion(add=c(0,0.5)))+
-  theme_classic()+ #Definindo tema
-  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=5)),
-        axis.text.y=element_text(hjust=1, size=12, margin = margin(l=20)),
-        axis.title.x = element_text(size=12, face = "bold", margin = margin(b=0)),
-        axis.title.y = element_text(size=12, face = "bold", margin = margin(l=20)),
-        plot.title = element_text(hjust = 0.5, size=14),
-        plot.caption = element_text(hjust = 0, size=8),
+#Direcionado o R para o Diretorio a ser trabalhado
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga/2022')
+
+#Entrando dados no R
+dados2 <- read_excel("area_estados.xlsx", col_names = TRUE)
+dados2 <- dados2[c(1:6),]
+dados2m <- melt(dados2, id.var='estados')
+
+g2 <- ggplot()+
+  geom_col(data=dados2m, aes(x=reorder(estados, -value), y=value/1000, fill=variable), lwd=1, position = "dodge")+ scale_fill_manual(values=mycolors2)+
+  labs(y= "Área Plantada de Manga (1000 ha)", x= "Estados do Brasil", title='',
+       caption = "Fonte: PAM/IBGE reprocessado pelo Observatório de Mercado de Manga da Embrapa")+
+  theme_minimal()+
+  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=20)),
+        axis.text.y=element_text(hjust=0.5, size=12, margin = margin(l=20)),
+        axis.title.y = element_text(size=10, face = "bold"),
+        axis.title.x = element_text(size=10, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5, size=12),
+        plot.caption = element_text(hjust = 0, size=12),
         legend.position = "bottom", legend.title = element_blank(),
         legend.text=element_text(size=12)) # Definindo posição da legenda
 
 ggplotly(g2) %>%
   layout(legend = list(
-                      orientation = "h", 
-                      x=0.35, 
-                      y=-0.3,
-                      title=''))
+    orientation = "h",
+    x=0.25,
+    y=-0.2,
+    title=''))
 ```
 
 ---
@@ -446,14 +454,137 @@ class: center
 ### ANÁLISE DA OFERTA DE MANGA - IBGE
 
 ```{r syngenta3}
-g1 <- dados %>% 
+#Direcionado o R para o Diretorio a ser trabalhado
+#Entrando dados no R
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga/2022')
+
+dados3 <- read_excel("area_cidades.xlsx", col_names = TRUE)
+dados3 <- dados3[c(1:14),c(1,7:8)]
+dados3m <- melt(dados3, id.var='cidades')
+
+g3 <- ggplot()+
+  geom_col(data=dados3m, aes(x=reorder(cidades, -value), y=value, fill=variable), lwd=1, position = "dodge")+ scale_fill_manual(values=mycolors3)+
+  labs(y= "Área Plantada de Manga (ha)", x= "Cidades do Brasil", title='',
+       caption = "Fonte: PAM/IBGE reprocessado pelo Observatório de Mercado de Manga da Embrapa")+
+  theme_minimal()+
+  theme(axis.text.x=element_text(angle=20, hjust=0.5, size=8, margin = margin(b=20)),
+        axis.text.y=element_text(hjust=0.5, size=8, margin = margin(l=20)),
+        axis.title.y = element_text(size=10, face = "bold"),
+        axis.title.x = element_text(size=10, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5, size=12),
+        plot.caption = element_text(hjust = 0, size=12),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=12)) # Definindo posição da legenda
+
+ggplotly(g3) %>%
+  layout(legend = list(
+    orientation = "h",
+    x=0.40,
+    y=-0.20,
+    title=''))
+```
+
+---
+class: center
+
+### ANÁLISE DA OFERTA DE MANGA - IBGE
+
+```{r syngenta4a}
+#Direcionado o R para o Diretorio a ser trabalhado
+#Entrando dados no R
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga/2022')
+
+dados4 <- read_excel("area_vale.xlsx", col_names = TRUE)
+dados4m <- melt(dados4, id.var='cidades')
+mycolors4 <- "blue"
+
+g4 <- ggplot()+
+  geom_col(data=dados4m, aes(x=variable, y=value/1000, fill="Area Manga (Hectares)"), lwd=1)+
+  scale_fill_manual(values=mycolors4)+
+  labs(y= "Área Plantada de Manga (mil ha)", x= "Vale do São Francisco", title='',
+       caption = "Fonte: PAM/IBGE reprocessado pelo Observatório de Mercado de Manga da Embrapa")+
+  theme_minimal()+
+  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=20)),
+        axis.text.y=element_text(hjust=0.5, size=12, margin = margin(l=20)),
+        axis.title.y = element_text(size=12, face = "bold"),
+        axis.title.x = element_text(size=12, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5, size=12),
+        plot.caption = element_text(hjust = 0, size=12),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=12)) # Definindo posição da legenda
+
+ggplotly(g4) %>%
+  layout(legend = list(
+    orientation = "h",
+    x=0.40,
+    y=-0.2,
+    title=''))
+```
+
+---
+class: center
+
+### ANÁLISE DA OFERTA DE MANGA - IBGE
+
+```{r syngenta4d}
+#Direcionado o R para o Diretorio a ser trabalhado
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga/2022')
+
+#Entrando dados no R
+dados1 <- read_excel("produti_regioes.xlsx", col_names = TRUE)
+#dados1 <- dados1[c(1,3,4),]
+dados1m <- melt(dados1, id.var='regiao')
+dados1m$value <- round(dados1m$value/1000,0)
+
+g1 <- ggplot()+
+  geom_col(data=dados1m, aes(x=regiao, y=value, fill=variable), lwd=1, position = "dodge")+ scale_fill_manual(values=mycolors2)+
+  labs(y= "Produtividade na Manga (t/ha)", x= "Brasil e Regiões", title='',
+       caption = "Fonte: PAM/IBGE reprocessado pelo Observatório de Mercado de Manga da Embrapa")+
+  theme_minimal()+
+  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=20)),
+        axis.text.y=element_text(hjust=0.5, size=12, margin = margin(l=20)),
+        axis.title.y = element_text(size=12, face = "bold"),
+        axis.title.x = element_text(size=12, face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5, size=12),
+        plot.caption = element_text(hjust = 0, size=12),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=12)) # Definindo posição da legenda
+
+ggplotly(g1) %>%
+  layout(legend = list(
+    orientation = "h",
+    x=0.25,
+    y=-0.2,
+    title=''))
+```
+
+---
+class: center
+
+### ANÁLISE DA OFERTA DE MANGA - IBGE
+
+```{r syngenta4e}
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
+
+#Entrando dados no R
+dados <- read_excel("manga_ibge2021.xlsx", col_names = TRUE)
+dados$produtividade <- round(dados$produtividade,1)
+
+g3 <- dados %>% 
   filter(abrangencia=='vale') %>% 
   ggplot() + #estetica vai valer para todos os geom's
-  geom_col(aes(x=ano, y=area, fill="Area Manga (Hectares)"), lwd=1)+
-  scale_fill_manual(values=mycolor1)+
-  labs(y= "Hectares", x= "Anos", title='Evolução da Area com Manga no Vale do São Francisco: 2016-2020',
-       caption = "Fonte: IBGE (2021)") +
-  scale_y_continuous(limits=c(0, 30000), n.breaks = 6, expand = expansion(add=c(0,0.5)))+
+  geom_col(aes(x=ano, y=produtividade, fill="Produtividade (Toneladas/Hectares)"), lwd=1)+
+  scale_fill_manual(values=mycolor3)+
+  labs(y= "Produtividade (Ton/Ha)", x= "Anos", title='Evolução da Produtividade com Manga no Vale do São Francisco: 2015-2021',
+       caption = "IBGE (2021)") +
+  scale_y_continuous(limits=c(0, 35), n.breaks = 5, expand = expansion(add=c(0,0.5)))+
+  scale_x_continuous(breaks = seq(2015, 2021, by = 1))+
   theme_classic()+ #Definindo tema
   theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=5)),
         axis.text.y=element_text(hjust=1, size=12, margin = margin(l=20)),
@@ -462,13 +593,13 @@ g1 <- dados %>%
         plot.title = element_text(hjust = 0.5, size=14),
         plot.caption = element_text(hjust = 0, size=8),
         legend.position = "bottom", legend.title = element_blank(),
-        legend.text=element_text(size=12))
+        legend.text=element_text(size=12)) # Definindo posição da legenda
 
-ggplotly(g1) %>%
+ggplotly(g3) %>%
   layout(legend = list(
                       orientation = "h", 
                       x=0.35, 
-                      y=-0.3,
+                      y=-0.2,
                       title=''))
 ```
 
@@ -477,15 +608,22 @@ class: center
 
 ### ANÁLISE DA OFERTA DE MANGA - IBGE
 
-```{r syngenta4}
+```{r syngenta4b}
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
+
+#Entrando dados no R
+dados <- read_excel("manga_ibge2021.xlsx", col_names = TRUE)
+dados$produtividade <- round(dados$produtividade,0)
+
 g2 <- dados %>% 
-  filter(abrangencia=='vale') %>% 
+  filter(abrangencia=='brasil') %>% 
   ggplot() + #estetica vai valer para todos os geom's
   geom_col(aes(x=ano, y=quantidade/1000, fill="Volume (Mil Toneladas)"), lwd=1)+
   scale_fill_manual(values=mycolor2)+
-  labs(y= "Mil Toneladas", x= "Anos", title='Evolução do Volume com Manga no Vale do São Francisco: 2016-2020',
+  labs(y= "Mil Toneladas", x= "Anos", title='Evolução do Volume com Manga no Brasil: 2015-2021',
        caption = "Fonte: IBGE (2021)") +
-  scale_y_continuous(limits=c(0, 1000), n.breaks = 6, expand = expansion(add=c(0,0.5)))+
+  scale_y_continuous(limits=c(0, 1600), n.breaks = 6, expand = expansion(add=c(0,0.5)))+
+  scale_x_continuous(breaks = seq(2015, 2021, by = 1))+
   theme_classic()+ #Definindo tema
   theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=5)),
         axis.text.y=element_text(hjust=1, size=12, margin = margin(l=20)),
@@ -499,8 +637,46 @@ g2 <- dados %>%
 ggplotly(g2) %>%
   layout(legend = list(
                       orientation = "h", 
-                      x=0.35, 
-                      y=-0.3,
+                      x=0.40, 
+                      y=-0.2,
+                      title=''))
+```
+
+---
+class: center
+
+### ANÁLISE DA OFERTA DE MANGA - IBGE
+
+```{r syngenta4c}
+setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
+
+#Entrando dados no R
+dados <- read_excel("manga_ibge2021.xlsx", col_names = TRUE)
+
+g2 <- dados %>% 
+  filter(abrangencia=='vale') %>% 
+  ggplot() + #estetica vai valer para todos os geom's
+  geom_col(aes(x=ano, y=quantidade/1000, fill="Volume (Mil Toneladas)"), lwd=1)+
+  scale_fill_manual(values=mycolor2)+
+  labs(y= "Mil Toneladas", x= "Anos", title='Evolução do Volume com Manga no Vale do São Francisco: 2015-2021',
+       caption = "Fonte: IBGE (2021)") +
+  scale_y_continuous(limits=c(0, 1000), n.breaks = 6, expand = expansion(add=c(0,0.5)))+
+  scale_x_continuous(breaks = seq(2015, 2021, by = 1))+
+  theme_classic()+ #Definindo tema
+  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=12, margin = margin(b=5)),
+        axis.text.y=element_text(hjust=1, size=12, margin = margin(l=20)),
+        axis.title.x = element_text(size=12, face = "bold", margin = margin(b=0)),
+        axis.title.y = element_text(size=12, face = "bold", margin = margin(l=20)),
+        plot.title = element_text(hjust = 0.5, size=14),
+        plot.caption = element_text(hjust = 0, size=8),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=12)) # Definindo posição da legenda
+
+ggplotly(g2) %>%
+  layout(legend = list(
+                      orientation = "h", 
+                      x=0.40, 
+                      y=-0.2,
                       title=''))
 ```
 
@@ -514,8 +690,8 @@ class: center
 #setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
 setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
 
-data <- as.Date("2022-09-09") #ajustar semanalmente
-sem_ano <- 36 #ajustar semanalmente
+data <- as.Date("2022-09-16") #ajustar semanalmente
+sem_ano <- 37 #ajustar semanalmente
 date2 <- seq(as.Date('2021-01-01'),to=as.Date('2021-12-01'),by='1 month')
 
 #Entrando dados no R
@@ -654,8 +830,8 @@ g3 <- ggplot(data=dadosp, aes(x=date)) +  #estetica vai valer para todos os geom
 ggplotly(g3) %>%
   layout(legend = list(
                       orientation = "h", 
-                      x=0.35, 
-                      y=-0.30,
+                      x=0.40, 
+                      y=-0.20,
                       title=''))
 ```
 
@@ -802,8 +978,8 @@ g7 <- ggplot(data=dadosp, aes(x=date)) +  #estetica vai valer para todos os geom
 ggplotly(g7) %>%
   layout(legend = list(
                       orientation = "h", 
-                      x=0.35, 
-                      y=-0.30,
+                      x=0.40, 
+                      y=-0.20,
                       title=''))
 ```
 
