@@ -1,0 +1,319 @@
+---
+title: "DADOS ESTATÍSTICOS DA FRUTICULTURA DO VALE DO SÃO FRANCISCO:" 
+subtitle: "A CONTRIBUIÇÃO DOS OBSERVATÓRIOS DE MERCADO DA EMBRAPA"
+author: 'João Ricardo Lima<br><span style = "font-size: 70%;">D.Sc em Economia Aplicada<br>joao.ricardo@embrapa.br'
+date: "<span style = 'font-size: 70%;'>`r format(Sys.Date(), '%d de %B de %Y')`</span>"
+encoding: "UTF-8"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: TRUE
+      ratio: "16:9"
+      navigation: 
+        scroll: false
+params:
+  references: FALSE # TRUE = mostrar último slide com referências
+  references_path: "https://gist.githubusercontent.com/analisemacro/1521d6cd7d9239cc2343269ca6f99a0a/raw/58d10d00e7a55ef38aac695693cc5513952fbb1a/references.bib" # caminho para arquivo .bib
+  logo_slides: "https://bit.ly/3JJ2ZXA"
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+# Dependências dos slides/aula
+library(knitr)          # CRAN v1.33
+library(rmarkdown)      # CRAN v2.10
+library(xaringan)       # CRAN v0.22
+library(xaringanthemer) # CRAN v0.3.0
+library(xaringanExtra)  # [github::gadenbuie/xaringanExtra] v0.5.5
+library(RefManageR)     # CRAN v1.3.0
+library(ggplot2)        # CRAN v3.3.5
+library(fontawesome)    # [github::rstudio/fontawesome] v0.1.0
+library(pagedown)
+
+# Opções de chunks
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  echo       = FALSE,
+  warning    = FALSE,
+  message    = FALSE,
+  fig.retina = 3,
+  fig.width  = 11.5,
+  fig.asp    = 0.618,
+  out.width  = "100%",
+  fig.align  = "center",
+  comment    = "#"
+  )
+
+# Cores para gráficos
+colors <- c(
+  blue       = "#282f6b",
+  red        = "#b22200",
+  yellow     = "#eace3f",
+  green      = "#224f20",
+  purple     = "#5f487c",
+  orange     = "#b35c1e",
+  turquoise  = "#419391",
+  green_two  = "#839c56",
+  light_blue = "#3b89bc",
+  gray       = "#666666"
+  )
+```
+
+```{r xaringan, echo=FALSE}
+# Tema da apresentação
+xaringanthemer::style_mono_light(
+  base_color                      = unname(colors["blue"]),
+  title_slide_background_image    = params$logo_slides, 
+  title_slide_background_size     = 12,
+  title_slide_background_position = "bottom 10px right 20px",
+  title_slide_background_color    = "white",
+  title_slide_text_color          = unname(colors["blue"]),
+  footnote_position_bottom        = "15px"
+  )
+
+# Opções extras do tema
+xaringanExtra::use_progress_bar(
+  color    = colors["blue"], 
+  location = "bottom"
+  )
+xaringanExtra::use_extra_styles(
+  hover_code_line         = TRUE,
+  mute_unhighlighted_code = FALSE
+  )
+xaringanExtra::use_panelset()
+```
+
+```{css, echo=FALSE}
+pre {
+  white-space: pre-wrap;
+  overflow-y: scroll !important;
+  max-height: 45vh !important;
+  overflow-x: auto;
+  max-width: 100%;
+}
+```
+
+```{r load_refs, echo=FALSE, eval=params$references}
+# Configuração de citações
+RefManageR::BibOptions(
+  check.entries = FALSE,
+  bib.style     = "authoryear",
+  cite.style    = "authoryear",
+  style         = "markdown",
+  hyperlink     = FALSE,
+  dashed        = FALSE
+  )
+if(params$references){
+  temp_refbib <- tempdir()
+  download.file(
+    url      = params$references_path, 
+    destfile = paste0(temp_refbib, "/references.bib"), 
+    mode     = "wb"
+    )
+  myBib <- RefManageR::ReadBib(paste0(temp_refbib, "/references.bib"), check = FALSE)
+  }
+
+# Como citar?
+# RefManageR::TextCite(myBib, "id_da_citacao")
+```
+
+```{r utils, echo=FALSE}
+# Função que pega um arquivo .Rmd, condicionalmente o renderiza, 
+# e embute o conteúdo do mesmo formatado como Markdown puro 
+# no output do documento atual
+print_rmd <- function(file, encoding = "UTF-8", render = TRUE){
+  if(render){rmarkdown::render(input = file, quiet = TRUE)}
+  rmd <- readLines(con = file, encoding = encoding)
+  cat("```md\n")
+  cat(rmd, sep = "\n")
+  cat("```\n")
+}
+```
+
+### O QUE É UM OBSERVATÓRIO? 
+
+.pull-left[
+```{r, echo=FALSE, out.width="300%"}
+knitr::include_graphics("img_r/observatorio.webp")
+```
+]
+
+.pull-right[
+- O objetivo maior é a **geração de informações sobre o mercado de manga visando estabelecer estratégias que aumentem a competitividade e fortaleçam o setor.**
+
+- Para isto, busca gerar estudos, análises prospectivas e informações que contemplem: 
+
+a) **a tendência dos mercados no curto, médio e longo prazos e com isso antecipar as possíveis soluções para que as empresas possam adotar os instrumentos de ajustes requeridos**; 
+
+b) **a estruturação de um banco de dados com as principais variáveis sobre preços, volumes comercializados, países concorrentes, de forma a acompanhar as mudanças conjunturais e de longo prazo desses mercados**.
+
+]
+
+---
+class: center
+### OBSERVATÓRIOS DE MERCADO DA EMBRAPA
+
+```{r, echo=FALSE, out.width="950%"}
+knitr::include_graphics("img_r/fig1.png")
+```
+
+---
+class: left, middle
+### HISTÓRICO DAS DISPONIBILIZAÇÕES DAS INFORMAÇÕES 
+.pull-left[
+- Maio de 2020 - Boletim elaborado para a manga com preços
+- Junho de 2020 - Boletim disponibilizado para manga - mercado externo
+- Abril de 2021 - Boletim Informações sobre o mercado de uva - interno e externo
+- Maio de 2021 - Boletim Informações sobre Geração de Emprego na Manga e Uva
+- Setembro de 2021 - Boletim Informações sobre o CEAGESP - CONAB
+- Novembro de 2021 - Boletim com informações Gerais IBGE/PAM
+- Maio de 2022 - Boletim Consumo Manga e uva IBGE/POF
+- Julho de 2022 - Incorporação das Informações do NMB
+- Setembro de 2022 - Boletim com informações Gerais IBGE/PAM e Informações CEAGESP - Gabriel
+]
+
+.pull-right[
+
+- 2020 -  29 Boletins de Preços e 8 de Exportações Manga
+- 2021 -  47 Boletins de Preços e 12 de Exportações Manga; 36 Boletins de Preços e 9 de Exportações de Uva; 5 Boletins CEAGESP; 2 Boletins Informaçoes IBGE/PAM; 9 Boletins sobre Empregos;
+- 2022 - 43 Boletins de Preços, 9 de Exportações de Manga, 9 de Geração de Empregos e 1 Consumo de Mangas; 43 Boletins de Preços, 9 de Exportaçoes de Uvas, 9 de Geração de Empregos e 1 Consumo de Uvas;
+
+A partir de 2022, os dados dos boletins passam a ser disponibilizados em pdf e html. São também disponibilizados 3 painéis (dashboards), sendo um para mercado interno de manga, outro para mercado externo de manga e um para mercado interno e externo de uvas. 
+
+]
+
+---
+
+class: center
+### COLETA, TRATAMENTO E DIVULGAÇÃO DE INFORMAÇÕES
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img_r/fig2.png")
+```
+
+---
+class: center, middle
+### ACESSO ÀS INFORMAÇÕES DOS OBSERVATÓRIOS 
+
+.left-column[
+
+- Entrar no site da Embrapa Semiárido
+
+www.embrapa.br/semiarido
+
+- Do lado direito, canto inferior aparecem os logos dos dois observatórios, de manga e de uva.
+
+- **É só clicar no Observatório de interesse!**
+
+]
+
+.right-column[
+```{r, echo=FALSE, out.width="78%"}
+knitr::include_graphics("img_r/fig3.png")
+```
+]
+
+---
+class: center
+### EXEMPLO NO SITE DO OBSERVATÓRIO DA MANGA
+
+.pull-left[
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("img_r/fig4.png")
+```
+]
+
+.pull-right[
+
+- No site do Observatório de Mercado de manga (https://www.embrapa.br/observatorio-da-manga) existem colunas com diversas informações (mercado interno, exportações, emprego)!
+
+- Contudo, os observatórios tem gerado muito mais informações do que estas disponibilizadas neste link. 
+
+- Basicamente existem 3 formas de se ter acesso as informações completas: a) um site da internet; b) um documento pdf; c) a Dashboard (Painel) do Observatório.
+
+- Qualquer opção que se clicar no site irá abrir possibilidades para acessar os outros links.
+
+]
+
+---
+class: center
+### BOLETIM DOS PREÇOS EM PDF
+
+```{r, echo=FALSE, out.width="70%"}
+knitr::include_graphics("img_r/boletim1.png")
+```
+
+---
+class: center
+### BOLETIM DOS PREÇOS EM PDF
+
+```{r, echo=FALSE, out.width="70%"}
+knitr::include_graphics("img_r/boletim2.png")
+```
+
+---
+class: center
+### BOLETIM DOS PREÇOS DE MANGA EM HTML
+
+```{r, echo=FALSE}
+knitr::include_app("https://bit.ly/3TogG3P", height = "500px")
+```
+
+---
+class: center, middle
+
+### DASHBOARD MERCADO INTERNO DA MANGA
+
+```{r, out.width="93%", fig.cap="<center><b><a href='https://observatoriosdemercado.github.io/manga/'>Clique aqui para acessar</a></b></center>"}
+knitr::include_graphics("img_r/dash1.png")
+```
+
+---
+class: center, middle
+
+### DASHBOARD MERCADO EXTERNO DA MANGA
+
+```{r, out.width="93%", fig.cap="<center><b><a href='https://observatoriosdemercado.shinyapps.io/manga/'>Clique aqui para acessar</a></b></center>"}
+knitr::include_graphics("img_r/dash2.png")
+```
+
+---
+class: center, middle
+
+### QUAL É HOJE O MAIOR PROBLEMA DA MANGICULTURA E DA VITICULTURA?
+
+```{r, echo=FALSE, out.width="40%"}
+knitr::include_graphics("img_r/duvida.png")
+```
+
+---
+class: center
+### NECESSIDADE DE AUMENTAR A **DEMANDA** INTERNA E EXTERNA
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("img_r/fig14.png")
+```
+
+---
+class: center, middle
+
+# OBRIGADO!
+
+
+João Ricardo F. de Lima <br>
+Email: joao.ricardo@embrapa.br
+
+
+https://www.embrapa.br/observatorio-da-manga <br>
+https://www.embrapa.br/observatorio-da-uva
+
+
+
+Telefones:<br>
+87-3866-3667  
+87-99961-5799 
