@@ -1050,7 +1050,7 @@ class: center
  - **Demanda** é um desejo, o máximo que pode ser comprado, dada a renda e o preço de mercado.
 
 ```{r echo=FALSE, out.width="80%"}
-knitr::include_graphics(    "https://media.giphy.com/media/4Ho5aPCXJEzOqcwddj/giphy.gif")
+knitr::include_graphics("https://media.giphy.com/media/4Ho5aPCXJEzOqcwddj/giphy.gif")
 ```
 ]
 
@@ -1416,6 +1416,6 @@ knitr::include_graphics("imgs/logo_muranaka.png")
 
 
 ```{r, out.width="13%"}
-knitr::include_graphics("imgs/logo_embrapa.jpg")
+knitr::include_graphics("https://bit.ly/3JJ2ZXA")
 ```
 
