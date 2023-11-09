@@ -167,15 +167,6 @@ knitr::include_graphics("imgs/fig17.png")
 
 ---
 class: center
-
-### OBSERVATÓRIOS DE MERCADO DE UVA E MANGA DA EMBRAPA
-
-```{r, echo=FALSE, out.width="94%"}
-knitr::include_graphics("imgs/fig1.png")
-```
-
----
-class: center
 ### CUSTO MÉDIO UVA VALE DO SÃO FRANCISCO
 
 ```{r, echo=FALSE, out.width="80%"}
@@ -1392,6 +1383,15 @@ knitr::include_graphics("imgs/fig21.png")
 #### A OUTRA PARTE É PARA COBRIR OS CUSTOS DA EMPRESA E PARA FAZER INVESTIMENTOS.
 
 ]
+
+---
+class: center
+
+### OBSERVATÓRIOS DE MERCADO DE UVA E MANGA DA EMBRAPA
+
+```{r, echo=FALSE, out.width="94%"}
+knitr::include_graphics("imgs/fig1.png")
+```
 
 ---
 class: center, middle
