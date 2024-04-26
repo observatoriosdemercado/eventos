@@ -238,7 +238,7 @@ class: center
 
 ```{r, echo=FALSE, out.width="80%"}
 #Direcionado o R para o Diretorio a ser trabalhado
-setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/SEACON')
+setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/SEACON/seacon')
 
 #Inicio do Script
 #Pacotes a serem utilizados 
@@ -295,7 +295,7 @@ class: center
 
 ```{r, echo=FALSE, out.width="80%"}
 #Direcionado o R para o Diretorio a ser trabalhado
-setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/SEACON')
+setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/SEACON/seacon')
 
 #Inicio do Script
 #Pacotes a serem utilizados 
@@ -374,7 +374,7 @@ mycolor1 <- "purple"
 g3 <- ggplot(data=dados3) +  #estetica vai valer para todos os geom's
   geom_col(aes(x=Ano, y=Toneladas, fill="Toneladas"), lwd=1)+
     scale_fill_manual(values=mycolor1)+
-  labs(y= "US$ Mil / Ton", x= "Anos", title='',
+  labs(y= "Toneladas", x= "Anos", title='',
        caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de uva da Embrapa") +
   scale_y_continuous(limits=c(0, 80000), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
   scale_x_continuous(breaks = seq(2016, 2023, by = 1))+
@@ -431,7 +431,7 @@ mycolor1 <- "gold"
 g5 <- ggplot(data=dados4) +  #estetica vai valer para todos os geom's
   geom_col(aes(x=Ano, y=Toneladas, fill="Toneladas"), lwd=1)+
     scale_fill_manual(values=mycolor1)+
-  labs(y= "US$ Mil / Ton", x= "Anos", title='',
+  labs(y= "Toneladas", x= "Anos", title='',
        caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de uva da Embrapa") +
   scale_y_continuous(limits=c(0, 275000), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
   scale_x_continuous(breaks = seq(2016, 2023, by = 1))+
