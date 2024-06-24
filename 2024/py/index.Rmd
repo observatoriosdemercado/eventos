@@ -827,7 +827,7 @@ class: center, middle
 ### A RENTABILIDADE
 
 ```{r, echo=FALSE, out.width="72%"}
-knitr::include_graphics("imgS/manga3.png")
+knitr::include_graphics("imgs/manga3.png")
 ```
 
 ---
