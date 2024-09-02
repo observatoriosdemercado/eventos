@@ -1,7 +1,7 @@
 ---
 title: "A FRUTICULTURA NO VALE DO SÃO FRANCISCO"
 author: 'João Ricardo Lima<br><span style = "font-size: 70%;">D.Sc em Economia Aplicada<br>joao.ricardo@embrapa.br'
-date: "<span style = 'font-size: 70%;'> 26 de Janeiro de 2024.</span>"
+date: "<span style = 'font-size: 70%;'> 27 de Agosto de 2024.</span>"
 encoding: "UTF-8"
 output:
   xaringan::moon_reader:
