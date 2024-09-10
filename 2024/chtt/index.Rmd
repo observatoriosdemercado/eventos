@@ -1,0 +1,716 @@
+---
+title: "A IMPORTÂNCIA DA FRUTICULTURA DO VALE DO SÃO FRANCISCO"
+author: 'João Ricardo Lima<br><span style = "font-size: 70%;">D.Sc em Economia Aplicada<br>joao.ricardo@embrapa.br'
+date: "<span style = 'font-size: 70%;'> 10 de Setembro de 2024.</span>"
+encoding: "UTF-8"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: TRUE
+      ratio: "16:9"
+      navigation: 
+        scroll: false
+params:
+  references: FALSE # TRUE = mostrar último slide com referências
+  references_path: "https://gist.githubusercontent.com/analisemacro/1521d6cd7d9239cc2343269ca6f99a0a/raw/58d10d00e7a55ef38aac695693cc5513952fbb1a/references.bib" # caminho para arquivo .bib
+  logo_slides: "https://bit.ly/3JJ2ZXA"
+  
+---
+class: middle, center
+
+```{r setup, include=FALSE}
+# Dependências dos slides/aula
+library(knitr)          # CRAN v1.33
+library(rmarkdown)      # CRAN v2.10
+library(xaringan)       # CRAN v0.22
+library(xaringanthemer) # CRAN v0.3.0
+library(xaringanExtra)  # [github::gadenbuie/xaringanExtra] v0.5.5
+library(RefManageR)     # CRAN v1.3.0
+library(ggplot2)        # CRAN v3.3.5
+library(fontawesome)    # [github::rstudio/fontawesome] v0.1.0
+library(pagedown)
+library(dplyr)
+library(ggimage)
+library(ggtext)
+library(glue)
+
+# Opções de chunks
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  echo       = FALSE,
+  warning    = FALSE,
+  message    = FALSE,
+  fig.retina = 3,
+  fig.width  = 11,
+  fig.asp    = 0.618,
+  out.width  = "100%",
+  fig.align  = "center",
+  comment    = "#"
+  )
+
+# Cores para gráficos
+colors <- c(
+  blue       = "#282f6b",
+  red        = "#b22200",
+  yellow     = "#eace3f",
+  green      = "#224f20",
+  purple     = "#5f487c",
+  orange     = "#b35c1e",
+  turquoise  = "#419391",
+  green_two  = "#839c56",
+  light_blue = "#3b89bc",
+  gray       = "#666666"
+  )
+```
+
+```{r xaringan, echo=FALSE}
+# Tema da apresentação
+xaringanthemer::style_mono_light(
+  base_color                      = unname(colors["blue"]),
+  title_slide_background_image    = params$logo_slides, 
+  title_slide_background_size     = 10,
+  title_slide_background_position = "bottom 10px right 20px",
+  title_slide_background_color    = "white",
+  title_slide_text_color          = unname(colors["blue"]),
+  footnote_position_bottom        = "15px"
+  )
+
+# Opções extras do tema
+xaringanExtra::use_progress_bar(
+  color    = colors["blue"], 
+  location = "bottom"
+  )
+xaringanExtra::use_extra_styles(
+  hover_code_line         = TRUE,
+  mute_unhighlighted_code = FALSE
+  )
+xaringanExtra::use_panelset()
+```
+
+```{css, echo=FALSE}
+pre {
+  white-space: pre-wrap;
+  overflow-y: scroll !important;
+  max-height: 45vh !important;
+  overflow-x: auto;
+  max-width: 100%;
+}
+```
+
+```{css}
+/* Add this to your xaringan-themer.css file or within a <style> tag in your .Rmd file */
+.white-bg {
+  background-color: white !important;
+  color: black !important; /* Optional: to ensure text is visible against a white background */
+}
+```
+
+```{r load_refs, echo=FALSE, eval=params$references}
+# Configuração de citações
+RefManageR::BibOptions(
+  check.entries = FALSE,
+  bib.style     = "authoryear",
+  cite.style    = "authoryear",
+  style         = "markdown",
+  hyperlink     = FALSE,
+  dashed        = FALSE
+  )
+if(params$references){
+  temp_refbib <- tempdir()
+  download.file(
+    url      = params$references_path, 
+    destfile = paste0(temp_refbib, "/references.bib"), 
+    mode     = "wb"
+    )
+  myBib <- RefManageR::ReadBib(paste0(temp_refbib, "/references.bib"), check = FALSE)
+  }
+
+# Como citar?
+# RefManageR::TextCite(myBib, "id_da_citacao")
+```
+
+```{r utils, echo=FALSE}
+# Função que pega um arquivo .Rmd, condicionalmente o renderiza, 
+# e embute o conteúdo do mesmo formatado como Markdown puro 
+# no output do documento atual
+print_rmd <- function(file, encoding = "UTF-8", render = TRUE){
+  if(render){rmarkdown::render(input = file, quiet = TRUE)}
+  rmd <- readLines(con = file, encoding = encoding)
+  cat("```md\n")
+  cat(rmd, sep = "\n")
+  cat("```\n")
+}
+```
+
+### A DUALIDADE DO SEMIÁRIDO BRASILEIRO.
+
+.pull-left[
+
+```{r, echo=FALSE, out.width="85%"}
+knitr::include_graphics("imgs/chtt1.png")
+```
+Fonte: Atlas da Irrigação, 2017.
+]
+
+.pull-right[
+
+```{r, echo=FALSE, out.width="110%"}
+knitr::include_graphics("imgs/chtt2.png")
+```
+Fonte: ANA, 2013.
+
+]
+
+---
+class: middle, center
+
+### AS MUDANÇAS CLIMÁTICAS
+
+```{r, echo=FALSE, out.width="85%"}
+knitr::include_graphics("imgs/semiarido3.png")
+```
+
+---
+class: middle, center
+
+### A PRODUÇÃO DE RIQUEZA NO SEMIÁRIDO
+
+```{r, echo=FALSE, out.width="85%"}
+knitr::include_graphics("imgs/seacon1.png")
+```
+
+---
+class: middle, center
+
+### A PRODUÇÃO DE RIQUEZA NO SEMIÁRIDO
+
+```{r, echo=FALSE, out.width="120%"}
+knitr::include_graphics("imgs/seacon5.png")
+```
+
+### ÁGUA IRRIGAÇÃO + MUITAS HORAS DE SOL + TECNOLOGIA = FRUTICULTURA DO VALE 
+
+---
+class: middle, center
+
+### A PRODUÇÃO DE RIQUEZA NO SEMIÁRIDO
+
+```{r, echo=FALSE, out.width="120%"}
+knitr::include_graphics("imgs/seacon6.png")
+```
+
+---
+class: center
+
+### TAXA DE CRESCIMENTO POPULACIONAL: 2001 E 2021
+
+```{r, echo=FALSE, out.width="80%"}
+#Direcionado o R para o Diretorio a ser trabalhado
+setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/mpo')
+
+#Inicio do Script
+#Pacotes a serem utilizados 
+library(reshape2)
+
+#Entrando dados no R
+dados_ <- read.csv2('dados/populacao.csv', header=T, sep=";", dec = ".")
+
+# Set the custom order for 'regiao' using factor
+dados_$regiao <- factor(dados_$regiao, levels = c("Brasil", "Bahia", "Pernambuco", "Vale do S. Francisco"))
+
+dados_1 <- melt(dados_, id.var='regiao')
+
+mycolors <- "darkgreen"
+
+g2a <- ggplot() +
+  geom_col(data=dados_1, aes(x=regiao, y=value, fill=variable), size=2, width = 0.7, position = position_dodge(width = .5, preserve = "total"))+
+  scale_fill_manual(values=mycolors) +
+  scale_y_continuous(n.breaks = 10)+
+  labs(y= "Taxa de Crescimento (%)", x= "Regiões",
+       caption = "Fonte: IBGE reprocessado pelos Observatórios de Manga e Uva da Embrapa, 2024.")+
+  geom_text(data=dados_1, aes(y=value, x=regiao, group=variable, label=value), 
+    position = position_dodge(width = .5, preserve = "total"), 
+    size=4, 
+    hjust=0.5, 
+    vjust=-1.0)+
+  theme_minimal() + #Definindo tema
+  theme(axis.text.x = element_text(margin = margin(b=10), size=14), 
+        axis.text.y = element_text(margin = margin(b=10), size=14), 
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=10)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), # retirando as linhas
+        plot.caption = element_text(hjust = 0, size=14), #ajuste Fonte
+        legend.title = element_blank(),
+        legend.text=element_text(size=14),
+        legend.position = "bottom") +  # Define legend position
+  # Add annotation box with the desired text
+  annotate("text", x = -Inf, y = Inf, label = "A tendência é que aglomerações populacionais \nse concentrem em locais que tenham água e emprego.", 
+           hjust = -0.6, vjust = 1.3, size = 5, color = "black", fontface = "italic", 
+           box.colour = "black", fill = "white") # Text properties and box style
+# Nome do eixo mais para baixo
+g2a
+```
+
+---
+class: center
+
+### GERAÇÃO DE EMPREGOS NA FRUTICULTURA
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("imgs/seacon8.png")
+```
+
+---
+class: center
+
+### GERAÇÃO DE EMPREGOS NA FRUTICULTURA
+
+```{r, echo=FALSE, out.width="80%"}
+#Direcionado o R para o Diretorio a ser trabalhado
+setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/mpo')
+
+#Inicio do Script
+#Pacotes a serem utilizados 
+library(ggplot2)
+library(scales)
+library(plotly)
+library(dplyr)
+
+#Entrando dados no R
+dados1 <- read.csv2('dados/junho_2024.csv', header=T, sep=";", dec = ".")
+dados1$date <- seq(as.Date('2021-01-01'),to=as.Date('2024-06-01'),by='1 month')
+
+dados1a <- dados1 |> 
+  dplyr::select(
+    "date"     = `date`,
+    "variable" = `Variavel`,
+    "value"    = `Proporcao`
+  ) |> 
+  dplyr::as_tibble()
+
+g1 <- ggplot(data=dados1a) +
+  geom_col(aes(x=date, y=value, fill="variable"))+
+  scale_fill_manual(values="blue") +#muda a cor da barra
+  labs(y= "Proporção Agro/Total (%)", x= "Meses dos Anos",
+       caption = "Fonte: CAGED reprocessado pelos Observatórios de Manga e Uva da Embrapa, 2024.")+
+  scale_y_continuous(n.breaks = 10)+
+  scale_x_date(date_breaks = "1 month",
+              labels = date_format("%m/%Y"),
+              expand = expansion(add=c(0,0)))+
+  geom_text(data=dados1a, aes(y=value, x=date, label=value), 
+            hjust=0.5, vjust=-1.2)+
+  theme_minimal() + #Definindo tema
+   theme(axis.text.x = element_text(angle=45, margin = margin(b=10), 
+                                    size=12,
+                                    hjust=1), 
+        axis.text.y = element_text(margin = margin(b=10), size=14), 
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=10)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), # retirando as linhas
+        plot.caption = element_text(hjust = 0, size=14), #ajuste Fonte
+        legend.title = element_blank(),
+        legend.text=element_text(size=14),
+        legend.position = "none") # Definindo posição da legenda
+
+g1
+
+```
+
+---
+class: middle, center
+
+### REPRESENTATIVIDADE DO VALE NA OFERTA NACIONAL EM 2022.
+
+```{r, echo=FALSE, out.width="80%"}
+#Direcionado o R para o Diretorio a ser trabalhado
+setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/mpo')
+
+#Inicio do Script
+#Pacotes a serem utilizados 
+library(reshape2)
+
+#Entrando dados no R
+dados2 <- read.csv2('dados/volume.csv', header=T, sep=";", dec = ".")
+
+dados2a <- melt(dados2, id.var='Fruta')
+
+mycolors <- c("lightblue3", "darkgreen")
+
+g2 <- ggplot() +
+  geom_col(data=dados2a, aes(x=Fruta, y=value, fill=variable), size=2, width = 0.7, position = position_dodge(width = .5, preserve = "total"))+
+  scale_fill_manual(values=mycolors) +
+  scale_y_continuous(n.breaks = 10)+
+  labs(y= "Vale sobre o Total Nacional (%)", x= "Frutas",
+       caption = "Fonte: IBGE reprocessado pelos Observatórios de Manga e Uva da Embrapa, 2024.")+
+  geom_text(data=dados2a, aes(y=value, x=Fruta, group=variable, label=value), 
+    position = position_dodge(width = .5, preserve = "total"), 
+    size=4, 
+    hjust=0.5, 
+    vjust=-1.0)+
+  theme_minimal() + #Definindo tema
+  theme(axis.text.x = element_text(margin = margin(b=10), size=14), 
+        axis.text.y = element_text(margin = margin(b=10), size=14), 
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=10)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), # retirando as linhas
+        plot.caption = element_text(hjust = 0, size=14), #ajuste Fonte
+        legend.title = element_blank(),
+        legend.text=element_text(size=14),
+        legend.position = "bottom") # Definindo posição da legenda
+# Nome do eixo mais para baixo
+g2
+```
+
+---
+class: center
+
+### VALOR BRUTO DA PRODUÇÃO DA FRUTICULTURA DO VALE.
+
+```{r, echo=FALSE, out.width="80%"}
+#Direcionado o R para o Diretorio a ser trabalhado
+setwd('/Users/jricardofl/Dropbox/Embrapa/2024/Eventos/mpo')
+
+#Inicio do Script
+#Pacotes a serem utilizados 
+library(reshape2)
+
+#Entrando dados no R
+dados21 <- read.csv2('dados/vbp.csv', header=T, sep=";", dec = ".")
+
+dados21a <- melt(dados21, id.var='Fruta')
+
+mycolors <- "darkblue"
+
+g2a <- ggplot() +
+  geom_col(data=dados21a, aes(x=Fruta, y=value, fill=variable), size=2, width = 0.7, position = position_dodge(width = .5, preserve = "total"))+
+  scale_fill_manual(values=mycolors) +
+  scale_y_continuous(n.breaks = 10)+
+  labs(y= "Vale Bruto da Produção (mil R$)", x= "Frutas",
+       caption = "Fonte: IBGE reprocessado pelos Observatórios de Manga e Uva da Embrapa, 2024.")+
+  geom_text(data=dados21a, aes(y=value, x=Fruta, group=variable, label=value), 
+    position = position_dodge(width = .5, preserve = "total"), 
+    size=4, 
+    hjust=0.5, 
+    vjust=-1.0)+
+  theme_minimal() + #Definindo tema
+  theme(axis.text.x = element_text(margin = margin(b=10), size=14), 
+        axis.text.y = element_text(margin = margin(b=10), size=14), 
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=10)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), # retirando as linhas
+        plot.caption = element_text(hjust = 0, size=14), #ajuste Fonte
+        legend.title = element_blank(),
+        legend.text=element_text(size=14),
+        legend.position = "bottom") +  # Define legend position
+  # Add annotation box with the desired text
+  annotate("text", x = -Inf, y = Inf, label = "Estas frutas selecionadas, somadas,\ngeraram cerca de 4,5 bilhões de reais em 2022", 
+           hjust = -0.3, vjust = 2, size = 5, color = "black", fontface = "italic", 
+           box.colour = "black", fill = "white") # Text properties and box style
+# Nome do eixo mais para baixo
+g2a
+```
+
+---
+class: center
+
+### A COMPLEXA CADEIA PRODUTIVA DA FRUTICULTURA.
+
+```{r, echo=FALSE, out.width="90%"}
+knitr::include_graphics("imgs/cadeia_manga.png")
+```
+Fonte: LIMA et al, 2023.
+
+---
+class: center
+
+### A IMPORTANTE FUNÇÃO DO MERCADO EXTERNO.
+
+- 99% DE TODA A UVA EXPORTADA PELO BRASIL, EM 2023, FOI PRODUZIDA NO VALE DO SÃO FRANCISCO. 
+
+.pull-left[
+```{r, echo=FALSE, out.width="110%"}
+#Entrando dados no R
+dados3 <- read.csv2('dados/uva_exportacoes_2004_2023.csv', header=T, sep=";", dec = ".")
+dados3 <- dados3/1000
+dados3[,1] <- seq(2004, 2023, by = 1)
+colnames(dados3) = c('Ano', 'Valor', "Toneladas")
+dados3 <- dplyr::tibble(dados3)
+
+mycolor1 <- "purple"
+
+g3 <- ggplot(data=dados3) +  #estetica vai valer para todos os geom's
+  geom_col(aes(x=Ano, y=Toneladas, fill="Toneladas"), lwd=1)+
+    scale_fill_manual(values=mycolor1)+
+  labs(y= "Toneladas", x= "Anos", title='',
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de uva da Embrapa") +
+  scale_y_continuous(limits=c(0, 85000), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
+  scale_x_continuous(breaks = seq(2004, 2023, by = 1))+
+  theme_classic()+ #Definindo tema
+  theme(axis.text.x=element_text(angle=45, hjust=1, size=14, margin = margin(b=10)),
+        axis.text.y=element_text(hjust=1, size=14, margin = margin(l=20)),
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=5)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        plot.caption = element_text(hjust = 0, size=16),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=20)) # Definindo posição da legenda
+g3
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="110%"}
+g4 <- ggplot(data=dados3) +  #estetica vai valer para todos os geom's
+  geom_col(aes(x=Ano, y=Valor, fill="Valor em $ mil dólares"), lwd=1)+
+    scale_fill_manual(values=mycolor1)+
+  labs(y= "US$ Mil", x= "Anos", title='',
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de uva da Embrapa") +
+  scale_y_continuous(limits=c(0, 185000), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
+  scale_x_continuous(breaks = seq(2004, 2023, by = 1))+
+  theme_classic()+ #Definindo tema
+  theme(axis.text.x=element_text(angle=45, hjust=1, size=14, margin = margin(b=10)),
+        axis.text.y=element_text(hjust=1, size=14, margin = margin(l=20)),
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=5)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        plot.caption = element_text(hjust = 0, size=16),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=20)) # Definindo posição da legenda
+g4
+```
+]
+
+---
+class: center
+
+### A IMPORTANTE FUNÇÃO DO MERCADO EXTERNO.
+
+- 93% DE TODA A MANGA EXPORTADA PELO BRASIL, EM 2023, FOI PRODUZIDA NO VALE DO SÃO FRANCISCO. 
+
+.pull-left[
+```{r, echo=FALSE, out.width="110%"}
+#Entrando dados no R
+dados4 <- read.csv2('dados/manga_exportacoes_2004_2023.csv', header=T, sep=";", dec = ".")
+dados4[,1] <- seq(2004, 2023, by = 1)
+colnames(dados4) = c('Ano', 'Valor', "Toneladas")
+#dados1 <- dplyr::tibble(dados1)
+
+mycolor1 <- "gold"
+
+g5 <- ggplot(data=dados4) +  #estetica vai valer para todos os geom's
+  geom_col(aes(x=Ano, y=Toneladas/1000, fill="Toneladas"), lwd=1)+
+    scale_fill_manual(values=mycolor1)+
+  labs(y= "Toneladas", x= "Anos", title='',
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa") +
+  scale_y_continuous(limits=c(0, 250000), n.breaks = 6, expand = expansion(add=c(0,0.5)))+
+  scale_x_continuous(breaks = seq(2004, 2023, by = 1))+
+  theme_classic()+ #Definindo tema
+  theme(axis.text.x=element_text(angle=45, hjust=1, size=14, margin = margin(b=5)),
+        axis.text.y=element_text(hjust=1, size=14, margin = margin(l=20)),
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=5)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        plot.caption = element_text(hjust = 0, size=16),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=20)) # Definindo posição da legenda
+g5
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="110%"}
+g6 <- ggplot(data=dados4) +  #estetica vai valer para todos os geom's
+  geom_col(aes(x=Ano, y=Valor/1000, fill="Valor em $ mil dólares"), lwd=1)+
+    scale_fill_manual(values=mycolor1)+
+  labs(y= "US$ Mil", x= "Anos", title='',
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa") +
+  scale_y_continuous(limits=c(0, 300000), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
+  scale_x_continuous(breaks = seq(2004, 2023, by = 1))+
+  theme_classic()+ #Definindo tema
+  theme(axis.text.x=element_text(angle=45, hjust=1, size=14, margin = margin(b=5)),
+        axis.text.y=element_text(hjust=1, size=14, margin = margin(l=20)),
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=5)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        plot.caption = element_text(hjust = 0, size=16),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=20)) # Definindo posição da legenda
+g6
+```
+]
+
+---
+class: center
+
+### VOLUME EXPORTADO UVA POR DESTINO: 2015-2023.
+
+```{r, echo=FALSE, out.width="80%"}
+#Entrando dados no R
+dados_exporta <- read.csv2('dados/destinos_exporta_uva.csv', header=T, sep=";", stringsAsFactors = FALSE)
+
+# Step 2: Convert 'Date' column to Date format and reorder data
+dados_exporta$Ano <- as.Date(paste0(dados_exporta$Ano, "-01-01"), format = "%Y-%m-%d")
+
+# Filter data for the years 2015 to 2023
+dados_exporta <- dados_exporta |>
+  filter(format(Ano, "%Y") >= 2015 & format(Ano, "%Y") <= 2023) |>
+  arrange(Ano) # Arrange in descending order (from 2015 to 2023)
+
+# Step 3: Create the bar graph
+ggplot(dados_exporta, aes(x = format(Ano, "%Y"), y = quilo/1000, fill = bloco)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Anos", y = "Volume Exportado", 
+       title = "",
+       fill = "Destino",
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Uva da Embrapa") +
+  scale_y_continuous(n.breaks = 10)+
+  theme_minimal()+ #Definindo tema
+  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=14, margin = margin(b=5)),
+        axis.text.y=element_text(hjust=1, size=14, margin = margin(l=20)),
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=5)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        plot.caption = element_text(hjust = 0, size=16),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=10)) # Definindo posição da legenda
+```
+
+---
+class: center
+
+### VOLUME EXPORTADO MANGA POR DESTINO: 2015-2023.
+
+```{r, echo=FALSE, out.width="80%"}
+#Entrando dados no R
+dados_exporta <- read.csv2('dados/destinos_exporta.csv', header=T, sep=";", stringsAsFactors = FALSE)
+
+# Step 2: Convert 'Date' column to Date format and reorder data
+dados_exporta$Ano <- as.Date(paste0(dados_exporta$Ano, "-01-01"), format = "%Y-%m-%d")
+
+# Filter data for the years 2015 to 2023
+dados_exporta <- dados_exporta |>
+  filter(format(Ano, "%Y") >= 2015 & format(Ano, "%Y") <= 2023) |>
+  arrange(Ano) # Arrange in descending order (from 2015 to 2023)
+
+# Step 3: Create the bar graph
+ggplot(dados_exporta, aes(x = format(Ano, "%Y"), y = quilo/1000, fill = bloco)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Anos", y = "Volume Exportado", 
+       title = "",
+       fill = "Destino",
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa") +
+  scale_y_continuous(n.breaks = 10)+
+  theme_minimal()+ #Definindo tema
+  theme(axis.text.x=element_text(angle=0, hjust=0.5, size=14, margin = margin(b=5)),
+        axis.text.y=element_text(hjust=1, size=14, margin = margin(l=20)),
+        axis.title.x = element_text(size=14, face = "bold", margin = margin(b=5)),
+        axis.title.y = element_text(size=14, face = "bold", margin = margin(l=20)),
+        plot.caption = element_text(hjust = 0, size=16),
+        legend.position = "bottom", legend.title = element_blank(),
+        legend.text=element_text(size=10)) # Definindo posição da legenda
+```
+
+---
+class: center, middle
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("imgs/chtt3.png")
+```
+
+---
+class: center, middle
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("imgs/chtt4.png")
+```
+
+---
+class: center, middle
+
+### FRUTAS DO VALE DO SÃO FRANCISCO
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("imgs/chtt5.png")
+```
+
+
+---
+class: center, middle
+
+### A SUSTENTABILIDADE NO VALE DO SÃO FRANCISCO.
+
+.pull-left[
+```{r, echo=FALSE, out.width="85%"}
+knitr::include_graphics("imgs/seacon10.png")
+```
+]
+
+.pull-right[
+
+- ### NÃO É MAIS APENAS SABOR, QUALIDADE E PREÇO QUE OS CONSUMIDORES BUSCAM!
+
+- ### BUSCAM SE ALIMENTAR PARA TER MELHOR QUALIDADE DE VIDA COM MENOS IMPACTO NO MEIO AMBIENTE!
+
+Fonte: Hortifruti Brasil (03/19).
+]
+
+---
+class: center, middle
+
+### CERTIFICAÇÕES PARA PODER EXPORTAR
+
+```{r, echo=FALSE, out.width="85%"}
+knitr::include_graphics("imgs/seacon11.jpg")
+```
+
+---
+class: center
+
+### REINVENÇÃO É CONSTANTE
+
+```{r, echo=FALSE, out.width="85%"}
+knitr::include_graphics("imgs/seacon12.png")
+```
+
+---
+class: center
+
+### REINVENÇÃO É CONSTANTE
+
+```{r, echo=FALSE, out.width="68%"}
+knitr::include_graphics("imgs/seacon13.png")
+```
+
+---
+class: center
+
+### DIVERSIFICAÇÃO DE CULTURAS
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("imgs/seacon14.png")
+```
+
+
+---
+class: center, middle, white-bg
+
+```{r, echo=FALSE, out.width="30%"}
+knitr::include_graphics("imgs/logo_manga.png")
+```
+
+# OBRIGADO!
+
+João Ricardo F. de Lima <br>
+Email: joao.ricardo@embrapa.br
+
+https://www.embrapa.br/observatorio-da-manga<br>
+https://www.embrapa.br/observatorio-da-uva
+
+
+Telefones:<br>
+87-99961-5799<br>
+87-98115-2404
