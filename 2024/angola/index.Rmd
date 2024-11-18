@@ -2,7 +2,7 @@
 title: "A IMPORTÂNCIA DA CADEIA PRODUTIVA DA MANGA"
 subtitle: "VALE DO SÃO FRANCISCO - BRASIL"
 author: 'João Ricardo Lima<br><span style = "font-size: 70%;">D.Sc em Economia Aplicada<br>joao.ricardo@embrapa.br'
-date: "<span style = 'font-size: 70%;'> 14 de Outubro de 2024.</span>"
+date: "<span style = 'font-size: 70%;'> 18 de Novembro de 2024.</span>"
 encoding: "UTF-8"
 output:
   xaringan::moon_reader:
@@ -193,8 +193,8 @@ library(dplyr)
 library(tidyr)
 
 #Entrando dados no R
-dados1 <- read.csv2('dados/agosto_2024.csv', header=T, sep=";", dec = ".")
-dados1$date <- seq(as.Date('2021-01-01'),to=as.Date('2024-08-01'),by='1 month')
+dados1 <- read.csv2('dados/setembro_2024.csv', header=T, sep=";", dec = ".")
+dados1$date <- seq(as.Date('2021-01-01'),to=as.Date('2024-09-01'),by='1 month')
 
 dados1a <- dados1 |> 
   dplyr::select(
@@ -208,7 +208,7 @@ g1 <- ggplot(data=dados1a) +
   geom_col(aes(x=date, y=value, fill="variable"))+
   scale_fill_manual(values="blue") +#muda a cor da barra
   labs(y= "Proporção Agro/Total (%)", x= "Meses dos Anos",
-       caption = "Fonte: CAGED reprocessado pelos Observatórios de Manga e Uva da Embrapa, 2024.")+
+       caption = "Fonte: CAGED reprocessado pelos Observatórios de Manga da Embrapa, 2024.")+
   scale_y_continuous(n.breaks = 10)+
   scale_x_date(date_breaks = "1 month",
               labels = date_format("%m/%Y"),
@@ -314,7 +314,7 @@ g2 <- ggplot() +
   scale_fill_manual(values=mycolors) +
   scale_y_continuous(n.breaks = 10)+
   labs(y= "Vale sobre o Total Nacional (%)", x= "Frutas",
-       caption = "Fonte: IBGE reprocessado pelos Observatórios de Manga e Uva da Embrapa,, 2024.")+
+       caption = "Fonte: IBGE reprocessado pelos Observatórios de Manga e Uva da Embrapa, 2024.")+
   geom_text(data=dados2a, aes(y=value, x=Fruta, group=variable, label=value), 
     position = position_dodge(width = .5, preserve = "total"), 
     size=4, 
@@ -424,14 +424,14 @@ class: center
 
 ```{r paraguai1, out.width  = "80%"}
 library(lubridate)
-anterior <- as.Date("2024-08-01")
-atual <-  as.Date("2024-09-01") #ultimo mes disponibilizado
-today <- as.Date("2024-10-11") #data para o IGPI - ultima semana do preço
-mes <- 9
+anterior <- as.Date("2024-09-01")
+atual <-  as.Date("2024-10-01") #ultimo mes disponibilizado
+today <- as.Date("2024-11-15") #data para o IGPI - ultima semana do preço
+mes <- 10
 
 #Direcionado o R para o Diretorio a ser trabalhado
 #setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
-setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
+#setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
 
 #Inicio do Script
 #Pacotes a serem utilizados 
@@ -463,7 +463,7 @@ checkX13()
 options(digits=4)
 
 #Entrando dados no R
-dados1 <- read.csv2('exportacoes_2012_2024.csv', header=T, sep=";", dec = ".")
+dados1 <- read.csv2('dados/exportacoes_2012_2024.csv', header=T, sep=";", dec = ".")
 dados1 <- dados1/1000
 dados1[,1] <- seq(2012, 2024, by = 1)
 colnames(dados1) = c('Ano', 'Valor', 'Toneladas')
@@ -471,17 +471,17 @@ dados1 <- tibble(dados1)
 
 
 #Entrando dados no R
-dados2 <- read.csv2('total_exporta_br.csv', header=T, sep=";", dec = ".")
+dados2 <- read.csv2('dados/total_exporta_br.csv', header=T, sep=";", dec = ".")
 #dados <- dados[,-c(9:10)] #retirar as ultimas colunas
 colnames(dados2)[1]<-'ano'
 
 
 #Entrando dados no R
-dados3 <- read.csv2('destinos_2024.csv', header=T, sep=";", dec = ".")
+dados3 <- read.csv2('dados/destinos_2024.csv', header=T, sep=";", dec = ".")
 colnames(dados3)[1]<-'Paises'
 
 #Entrando dados no R
-dados4 <- read.csv2('via_2024.csv', header=T, sep=";", dec = ".")
+dados4 <- read.csv2('dados/via_2024.csv', header=T, sep=";", dec = ".")
 colnames(dados4)[1]<-'Vias'
 
 #dados5 <- read.csv2('uf_2024.csv', header=T, sep=";" , dec = ".")
@@ -638,11 +638,11 @@ mycolors2 <- c("orange", "lightblue3")
 #Preço Exportação
 
 #Entrando dados no R
-dadosexp <- read.csv2('manga_export_medias_deflacionados.csv', header=T, sep=";", dec=".")
+dadosexp <- read.csv2('dados/manga_export_medias_deflacionados.csv', header=T, sep=";", dec=".")
 #colnames(dadosexp)[1]<-'Palmer'
 
 #Entrando dados no R - Deflator
-igpdi <- read.csv2('igpdi.csv', 
+igpdi <- read.csv2('dados/igpdi.csv', 
                    header=T, sep=";",
                    dec=".")
 colnames(igpdi)[1]<-'Ano'
@@ -677,7 +677,7 @@ g1 <- ggplot(data=dados1) +  #estetica vai valer para todos os geom's
   geom_line(aes(x=Ano, y=Valor, colour="Milhões de Dólares"), size=2)+
   scale_colour_manual(values=mycolor2)+
   labs(y= "US$ Milhões / Mil Ton", x= "Anos", title='',
-       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até o mês de setembro de 24.") +
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até o mês de Outubro de 24.") +
   scale_y_continuous(limits=c(0, 320), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
   scale_x_continuous(breaks = seq(2012, 2024, by = 1))+
   theme_classic()+ #Definindo tema
@@ -710,7 +710,7 @@ g7 <- ggplot()+
     scale_x_date(date_breaks = "1 month",
                labels = date_format("%B"))+
   labs(y= "Toneladas", x= "Meses do Ano", title='',
-       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até o mês de setembro de 24.")+
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até o mês de Outubro de 24.")+
   theme_minimal()+
   theme(axis.text.x=element_text(angle=25, hjust=0.5, size=11, margin = margin(b=5)),
         axis.text.y=element_text(hjust=0.5, size=14, margin = margin(l=5)),
@@ -740,7 +740,7 @@ g10 <- ggplot(data=dados3) +  #estetica vai valer para todos os geom's
   geom_col(aes(x = reorder(Paises, -Participacao), y= Participacao, fill="% do Total"), lwd=1)+
     scale_fill_manual(values=mycolor1) +
   labs(y= "% do Volume Total Exportados", x= "Países", title='',
-       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até o mês de setembro de 24.")+
+       caption = "Fonte: COMEXSTAT reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até o mês de Outubro de 24.")+
   scale_y_continuous(limits=c(0, 50), n.breaks = 10, expand = expansion(add=c(0,0.5)))+
    theme_classic()+ #Definindo tema
   theme(axis.text.x=element_text(angle=0, hjust=0.5, size=10, margin = margin(b=5)),
@@ -962,38 +962,27 @@ g5
 ```
 
 ---
-class: top, left
+class: center, middle
+### O OBSERVATÓRIO DE MERCADO DE MANGA DA EMBRAPA
 
-### OS CUSTOS DE PRODUÇÃO DE MANGA - CNA.
-
-```{r, echo=FALSE, out.width="70%"}
-knitr::include_graphics("imgs/custo1.png")
-```
-
----
-class: top, left
-
-### OS CUSTOS DE PRODUÇÃO DE MANGA - CNA.
-
-```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("imgs/custo2.png")
-```
-
----
-class: top, left
-
-### OS CUSTOS DE PRODUÇÃO DE MANGA - CNA.
-
-```{r, echo=FALSE, out.width="100%"}
-knitr::include_graphics("imgs/custo3.png")
+```{r, echo=FALSE, out.width="93%"}
+knitr::include_graphics("imgs/manga6.png")
 ```
 
 ---
 class: center, middle
 ### O OBSERVATÓRIO DE MERCADO DE MANGA DA EMBRAPA
 
-```{r, echo=FALSE, out.width="93%"}
-knitr::include_graphics("imgs/manga6.png")
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("imgs/manga_africa.png")
+```
+
+---
+class: center, middle
+### O OBSERVATÓRIO DE MERCADO DE MANGA DA EMBRAPA
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("imgs/manga_africa2.png")
 ```
 
 ---
@@ -1008,8 +997,7 @@ knitr::include_graphics("imgs/logo_manga.png")
 João Ricardo F. de Lima <br>
 Email: joao.ricardo@embrapa.br
 
-https://www.embrapa.br/observatorio-da-manga<br>
-https://www.embrapa.br/observatorio-da-uva
+https://www.embrapa.br/observatorio-da-manga
 
 Telefones:<br>
 87-3866-3667  
