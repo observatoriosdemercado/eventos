@@ -1,7 +1,7 @@
 ---
 title: "MERCADO DE MANGA: ATUALIZAÇÃO E PERSPECTIVAS."
 author: 'João Ricardo Lima<br><span style = "font-size: 70%;">D.Sc em Economia Aplicada<br>joao.ricardo@embrapa.br'
-date: "<span style = 'font-size: 70%;'> Novembro de 2024.</span>"
+date: "<span style = 'font-size: 70%;'> 29 de Novembro de 2024.</span>"
 encoding: "UTF-8"
 output:
   xaringan::moon_reader:
@@ -631,7 +631,7 @@ class: top, left
 library(lubridate)
 anterior <- as.Date("2024-09-01")
 atual <-  as.Date("2024-10-01") #ultimo mes disponibilizado
-today <- as.Date("2024-11-22") #data para o IGPI - ultima semana do preço
+today <- as.Date("2024-11-29") #data para o IGPI - ultima semana do preço
 mes <- 10
 
 #Direcionado o R para o Diretorio a ser trabalhado
@@ -977,7 +977,7 @@ g9 <- ggplot()+
   scale_x_date(breaks = date_breaks("3 weeks"), expand=c(0,0),
                labels = date_format("%W-%y"))+
   labs(y= "Preços R$", x= "Semanas do Ano", title='',
-       caption = "Fonte: CEPEA reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até a semana 47 de 2024.")+
+       caption = "Fonte: CEPEA reprocessado pelo Observatório de Mercado de Manga da Embrapa. Dados até a semana 48 de 2024.")+
   theme_minimal()+
   theme(axis.text.x=element_text(angle=45, hjust=0.5, size=11, margin = margin(b=10)),
         axis.text.y=element_text(hjust=0.5, size=14, margin = margin(l=20)),
@@ -1003,7 +1003,7 @@ class: top, left
 
 ### ANÁLISE DA DEMANDA DE MANGA
 
-```{r senar_8}
+```{r senar_8, out.width="90%"}
 #Direcionado o R para o Diretorio a ser trabalhado
 #setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
 setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
@@ -1055,7 +1055,7 @@ ggplotly(g1) %>%
 class: top, left
 ### ANÁLISE DA DEMANDA DE MANGA
 
-```{r senar_9}
+```{r senar_9, out.width="90%"}
 #Direcionado o R para o Diretorio a ser trabalhado
 #setwd('c:/Users/Joao Ricardo Lima/Dropbox/tempecon/dados_manga')
 setwd('/Users/jricardofl/Dropbox/tempecon/dados_manga')
@@ -1174,8 +1174,8 @@ library(magrittr)
 
 options(digits=4)
 
-today <- as.Date('2024-11-22')
-sem_ano <- 47
+today <- as.Date('2024-11-29')
+sem_ano <- 48
 
 #Entrando dados no R
 dados <- read.csv2('dados_manga_palmer_semana.csv', header=T, sep=";", dec=".")
@@ -1446,7 +1446,7 @@ library(reshape2)
 library(scales)
 library(tsutils)
 
-sem_ano <- 47
+sem_ano <- 48
 
 # Step 1: Prepare the Dataset
 preco_palmer_livra <- data_full  # Rename the dataset
@@ -1611,13 +1611,13 @@ class: top, left
 preco_palmer_2021_4 <- window(preco_palmer, start=c(2021,1))
 seas21_4 <- seasplot(preco_palmer_2021_4, trend=F, outplot = F)
 medias21_4 <- colMeans(seas21_4$season)
-tail_means <- tail(medias21_3, 5)
+tail_means <- tail(medias21_3, 4)
 medias21_4[is.na(medias21_4)] <- tail_means[seq_along(which(is.na(medias21_4)))]
 
 preco_palmer_2021_4_livra <- window(preco_palmer_livra_filled, start=c(2021,1))
 seas21_4_livra <- seasplot(preco_palmer_2021_4_livra, trend=F, outplot = F)
 medias21_4_livra <- colMeans(seas21_4_livra$season)
-tail_means_livra <- tail(medias21_3_livra, 5)
+tail_means_livra <- tail(medias21_3_livra, 4)
 medias21_4_livra[is.na(medias21_4_livra)] <- tail_means_livra[seq_along(which(is.na(medias21_4_livra)))]
 
 
@@ -1723,7 +1723,7 @@ preco_palmer_2024_livra <- window(preco_palmer_livra_filled, start=c(2024,1))
 preco_palmer_2024 <- as.numeric(preco_palmer_2024)
 preco_palmer_2024_livra <- as.numeric(preco_palmer_2024_livra)
 
-time <- seq(1:47)
+time <- seq(1:48)
 
 table <- data.frame(time, round(preco_palmer_2024,2), round(preco_palmer_2024_livra,2))
 
@@ -1860,31 +1860,6 @@ knitr::include_graphics("imgs/fig18.png")
 ```
 
 ---
-class: center
-### PRECISAMOS FAZER CONTA! SEMPRE! TODA HORA! 
-
-.pull-left[
-```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("imgs/fig21.png")
-```
-]
-
-.pull-right[
-
-#### LUCRO = RECEITA – CUSTOS
-
-#### RECEITA = PREÇO X QUANTIDADE
-
-
-## **RECEITA NÃO É LUCRO!**
-
-
-#### UMA PARTE DO LUCRO POSITIVO SE TORNA A RECEITA DA FAMÍLIA, QUE COBRE OS CUSTOS DA FAMÍLIA. 
-
-#### A OUTRA PARTE É PARA COBRIR OS CUSTOS DA EMPRESA E PARA FAZER INVESTIMENTOS.
-]
-
----
 ### NECESSIDADE DE **UNIÃO**, FORMAR **COOPERATIVAS**
 
 ```{r, echo=FALSE, out.width="75%"}
@@ -1905,6 +1880,16 @@ knitr::include_graphics("imgs/fig11.png")
 ```{r, echo=FALSE, out.width="80%"}
 knitr::include_graphics("imgs/fig14.png")
 ```
+
+---
+class: top, center
+
+### OFERTA E DEMANDA POR MANGA: VISÃO DO CONSUMIDOR
+
+<video controls autoplay width="300">
+  <source src="video/manga.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ---
 class: center, middle
