@@ -504,7 +504,7 @@ class: top, left
 ### NOVAS CULTURAS
 
 ```{r, echo=FALSE, out.width="80%"}
-knitr::include_graphics("imgs/culturas3.png")
+knitr::include_graphics("imgs/culturas3.jpg")
 ```
 
 ---
