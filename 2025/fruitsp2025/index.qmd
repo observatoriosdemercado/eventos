@@ -1,0 +1,366 @@
+---
+title: "EMBALAGENS INTELIGENTES NA FRUTICULTURA E A CONQUISTA DO CLIENTE"
+author: "<br><br> JOÃO RICARDO F. DE LIMA <br><br> <br><br> FRUIT ATTRACTION SÃO PAULO - MARÇO DE 2025."
+format: 
+  revealjs:
+    logo: "imgs/logo_embrapa.png" #https://www.remove.bg/pt-br/upload
+    width: 1600
+    height: 900
+    slide-number: FALSE
+    theme: serif
+    css: estilos.css
+    transition: fade
+    toc: false
+    progress: true
+#/usr/local/bin/decktape reveal index.html presentation.pdf
+# se for xaringa, trocar reveal por remark, mas antes precisa abrir o html open index.html
+# pwd indica a pasta que está direcionado
+# ls -l lista os arquivos da pasta atual
+# cd .. volta para uma pasta anterior com espaco entre cd e  ..
+# cd ~/Dropbox/Embrapa/2025/Eventos/Fruit\ Attraction/fruitsp2025 muda a pasta sendo que a \ é por causa do espaço
+# se precisar abrir o html open index.html
+
+---
+
+## João Ricardo Lima  🇧🇷 {.center .aboutmeslide}
+
+::: columns
+::: {.column width="60%"}
+
+-   Contato
+
+    -   Instagram: [\@jotaerre.econ](https://www.instagram.com/jotaerre.econ/)
+
+    -   Email: [joao.ricardo@embrapa.br](joao.ricardo@embrapa.br)
+
+-   Sobre mim
+
+    -   Doutor em Economia Aplicada (UFV-MG)
+
+    -   Pesquisador da Embrapa Semiárido - Petrolina/PE
+    
+    -   Coordenador dos Observatórios de Mercado de Manga e Uva da Embrapa
+
+    -   Coordenador do Curso de Economia da FACAPE - Petrolina/PE
+    
+    -   Instrutor do SENAR - Centro de Excelência em Fruticultura - Juazeiro/BA
+:::
+
+::: {.column width="40%"}
+![](imgs/jotaerre.png){width=110%}
+:::
+:::
+
+# Introdução
+
+- Por que embalar frutas?
+- Benefícios das Embalagens Inteligentes.
+- Tendências
+
+## Importância das embalagens em FLV
+
+- Ainda vemos muitas mercadorias vendidas sem embalagens
+
+<div style="text-align: center;">
+  <img src="imgs/embala1.jpg" width="60%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embala2.jpg" width="70%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embala3.jpg" width="70%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embala4.jpg" width="70%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embala5.jpg" width="70%">
+</div>
+
+## Importância das embalagens em FLV
+
+- ... Também em função de baixa qualidade do produto na gôndola
+
+<div style="text-align: center;">
+  <img src="imgs/embala6.jpg" width="60%">
+</div>
+
+## Importância das embalagens em FLV
+
+- Com qualidade, o consumidor não precisa ficar escolhendo...
+
+<div style="text-align: center;">
+  <img src="imgs/embala29.jpeg" width="60%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embala30.jpeg" width="80%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embala31.png" width="80%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embala32.png" width="92%">
+</div>
+
+# Por que embalar frutas?
+
+## Proteção e conservação
+
+- Redução de perdas por danos mecânicos; preservação da qualidade
+- Controle de umidade e maturação; aumento de shelf life, etc. 
+
+<div style="text-align: center;">
+  <img src="imgs/tonetto.png" width="68%">
+</div>
+  <p style="font-size: 0.6em; color: #333;">
+Fonte: https://doi.org/10.1016/j.foohum.2025.100534
+  </p>
+
+# Por que embalar frutas?
+
+- O caso das uvas de mesa
+
+## Diferenciação no mercado
+
+- Ainda existem uvas comercializadas em caixas de madeira
+
+<div style="text-align: center;">
+  <img src="imgs/embala7.jpeg" width="55%">
+</div>
+
+## Diferenciação no mercado
+
+- mas o que se tem atualmente é muito diferente
+
+<div style="text-align: center;">
+  <img src="imgs/embala12.jpg" width="60%">
+</div>
+
+## Diferenciação no mercado
+
+- Embalagens criam identidade visual e destacam o produto.
+
+<div style="text-align: center;">
+  <img src="imgs/embala11.jpg" width="60%">
+</div>
+
+## Diferenciação no mercado
+
+- Embalagens criam identidade visual e destacam o produto.
+
+<div style="text-align: center;">
+  <img src="imgs/embala13a.png" width="80%">
+</div>
+
+# Por que embalar frutas?
+
+## Diferenciação no mercado
+
+- Comunicação direta com o consumidor. 
+
+<div style="text-align: center;">
+  <img src="imgs/embala14a.png" width="65%">
+</div>
+
+## Diferenciação no mercado
+
+- Assim, tudo está sendo embalado de alguma forma.
+
+<div style="text-align: center;">
+  <img src="imgs/embala13.jpg" width="65%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala14.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala15.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala16.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala17.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala18.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala19.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala20.jpg" width="70%">
+</div>
+
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala21.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala22.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala23.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala24.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala25.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala26.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala28.jpg" width="70%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala27.jpg" width="70%">
+</div>
+
+
+## Estratégia de Diferenciação e Fidelização
+
+<br>
+
+### O desafio das commodities: competir apenas por preço.
+
+- **Diferenciação de Produto** – sair da lógica de commodity.
+
+<br>
+
+### Criação de marca e reconhecimento.
+
+- **Branding e Posicionamento** – embalagens criam identidade.
+
+- **Elasticidade-Preço da Demanda** – produtos diferenciados são menos sensíveis ao preço.
+
+- **Valor Percebido** – consumidores pagam mais por um produto com embalagem e marca.
+
+<br>
+
+### Impacto no market share e fidelização.
+
+## Estratégia de Diferenciação e Fidelização
+
+- ### Tendências de Consumo – transparência, rastreabilidade e sustentabilidade.
+
+## O que são embalagens inteligentes?
+
+## Benefícios das Embalagens Inteligentes
+
+- **Aumento da vida útil** – controle da maturação.
+- **Rastreamento e transparência** – QR codes e blockchain.
+- **Sustentabilidade** – redução do desperdício.
+
+
+
+## Exemplos Práticos e Tendências
+
+- Tecnologias usadas por exportadores (Chile, Peru, Japão).
+- Sensores, rastreabilidade e controle de atmosfera.
+- Oportunidades para o Brasil.
+
+
+## Conclusão
+
+- Embalagens como ferramenta estratégica.
+- Diferenciação e fidelização no mercado.
+- Impacto na precificação e competitividade brasileira.
+
+
+## {.center .thankslide}
+
+<div style="text-align: center; margin-top: -30px;">
+  <img src="imgs/logo_manga.png" width="25%" style="margin-bottom: 20px;">
+
+  <br>
+  
+  <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
+    OBRIGADO!
+  </h2>
+  
+  <br>
+
+  <!-- This part will have a smaller font size -->
+  <p style="font-size: 0.8em; color: #333;">
+    <a href="https://www.embrapa.br/observatorio-da-manga" target="_blank">
+      https://www.embrapa.br/observatorio-da-manga
+    </a>
+    <br>
+    <a href="https://www.embrapa.br/observatorio-da-uva" target="_blank">
+      https://www.embrapa.br/observatorio-da-uva
+    </a>
+    <br><br>
+    Telefone: <br>
+    87-99961-5799
+  </p>
+
+  <br>
+  <img src="imgs/apoio2.png" width="23%">
+</div>
+
