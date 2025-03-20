@@ -102,19 +102,25 @@ format:
 - Com qualidade, o consumidor não precisa ficar escolhendo...
 
 <div style="text-align: center;">
+  <img src="imgs/embala33.png" width="80%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
   <img src="imgs/embala29.jpeg" width="60%">
 </div>
 
 ## Importância das embalagens em FLV
 
 <div style="text-align: center;">
-  <img src="imgs/embala30.jpeg" width="80%">
+  <img src="imgs/embala30.jpeg" width="83%">
 </div>
 
 ## Importância das embalagens em FLV
 
 <div style="text-align: center;">
-  <img src="imgs/embala31.png" width="80%">
+  <img src="imgs/embala31.png" width="75%">
 </div>
 
 ## Importância das embalagens em FLV
@@ -141,9 +147,17 @@ Fonte: https://doi.org/10.1016/j.foohum.2025.100534
 
 - O caso das uvas de mesa
 
+
+## Por que embalar frutas?
+- Uvas comercializadas em caixas de madeira (03/1991  📷: Mônica Ishikawa).
+
+<div style="text-align: center;">
+  <img src="imgs/monica1.jpeg" width="80%">
+</div>
+
 ## Diferenciação no mercado
 
-- Ainda existem uvas comercializadas em caixas de madeira
+- Ainda existem uvas em caixas de madeira (12/2024 📷: Gabriel Bitencourt.)
 
 <div style="text-align: center;">
   <img src="imgs/embala7.jpeg" width="55%">
@@ -151,7 +165,7 @@ Fonte: https://doi.org/10.1016/j.foohum.2025.100534
 
 ## Diferenciação no mercado
 
-- mas o que se tem atualmente é muito diferente
+- mas o que se tem atualmente é muito diferente...
 
 <div style="text-align: center;">
   <img src="imgs/embala12.jpg" width="60%">
@@ -162,7 +176,7 @@ Fonte: https://doi.org/10.1016/j.foohum.2025.100534
 - Embalagens criam identidade visual e destacam o produto.
 
 <div style="text-align: center;">
-  <img src="imgs/embala11.jpg" width="60%">
+  <img src="imgs/embala11.jpg" width="65%">
 </div>
 
 ## Diferenciação no mercado
@@ -305,25 +319,84 @@ Fonte: https://doi.org/10.1016/j.foohum.2025.100534
 
 ### Impacto no market share e fidelização.
 
-## Estratégia de Diferenciação e Fidelização
+# As Embalagens Inteligentes
 
-- ### Tendências de Consumo – transparência, rastreabilidade e sustentabilidade.
+- Visam aumentar a segurança, facilitar o controle de qualidade e melhorar a experiência do consumidor
 
-## O que são embalagens inteligentes?
+## As Embalagens Inteligentes
+
+<br>
+
+- São embalagens tecnológicas que vão além das convencionais, incorporando sensores ou dispositivos para monitorar e interagir com o ambiente. Elas permitem acompanhar a qualidade do produto, verificando fatores como temperatura, umidade, integridade e condições de transporte.
+
+Alguns exemplos incluem:
+
+<br>
+
+1. **Embalagens que se autoconsertam**: que podem selar pequenas perfurações ou danos para preservar a integridade do produto.
+
+2. **Embalagens com indicadores de frescor**: como indicadores de temperatura ou mudança de cor, que avisam se o produto está fora das condições ideais.
+
+## As Embalagens Inteligentes
+
+- Estas frutas não poderiam estar na gondôla do varejo
+
+<div style="text-align: center;">
+  <img src="imgs/problema1.png" width="100%">
+</div>
+
+## As Embalagens Inteligentes
+
+- Estas frutas não poderiam estar na gondôla do varejo
+
+<div style="text-align: center;">
+  <img src="imgs/problema2.png" width="100%">
+</div>
+
+## As Embalagens Inteligentes
+
+3. **Embalagens interativas**: que usam QR codes ou tecnologias RFID (identificação por rádio frequência) para fornecer informações adicionais ao consumidor, como data de validade, origem do produto ou até mesmo promoções.
+
+<div style="text-align: center;">
+  <img src="imgs/embala34.png" width="60%">
+</div>
 
 ## Benefícios das Embalagens Inteligentes
 
+::: columns
+::: {.column width="40%"}
+
+<br>
+<br>
+
 - **Aumento da vida útil** – controle da maturação.
+
+<br>
+
 - **Rastreamento e transparência** – QR codes e blockchain.
+
+<br>
+
 - **Sustentabilidade** – redução do desperdício.
+:::
+::: {.column width="60%"}
 
+<br>
+<br>
+<br>
 
+<div style="text-align: center;">
+  <img src="imgs/embala35.png" width="100%">
+</div>
 
-## Exemplos Práticos e Tendências
+:::
+:::
 
-- Tecnologias usadas por exportadores (Chile, Peru, Japão).
-- Sensores, rastreabilidade e controle de atmosfera.
-- Oportunidades para o Brasil.
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente1.jpg" width="90%">
+</div>
 
 
 ## Conclusão
