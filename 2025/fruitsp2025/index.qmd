@@ -1,5 +1,5 @@
 ---
-title: "EMBALAGENS INTELIGENTES NA FRUTICULTURA E A CONQUISTA DO CLIENTE"
+title: "EMBALAGENS NA FRUTICULTURA, AGREGAÇÃO DE VALOR E CONQUISTA DO CLIENTE"
 author: "<br><br> JOÃO RICARDO F. DE LIMA <br><br> <br><br> FRUIT ATTRACTION SÃO PAULO - MARÇO DE 2025."
 format: 
   revealjs:
@@ -18,7 +18,7 @@ format:
 # ls -l lista os arquivos da pasta atual
 # cd .. volta para uma pasta anterior com espaco entre cd e  ..
 # cd ~/Dropbox/Embrapa/2025/Eventos/Fruit\ Attraction/fruitsp2025 muda a pasta sendo que a \ é por causa do espaço
-# se precisar abrir o html open index.html
+# se precisar abrir o html (erro de excesso de tempo) open index.html
 
 ---
 
@@ -350,7 +350,7 @@ Alguns exemplos incluem:
 - Estas frutas não poderiam estar na gondôla do varejo
 
 <div style="text-align: center;">
-  <img src="imgs/problema2.png" width="100%">
+  <img src="imgs/problema2.png" width="90%">
 </div>
 
 ## As Embalagens Inteligentes
@@ -399,7 +399,7 @@ Alguns exemplos incluem:
 </div>
 
 
-## Conclusão
+## Considerações Finais
 
 - Embalagens como ferramenta estratégica.
 - Diferenciação e fidelização no mercado.
@@ -407,6 +407,56 @@ Alguns exemplos incluem:
 
 
 ## {.center .thankslide}
+
+::: columns
+::: {.column width="50%"}
+
+<div style="text-align: center;">
+  <img src="imgs/logo_manga.png" width="60%">
+</div>
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+<div style="text-align: center;">
+  <img src="imgs/fruit1.png" width="65%">
+</div>
+
+:::
+:::
+
+ <div style="text-align: center;"> 
+  <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
+    OBRIGADO!
+  </h2>
+  
+  <br>
+
+  <!-- This part will have a smaller font size -->
+  <p style="font-size: 0.8em; color: #333;">
+    <a href="https://www.embrapa.br/observatorio-da-manga" target="_blank">
+      https://www.embrapa.br/observatorio-da-manga
+    </a>
+    <br>
+    <a href="https://www.embrapa.br/observatorio-da-uva" target="_blank">
+      https://www.embrapa.br/observatorio-da-uva
+    </a>
+    <br><br>
+    Telefone: <br>
+    87-99961-5799
+  </p>
+
+  <br>
+  <img src="imgs/apoio2.png" width="23%">
+</div>
+
+
+## {.center .thankslide}
+
+::: columns
+::: {.column width="50%"}
 
 <div style="text-align: center; margin-top: -30px;">
   <img src="imgs/logo_manga.png" width="25%" style="margin-bottom: 20px;">
@@ -437,3 +487,13 @@ Alguns exemplos incluem:
   <img src="imgs/apoio2.png" width="23%">
 </div>
 
+:::
+
+::: {.column width="40%"}
+
+<div style="text-align: center;">
+  <img src="imgs/fruit1.png" width="90%">
+</div>
+
+:::
+:::
