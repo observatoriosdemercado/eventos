@@ -155,7 +155,7 @@ Fonte: https://doi.org/10.1016/j.foohum.2025.100534
   <img src="imgs/monica1.jpeg" width="80%">
 </div>
 
-## Diferenciação no mercado
+## Por que embalar frutas?
 
 - Ainda existem uvas em caixas de madeira (12/2024 📷: Gabriel Bitencourt.)
 
@@ -398,13 +398,124 @@ Alguns exemplos incluem:
   <img src="imgs/ambiente1.jpg" width="90%">
 </div>
 
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/embalagem2.jpg" width="70%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente2.jpg" width="65%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente3.jpg" width="65%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente4.jpg" width="70%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente6.jpg" width="70%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente7.jpg" width="76%">
+</div>
+
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente8.jpg" width="76%">
+</div>
+
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente9.jpg" width="90%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente10.jpg" width="72%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente11.jpg" width="70%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente14.jpg" width="85%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente15.jpg" width="70%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente16.jpg" width="65%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente17.jpg" width="92%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente18.jpg" width="75%">
+</div>
 
 ## Considerações Finais
 
-- Embalagens como ferramenta estratégica.
-- Diferenciação e fidelização no mercado.
-- Impacto na precificação e competitividade brasileira.
+::: columns
+::: {.column width="45%"}
 
+<br>
+
+- A **Embalagem** é uma variável estratégica da cadeia de valor hortifrutícola.
+
+<br>
+
+- A **Embalagem** é a primeira vitrine do seu produto, o seu cartão de visita no ponto de venda.
+
+<br>
+
+- Use a **Embalagem** de forma estratégica visando o crescimento do seu negócio.
+
+:::
+::: {.column width="55%"}
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente20.jpg" width="100%">
+</div>
+
+:::
+:::
 
 ## {.center .thankslide}
 
@@ -451,49 +562,3 @@ Alguns exemplos incluem:
   <br>
   <img src="imgs/apoio2.png" width="23%">
 </div>
-
-
-## {.center .thankslide}
-
-::: columns
-::: {.column width="50%"}
-
-<div style="text-align: center; margin-top: -30px;">
-  <img src="imgs/logo_manga.png" width="25%" style="margin-bottom: 20px;">
-
-  <br>
-  
-  <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
-    OBRIGADO!
-  </h2>
-  
-  <br>
-
-  <!-- This part will have a smaller font size -->
-  <p style="font-size: 0.8em; color: #333;">
-    <a href="https://www.embrapa.br/observatorio-da-manga" target="_blank">
-      https://www.embrapa.br/observatorio-da-manga
-    </a>
-    <br>
-    <a href="https://www.embrapa.br/observatorio-da-uva" target="_blank">
-      https://www.embrapa.br/observatorio-da-uva
-    </a>
-    <br><br>
-    Telefone: <br>
-    87-99961-5799
-  </p>
-
-  <br>
-  <img src="imgs/apoio2.png" width="23%">
-</div>
-
-:::
-
-::: {.column width="40%"}
-
-<div style="text-align: center;">
-  <img src="imgs/fruit1.png" width="90%">
-</div>
-
-:::
-:::
