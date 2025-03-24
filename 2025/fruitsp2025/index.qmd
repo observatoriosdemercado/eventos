@@ -129,6 +129,18 @@ format:
   <img src="imgs/embala32.png" width="92%">
 </div>
 
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embalagem36.png" width="60%">
+</div>
+
+## Importância das embalagens em FLV
+
+<div style="text-align: center;">
+  <img src="imgs/embalagem37.png" width="70%">
+</div>
+
 # Por que embalar frutas?
 
 ## Proteção e conservação
@@ -199,10 +211,18 @@ Fonte: https://doi.org/10.1016/j.foohum.2025.100534
 
 ## Diferenciação no mercado
 
+- Comunicação direta com o consumidor. 
+
+<div style="text-align: center;">
+  <img src="imgs/embalagem38.png" width="66%">
+</div>
+
+## Diferenciação no mercado
+
 - Assim, tudo está sendo embalado de alguma forma.
 
 <div style="text-align: center;">
-  <img src="imgs/embala13.jpg" width="65%">
+  <img src="imgs/embalagem39.JPG" width="60%">
 </div>
 
 ## Diferenciação no mercado
@@ -488,6 +508,24 @@ Alguns exemplos incluem:
 
 <div style="text-align: center;">
   <img src="imgs/ambiente18.jpg" width="75%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/sustentavel1.png" width="60%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/sustentavel2.png" width="85%">
+</div>
+
+## Sustentabilidade é realidade não tendência
+
+<div style="text-align: center;">
+  <img src="imgs/sustentavel3.png" width="75%">
 </div>
 
 ## Considerações Finais
