@@ -1,0 +1,458 @@
+---
+title: "LA RELEVANCIA DE LA CADENA PRODUCTIVA DEL MANGO EN BRASIL."
+author: "<br><br> JOÃO RICARDO F. DE LIMA <br><br> <br><br> PETROLINA/PE, julio de  2025."
+format: 
+  revealjs:
+    logo: "imgs/logo_embrapa.png" #https://www.remove.bg/pt-br/upload
+    width: 1600
+    height: 900
+    slide-number: FALSE
+    theme: serif
+    css: estilos.css
+    transition: fade
+    toc: false
+    progress: true
+#/usr/local/bin/decktape reveal index.html presentation.pdf
+# se for xaringa, trocar reveal por remark, mas antes precisa abrir o html open index.html
+# pwd indica a pasta que está direcionado
+# ls -l lista os arquivos da pasta atual
+# cd .. volta para uma pasta anterior com espaco entre cd e  ..
+# cd ~/Dropbox/Embrapa/2025/Eventos/Fruit\ Attraction/fruitsp2025 muda a pasta sendo que a \ é por causa do espaço
+# se precisar abrir o html (erro de excesso de tempo) open index.html
+
+---
+
+## João Ricardo Lima  🇧🇷 {.center .aboutmeslide}
+
+::: columns
+::: {.column width="60%"}
+
+-   Contactos
+
+    -   Instagram: [\@jotaerre.econ](https://www.instagram.com/jotaerre.econ/)
+
+    -   Email: [joao.ricardo@embrapa.br](joao.ricardo@embrapa.br)
+    
+    -   Linkedin: [Joao Ricardo Lima](https://www.linkedin.com/in/joao-ricardo-lima-7b6273240/)
+
+-   Sobre mí
+
+    -   Doctor en Economía Aplicada (UFV-MG)
+
+    -   Investigador en Economia Rural de Embrapa Semiárido - Petrolina/PE
+    
+    -   Coordinador de los Observatorios de Mercado de Mango y Uva de Embrapa
+
+:::
+
+::: {.column width="40%"}
+![](imgs/jotaerre.png){width=110%}
+:::
+:::
+
+## LA PRODUCCIÓN DE HF EN NORDESTE DE BRASIL
+
+<div style="text-align: center;">
+  <img src="imgs/fig16.png" width="90%">
+</div>
+
+Fuente: CNA, 2021.
+
+## PRODUCCIÓN EN EL NORDESTE DE BRASIL
+
+<br>
+
+<div style="text-align: center;">
+  <img src="imgs/seacon5.png" width="120%">
+</div>
+
+<br>
+
+<div style="text-align: center;"> 
+  <h2 style="color: #282f6b; font-size: 1.5em; margin-bottom: 20px;">
+    AGUA DE RIEGO + MUCHAS HORAS DE SOL + TECNOLOGIA = FRUTICULTURA DEL VALE
+  </h2>
+</div>
+
+
+## PRODUCCIÓN INTENSIVA EN TECNOLOGIA 
+
+<div style="text-align: center;">
+  <img src="imgs/seacon6.png" width="120%">
+</div>
+
+
+## PRODUCCIÓN INTENSIVA EN MANO DE OBRA 
+
+```{python peru1, echo=FALSE, out.width="100%"}
+import pandas as pd
+from plotnine import *
+from mizani.formatters import date_format
+import matplotlib.pyplot as plt
+
+# Lendo os dados
+dados1 = pd.read_csv('dados/abril_2025.csv', sep=';', decimal='.')
+
+# Criando a coluna de datas
+dados1['date'] = pd.date_range(start='2021-01-01', end='2025-04-01', freq='MS')
+
+# Renomeando as colunas
+dados1a = dados1.rename(columns={
+    'Variavel': 'variable',
+    'Proporcao': 'value'
+})[['date', 'variable', 'value']]
+
+# Gráfico
+plot = (
+    ggplot(dados1a) +
+    geom_col(aes(x='date', y='value', fill='"variable"')) +
+    scale_fill_manual(values=["gold"]) +
+    geom_text(aes(x='date', y='value', label='value'), va='bottom', format_string='{:.0f}') +
+    scale_y_continuous(n_breaks=10) +
+    scale_x_datetime(
+        breaks='1 month',
+        labels=date_format('%m/%Y'),
+        expand=(0, 0)
+    ) +
+    labs(
+        y='Proporción Agro/Total (%)',
+        x='Meses de los años',
+        caption='Fuente: CAGED reprocesado por los Observatorios de Mango y Uva de Embrapa, 2025.'
+    ) +
+    theme_minimal() +
+    theme(
+        axis_text_x=element_text(angle=45, ha='right', size=9),
+        axis_text_y=element_text(size=10),
+        axis_title_x=element_text(size=14, weight='bold'),
+        axis_title_y=element_text(size=14, weight='bold'),
+        panel_grid_major=element_blank(),
+        panel_grid_minor=element_blank(),
+        plot_caption=element_text(ha='left', size=10),
+        legend_title=element_blank(),
+        legend_text=element_text(size=8),
+        legend_position='none',
+        figure_size=(12, 6)
+    )
+)
+
+plot.show
+
+```
+
+## PERFIL DE LA PRODUCCIÓN Y PRODUCTORES
+
+<div style="text-align: center;">
+  <img src="imgs/perfil.png" width="90%">
+</div>
+
+## LA COMPLEJA CADENA PRODUCTIVA DE MANGO.
+
+<div style="text-align: center;">
+  <img src="imgs/seacon15.png" width="90%">
+</div>
+
+## ANÁLISIS DE LA OFERTA DE MANGO  
+
+#### Cada año aumentan las áreas cultivadas y la productividad en la región.
+
+<div style="text-align: center;">
+  <img src="imgs/manga4.png" width="80%">
+</div>
+
+Fuente: [CEPEA, 2025.](https://www.hfbrasil.org.br/br/revista/acessar/completo/edicao-de-dezembro-anuario-2024-2025.aspx)
+
+## ANÁLISIS DE LA OFERTA DE MANGO  
+
+<div style="text-align: center;">
+  <img src="imgs/fig7.png" width="90%">
+</div>
+
+## ANÁLISIS DE LA OFERTA DE MANGO  
+
+#### En los últimos 10 años, la producción de mango prácticamente se ha duplicado.
+
+```{python peru2, echo=FALSE, out.width="100%"}
+from plotnine import *
+import pandas as pd
+import numpy as np
+
+# Lendo os dados
+dados2 = pd.read_excel("dados/tabela1.xlsx")
+dados2["Ano"] = dados2["Ano"].astype(str)
+
+# Gráfico
+plot = (
+    ggplot(dados2) +
+    geom_col(aes(x='Ano', y='Manga / 1000'), fill="gold") +
+    scale_y_continuous(breaks=[200, 400, 600, 800, 1000, 1200, 1400, 1600]) +
+    labs(
+        y='Mil Toneladas',
+        x='Años',
+        caption='Fuente: IBGE, 2024.'
+    ) +
+    theme_minimal() +
+    theme(
+        axis_text_x=element_text(angle=45, ha='center', size=12),
+        axis_text_y=element_text(size=12),
+        axis_title_x=element_text(size=14, weight='bold'),
+        axis_title_y=element_text(size=14, weight='bold'),
+        panel_grid_major=element_blank(),
+        panel_grid_minor=element_blank(),
+        plot_caption=element_text(ha='left', size=14),
+        legend_title=element_blank(),
+        legend_text=element_text(size=8),
+        legend_position='none',
+        figure_size=(14, 6.5)
+    )
+)
+
+plot.show
+
+```
+
+## ANÁLISIS DE LA DEMANDA DE MANGO 
+
+```{python peru3, echo=FALSE, message=FALSE}
+# Load the CSV file
+data = pd.read_csv('dados/ipca_manga.csv', sep=';', decimal='.')
+
+# Traduzir os meses do português para o inglês
+meses_pt_en = {
+    'jan': 'Jan', 'fev': 'Feb', 'mar': 'Mar', 'abr': 'Apr',
+    'mai': 'May', 'jun': 'Jun', 'jul': 'Jul', 'ago': 'Aug',
+    'set': 'Sep', 'out': 'Oct', 'nov': 'Nov', 'dez': 'Dec'
+}
+
+# Aplicar substituição
+data['mes_en'] = data['mes'].str.lower().replace(meses_pt_en, regex=True)
+
+# Converter para datetime
+data['mes_en'] = pd.to_datetime(data['mes_en'], format='%b/%y')
+
+# Criar o gráfico
+plot = (
+    ggplot(data, aes(x='mes_en', y='pe_manga')) +
+    geom_line(color='darkblue', size=1.5) +
+    labs(
+        title='',
+        x='Meses del Año',
+        y='Peso en el presupuesto',
+        caption='Fuente: IPCA/IBGE (2025). Reprocesados por el Observatorio del Mango de Embrapa.'
+    ) +
+    scale_x_datetime(date_breaks='6 months', date_labels='%b/%y') +
+    theme_minimal() +
+    theme(
+        figure_size=(14, 6.5),
+        axis_title_y=element_text(size=14, face="bold"),
+        axis_title_x=element_text(size=14, face="bold"),
+        axis_text_x=element_text(rotation=45, hjust=1, size=14),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=12)
+    )
+)
+
+# Mostrar o gráfico
+plot.show()
+
+```
+
+## EXPORTACIONES BRASILEÑAS DE MANGO 
+
+```{python peru4, echo=FALSE, message=FALSE}
+import pandas as pd
+from plotnine import (
+    ggplot, aes, geom_line, labs, scale_color_manual,
+    scale_x_continuous, scale_y_continuous, theme_minimal, theme, element_text
+)
+
+# Carregar os dados
+df = pd.read_csv('dados/brasil_peru.csv', sep=';', decimal='.')
+
+# Reorganizar para formato longo (long format)
+df_long = pd.melt(
+    df,
+    id_vars='ano',
+    value_vars=['Brasil', 'Peru'],
+    var_name='País',
+    value_name='Toneladas'
+)
+
+# Nova coluna em mil toneladas
+df_long['Mil_Toneladas'] = df_long['Toneladas'] / 1000
+
+# Gráfico com legenda e cores corretas
+g = (
+    ggplot(df_long, aes(x='ano', y='Mil_Toneladas', color='País')) +
+    geom_line(size=2) +
+    scale_color_manual(values={'Brasil': 'darkgreen', 'Peru': 'red'}) +
+    labs(
+        title='',
+        x='Años',
+        y='Mil Toneladas',
+        color='País',
+        caption='Fuente: FAOSTAT (2025) reprocesado por el Observatorio del Mango de Embrapa.'
+    ) +
+    scale_x_continuous(breaks=range(1980, 2024, 3)) +
+    scale_y_continuous(breaks=range(0, 351, 50)) +
+    theme_minimal() +
+    theme(
+        axis_title_x=element_text(size=14, face="bold"),
+        axis_title_y=element_text(size=14, face="bold"),
+        axis_text_x=element_text(size=12),
+        axis_text_y=element_text(size=12),
+        legend_title=element_text(size=14),
+        legend_text=element_text(size=12),
+        plot_caption=element_text(ha='left', size=12),
+        figure_size=(14, 6.5)
+    )
+)
+
+g.show()
+
+
+```
+
+## PRECIOS RECIBIDOS POR LOS PRODUCTORES
+
+```{python peru5, echo=FALSE, message=FALSE}
+import pandas as pd
+from pathlib import Path
+import plotnine as p9
+from mizani.formatters import number_format, date_format
+
+# Caminho para os arquivos
+data_dir = Path("/Users/jricardofl/Dropbox/tempecon/dados_manga")
+
+df = (
+    pd.read_csv(data_dir/'dados_manga_palmer_semana.csv', sep=';', decimal='.')
+    .drop(columns=['produto', 'regiao', 'ano', 'semana'])
+)
+
+# Cria o intervalo de dados de 2012-01-07 ate a semana de 2025
+date_range = pd.date_range(start='2012-01-01', end='2025-07-04', freq='W-SAT')
+
+# Remove datas especificas (semana 53)
+dates_to_remove = [pd.Timestamp('2016-12-31'), pd.Timestamp('2022-12-31')]
+date_range = date_range[~date_range.isin(dates_to_remove)]
+
+# Designa a date range como uma nova coluna
+df['date'] = date_range[:len(df)]
+
+df['date2'] = date_range[:len(df)]
+
+# Configura a data como index
+df = df.set_index('date')
+
+# Carrega igpdi dataset
+igpdi = (
+    pd.read_csv(data_dir/'igpdi.csv', sep=';', decimal='.')
+    .assign(date=df.index)
+    .drop(columns=['ano', 'semana'])
+    .set_index('date')
+)
+
+# Junta os DataFrames
+tabela = df.join(igpdi, how='inner')
+
+# Deflaciona a serie de preços de manga
+indice_data_base = tabela.query("date == date.max()").igpdi.values[0]
+tabela = tabela.assign(real=lambda x: (indice_data_base / x.igpdi) * x.preco)
+
+# Criação da variável preco_palmer
+preco_palmer = tabela['real']
+
+# Estima a tendencia por média móvel
+#trend_palmer = preco_palmer.rolling(window=52, center=True).mean()
+
+# Gráfico
+
+# Visualização de dados
+
+plot = (
+    p9.ggplot(tabela) +
+    p9.aes(x="date2") + 
+    p9.geom_line(p9.aes(y="real"), color="blue", size=1) + 
+    p9.scale_x_date(
+        date_breaks="1 year", date_labels="%Y"
+    ) +
+    p9.labs(
+        x="Semanas de cada año",
+        y="Precio R$ Mango Palmer (kg)",
+        caption="Fuente: CEPEA reprocesado por el Observatorio del Mercado de Mango de Embrapa"
+    ) +
+    p9.theme_minimal() +
+    p9.theme(
+        axis_title_x=element_text(size=14, face="bold"),
+        axis_title_y=element_text(size=14, face="bold"),
+        axis_text_x=element_text(size=12),
+        axis_text_y=element_text(size=12),
+        legend_title=element_text(size=14),
+        legend_text=element_text(size=12),
+        plot_caption=element_text(ha='left', size=12),
+        figure_size=(14, 6.5)
+    )
+)
+
+# Mostra o gráfico
+plot.show()
+```
+
+## PRINCIPALES DESAFÍOS
+
+<br>
+
+### Reducir la brecha entre la oferta y la demanda
+
+- **Aumentar el consumo interno**.
+- Vender em **nuevos mercados**.
+- Organizar mejor la **distribución del volumen** ao longo del año.
+- Conseguir alternativas para **generación de valor**. 
+
+<br>
+
+### Reducir los costos de produçción para aumentar la competitividad
+
+<br>
+
+### Gestionar el negocio de forma profesional.
+
+## {.center .thankslide}
+
+::: columns
+::: {.column width="50%"}
+
+<div style="text-align: center;">
+  <img src="imgs/logo_manga.png" width="60%">
+</div>
+
+:::
+::: {.column width="50%"}
+
+
+:::
+:::
+
+ <div style="text-align: center;"> 
+  <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
+    GRACIAS POR SU ATENCIÓN!
+  </h2>
+  
+  <br>
+  <!-- This part will have a smaller font size -->
+  <p style="font-size: 0.8em; color: #333;">
+    <a href="https://www.embrapa.br/observatorio-da-manga" target="_blank">
+      https://www.embrapa.br/observatorio-da-manga
+    </a>
+    <br>
+    <a href="https://www.embrapa.br/observatorio-da-uva" target="_blank">
+      https://www.embrapa.br/observatorio-da-uva
+    </a>
+    <br><br>
+📲 **WhatsApp:** <br>
++55 87 99961-5799  
+  </p>
+  <br>
+  <img src="imgs/apoio2.png" width="23%">
+</div>
+
+
