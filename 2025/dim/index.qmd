@@ -1,0 +1,1296 @@
+---
+title: "PERSPECTIVAS DA CULTURA DA MANGA NO 2 SEMESTRE 2025."
+author: "<br><br> JOÃO RICARDO F. DE LIMA <br><br> <br><br> DIM-BA, 21 de Agosto de 2025."
+format: 
+  revealjs:
+    logo: "imgs/logo_embrapa.png" #https://www.remove.bg/pt-br/upload
+    width: 1600
+    height: 900
+    slide-number: FALSE
+    theme: serif
+    css: estilos.css
+    transition: fade
+    toc: false
+    progress: true
+#/usr/local/bin/decktape reveal index.html presEMtation.pdf
+# se for xaringa, trocar reveal por remark, mas antes precisa abrir o html opEM index.html
+# pwd indica a pasta que está direcionado
+# ls -l lista os arquivos da pasta atual
+# cd .. volta para uma pasta anterior com espaco EMtre cd e  ..
+# cd ~/Dropbox/Embrapa/2025/EvEMtos/Fruit\ Attraction/fruitsp2025 muda a pasta sendo que a \ é por causa do espaço
+# se precisar abrir o html (erro de excesso de tempo) opEM index.html
+
+---
+## A QUESTÃO CLIMÁTICA
+
+#### A questão climática é preocupação constante, mas 2025 é um ano diferente de 2024.
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+
+<div style="text-align: center;">
+  <img src="imgs/fevereiro_24.png" width="150%">
+</div>
+
+:::
+::: {.column width="50%"}
+
+<div style="text-align: center;">
+  <img src="imgs/fevereiro_25.png" width="150%">
+</div>
+
+:::
+:::
+
+Fonte: https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/
+
+## A QUESTÃO CLIMÁTICA
+
+#### Neutro domina praticamente todo o horizonte em 2025.
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+
+<div style="text-align: center;">
+  <img src="imgs/julho_24.png" width="150%">
+</div>
+
+:::
+::: {.column width="50%"}
+
+<div style="text-align: center;">
+  <img src="imgs/julho_25.png" width="150%">
+</div>
+
+:::
+:::
+
+Fonte: https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/
+
+## ANÁLISE DA PRODUÇÃO DE MANGA  
+
+
+#### Cada ano aumentam as áreas cultivadas e a produtividade na região.
+
+<div style="text-align: center;">
+  <img src="imgs/manga4.png" width="80%">
+</div>
+
+Fonte: [CEPEA, 2025.](https://www.hfbrasil.org.br/br/revista/acessar/completo/edicao-de-dezembro-anuario-2024-2025.aspx)
+
+# O MERCADO EXTERNO
+
+- EXPORTAÇÕES 2025
+- A SITUAÇÃO DOS EUA
+
+## EXPORTAÇÕES BRASILEIRAS DE MANGAS
+
+```{python peru7, echo=FALSE, message=FALSE}
+import pandas as pd
+from plotnine import *
+
+# Carregar os dados
+dados1 = pd.read_csv('dados/exportacoes_2012_2025.csv', sep=';', decimal='.')
+# Garante os nomes das colunas (ajuste se o CSV já vier nomeado)
+dados1.columns = ['Ano', 'Valor', 'Toneladas']
+
+# Sequência de anos 2012..2025 (comprimEMto = número de linhas do arquivo)
+dados1['Ano'] = pd.RangeIndex(start=2012, stop=2012 + len(dados1), step=1)
+
+# Converte unidades para milhares apEMas nas colunas numéricas desejadas
+dados1[['Valor', 'Toneladas']] = dados1[['Valor', 'Toneladas']] / 1000
+
+plot = (
+    ggplot(dados1, aes(x='Ano'))
+    # Barras: Mil Toneladas
++ geom_col(aes(y='Toneladas', fill='"Mil toneladas"'), width=0.8, show_legend=True)
++ geom_line(aes(y='Valor', color='"Milhões de dólares"'), size=2.2, show_legend=True)
++ scale_fill_manual(name='', values={'Mil toneladas': '#FFD700'})
++ scale_color_manual(name='', values={'Milhões de dólares': '#FF0000'})
+    + guides(fill=guide_legend(order=1), color=guide_legend(order=2))
+    # Eixos, rótulos e quebras
+    + scale_x_continuous(breaks=range(2012, 2026))
+    + labs(
+    x='anos',
+    y='US$ Milhões / Mil Toneladas',
+    title='',
+    caption='Fonte: COMEXSTAT (2025). Dados reprocessados pelo Observatório de Manga da Embrapa.\n'
+            'Obs.: Dados até o mês de julho de 2025.'
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=18),
+        figure_size=(14, 6.5)
+    )
+)
+
+plot.show
+
+```
+
+
+## EXPORTAÇÕES BRASILEIRAS DE MANGAS
+
+```{python peru8, echo=FALSE, message=FALSE}
+# pip install pandas plotnine
+import pandas as pd
+from plotnine import *
+
+# --- 1) Ler dados e preparar ---
+df = pd.read_csv('dados/total_exporta_br.csv', sep=';', decimal='.')  # troque decimal=',' se precisar
+
+# nomes esperados: ano, mes, valor, quilo
+df.columns = [c.strip().lower() for c in df.columns]
+
+# quilo → mil toneladas
+df['toneladas'] = df['quilo'] / 1000000
+
+# meses em PT-BR (ordem correta)
+mes_map = {
+    1: 'janeiro',  2: 'fevereiro', 3: 'março',    4: 'abril',
+    5: 'maio',     6: 'junho',     7: 'julho',    8: 'agosto',
+    9: 'setembro', 10: 'outubro',  11: 'novembro', 12: 'dezembro'
+}
+
+ordem_meses = [mes_map[m] for m in range(1,13)]
+df['Mes'] = df['mes'].map(mes_map)
+df['Mes'] = pd.Categorical(df['Mes'], categories=ordem_meses, ordered=True)
+
+# --- 2) Média mEMsal (2012–2024) ---
+media_1224 = (
+    df.query('2012 <= ano <= 2024')
+      .groupby('Mes', as_index=False)['toneladas']
+      .mean()
+      .rename(columns={'toneladas':'Media_2012_2024'})
+)
+
+# --- 3) Dados das barras (2023, 2024, 2025) ---
+bars = df[df['ano'].isin([2023, 2024, 2025])].copy()
+bars['AnoLabel'] = bars['ano'].astype(str)  # '2023','2024','2025'
+
+# --- 4) Cores (ajuste se quiser chegar 100% no seu palette) ---
+cores_barras = {'2023': '#9ecae1', '2024': '#6b6b6b', '2025': '#FFD700'}  # azul claro, cinza, amarelo
+cor_linha   = {'Media (2012–2024)': '#F2672b'}  # laranja
+
+plot = (
+    ggplot()
+    # Barras
+    + geom_col(
+        mapping=aes(x='Mes', y='toneladas', fill='AnoLabel'),
+        data=bars,
+        position=position_dodge(width=0.8),
+        width=0.75,
+        show_legend=True
+    )
+    # Linha média 2012–2024
+    + geom_line(
+        mapping=aes(x='Mes', y='Media_2012_2024', group=1, color='"Media (2012–2024)"'),
+        data=media_1224,
+        size=1.8,
+        show_legend=True
+    )
+    + geom_point(
+        mapping=aes(x='Mes', y='Media_2012_2024', color='"Media (2012–2024)"'),
+        data=media_1224,
+        size=2.2,
+        show_legend=False
+    )
+    + scale_fill_manual(name='', values={'2023':'#9ecae1','2024':'#6b6b6b','2025':'#FFD700'})
+    + scale_color_manual(name='', values={'Media (2012–2024)':'#F2672b'})
++ labs(
+    x='Meses del ano',
+    y='Mil Toneladas',
+    caption='Fonte: COMEXSTAT (2025). Dados reprocessados pelo Observatório de Manga da Embrapa.\n'
+            'Obs.: Dados até o mês de julho de 2025.'
+)
+
+    + theme_minimal()    
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=16),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=18),
+        figure_size=(14, 6.5)
+    )
+)
+
+
+plot.show()
+```
+
+
+## EXPORTAÇÕES BRASILEIRAS DE MANGAS
+
+```{python peru9, echo=FALSE, message=FALSE}
+# pip install pandas plotnine opEMpyxl
+import pandas as pd
+from plotnine import *
+import numpy as np
+
+# 1) Leer el archivo (ajusta la ruta si es necesario)
+df = pd.read_excel('dados/exportaçoes_semanais_manga.xlsx')
+df.columns = [str(c).strip() for c in df.columns]
+
+# 2) Asegurar numéricos y construir el total Europa+Reino Unido
+for c in ['Europa', 'Reino Unido']:
+    df[c] = pd.to_numeric(df[c], errors='coerce')
+
+df['Total_cont'] = df['Europa'].fillna(0) + df['Reino Unido'].fillna(0)
+
+# 3) MantEMer solo ano (Data) y semana (Semanas) válidos
+df['Data'] = pd.to_numeric(df['Data'], errors='coerce')
+df['Semanas'] = pd.to_numeric(df['Semanas'], errors='coerce')
+df = df.dropna(subset=['Data','Semanas'])
+
+# 4) Agregar por semana (por si hubiera duplicados) y preparar 2024 y 2025
+base24 = (
+    df[df['Data'] == 2024]
+      .groupby('Semanas', as_index=False)['Total_cont'].sum()
+      .rename(columns={'Total_cont':'total_2024'})
+)
+
+base25 = (
+    df[df['Data'] == 2025]
+      .groupby('Semanas', as_index=False)['Total_cont'].sum()
+      .rename(columns={'Total_cont':'total_2025'})
+)
+
+# 5) Unir SOLO semanas comparables (intersección) y limitar a 1–31
+comp = pd.merge(base25, base24, on='Semanas', how='inner')
+comp = comp[comp['Semanas'].between(1, 32)].sort_values('Semanas')
+
+# 6) Variación porcEMtual 2025 vs 2024
+comp['var_pct'] = (comp['total_2025'] - comp['total_2024']) / comp['total_2024'] * 100
+# evitar división por cero
+comp.loc[comp['total_2024'] == 0, 'var_pct'] = np.nan
+comp = comp.dropna(subset=['var_pct'])
+
+# 7) Gráfico (plotnine)
+AZUL_PRODUCTOR = "blue"  # reemplaza por tu azul exacto
+
+plot = (
+    ggplot(comp, aes(x='Semanas', y='var_pct'))
+    + geom_col(width=0.8, fill=AZUL_PRODUCTOR)
+    + geom_hline(yintercept=0, linetype='dashed', size=1)
+    + scale_x_continuous(breaks=range(1, 33))
+    + scale_y_continuous(labels=lambda l: [f'{v:.0f}%' for v in l])
+    + labs(
+    title='',
+    x='Semanas do ano',
+    y='Variação interanual (%) de contêineres exportados — 2025 vs 2024',
+    caption='Fonte: COMEXSTAT (2025). Dados reprocessados pelo Observatório de Manga da Embrapa.\n'
+            'Nota: Comparação realizada apenas para as semanas 1–32.'
+)
+    + theme_minimal()
+    + theme(
+        legend_position='none',
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=12),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(14, 6.5)
+    )
+)
+
+# Mostrar / guardar
+plot.show()
+
+```
+
+
+## EXPORTAÇÕES BRASILEIRAS DE MANGAS
+
+```{python peru10, echo=FALSE, message=FALSE}
+import pandas as pd
+from plotnine import *
+
+# --- 1) Ler ---
+df = pd.read_excel('dados/destinos_2425.xlsx')
+df.columns = ['Paises', '2024', '2025']
+
+# Padronizar nomes (se precisar)
+df['Paises'] = df['Paises'].replace({
+    'Paises Bajos': 'Holanda',
+    'Espanha': 'Espanha',
+    'Canada': 'Canada',
+    'Coreia do Sul': 'Coreia do Sul',
+    'Estados Unidos': 'Estados Unidos'
+})
+
+# 2) Converter colunas de valores para numérico
+for c in ['2024', '2025']:
+    # remove percentuais e separadores típicos
+    df[c] = (df[c].astype(str)
+                  .str.replace('%', '', regex=False)
+                  .str.replace('.', '', regex=False)     # separador de milhar
+                  .str.replace(',', '.', regex=False))   # vírgula -> ponto
+    df[c] = pd.to_numeric(df[c], errors='coerce')
+
+# 3) escolher nome da coluna de países
+col = 'Países' if 'Países' in df.columns else 'Paises'
+
+# 4) ordem desejada (use exatamente os mesmos nomes da coluna!)
+ordem = ['Holanda','Espanha','Estados Unidos','Reino Unido','Portugal',
+         'Canada','Chile','Coreia do Sul','Argentina']  # <— sem acento em "Coreia"
+
+df[col] = pd.Categorical(df[col], categories=ordem, ordered=True)
+
+# 5) Derreter (melt)
+dados1m = df.melt(id_vars=col, var_name='variable', value_name='value')
+
+# 6) Gráfico
+mycolors2 = ["#006400", "#FFA500"]
+
+plot = (
+    ggplot(dados1m, aes(x=col, y='value', fill='variable'))
+    + geom_col(position=position_dodge(width=0.9), na_rm=True)
+    + geom_text(
+        aes(label='value'),
+        position=position_dodge(0.9),
+        va='bottom',
+        format_string='{:.0f}',
+        size=14
+    )
+    + scale_fill_manual(values=mycolors2)
+    + labs(
+        y="Participação (%)",
+        x="Países",
+        title="",
+        caption="Fonte: COMEXSTAT (2025). Dados reprocessados pelo Observatório de Manga da Embrapa."
+    )
+    + theme_minimal()
+    + theme(
+        figure_size=(14, 6.5),
+        axis_title_y=element_text(size=18, weight="bold"),
+        axis_title_x=element_text(size=18, weight="bold"),
+        axis_text_x=element_text(hjust=0.5, size=15),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        legend_position='bottom',
+        legend_text=element_text(size=16),
+        legend_title=element_text(text='')
+    )
+)
+
+# Em notebooks Python: print(plot) ou plot.save("grafico.png", dpi=300, width=14, height=6.5)
+
+# Mostrar o gráfico
+plot.show()
+
+```
+
+## EXPORTAÇÕES BRASIL-EUA DE MANGA 
+
+::: columns
+::: {.column width="50%"}
+
+<br>
+
+- 2 de abril de 2025: Trump anuncia uma tarifa básica de 10% sobre as importações de quase todos os países, incluindo o Brasil. A medida entra em vigor em 5 de abril.
+
+- 9 de julho de 2025: É anunciada uma tarifa adicional de 40% sobre os produtos brasileiros, elevando a carga total para 50% a partir de 1º de agosto de 2025.
+
+- Os exportadores brasileiros de manga decidem realizar envios aos Estados Unidos.
+
+:::
+
+::: {.column width="50%"}
+
+<br>
+
+- 31 de julho de 2025: A aplicação dessas tarifas é adiada para 6 de agosto, por decisão executiva.
+
+- Na ordem publicada, Trump incluiu uma lista de aproximadamente 700 produtos excluídos da nova tarifa — como aeronaves civis, peças de aviões, suco de laranja, energia e fertilizantes.
+
+- 6 de agosto de 2025: Início da aplicação das tarifas, incluindo as exportações de manga.
+
+:::
+:::
+
+
+## EXPORTAÇÕES BRASIL-EUA DE MANGA 
+
+```{python peru12, echo=FALSE, message=FALSE}
+import pandas as pd
+from plotnine import *
+
+# Carregar os dados
+df = pd.read_csv('dados/previsao_2425.csv', sep=';')
+
+# Remover as colunas indesejadas
+df = df.drop(columns=[
+    "Proyección de Embarques en Cajas 2024",
+    "Proyección de Embarques en Cajas 2025"
+])
+
+# 🔁 RENOMEAR as colunas pedidas (ES → PT-BR)
+rename_map = {
+    'Proyección de Embarques en Contenedores 2024': 'Projeção de Embarques em Contêineres 2024',
+    'Proyección de Embarques en Contenedores 2025': 'Projeção de Embarques em Contêineres 2025'
+}
+df = df.rename(columns=rename_map)
+
+# Reorganizar para formato longo
+df_long = pd.melt(
+    df,
+    id_vars='semanas',
+    value_vars=[
+        'Projeção de Embarques em Contêineres 2024',
+        'Projeção de Embarques em Contêineres 2025'
+    ],
+    var_name='ano',
+    value_name='Quantidade de Contêineres'   # PT-BR
+)
+
+# Gráfico com legenda e cores corretas
+plot = (
+    ggplot(df_long, aes(x='semanas', y='Quantidade de Contêineres', color='ano')) +
+    geom_line(size=2) +
+    scale_color_manual(values={
+        'Projeção de Embarques em Contêineres 2024': 'darkgreen',
+        'Projeção de Embarques em Contêineres 2025': 'red'
+    }) +
+    labs(
+        title='',
+        x='Semanas',
+        y='Quantidade de Contêineres',
+        color='ano',
+        caption='Fonte: Valexport (2025) e Mango Board (2025). '
+                'Dados reprocessados pelo Observatório de Mercado de Manga da Embrapa.'
+    ) +
+    scale_x_continuous(breaks=range(31, 50, 1)) +
+    scale_y_continuous(breaks=range(0, 300, 25)) +
+    theme_minimal() +
+    theme(
+        axis_title_x=element_text(size=18, face="bold"),
+        axis_title_y=element_text(size=18, face="bold"),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        legend_position='bottom',
+        legend_text=element_text(size=16),
+        legend_title=element_text(text=''),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(14, 6.5)
+    )
+)
+
+# valores nos picos conhecidos (ATUALIZADOS para os novos nomes PT-BR)
+y36_2025 = float(
+    df.loc[df['semanas'] == 36, 'Projeção de Embarques em Contêineres 2025'].iloc[0]
+)
+y40_2024 = float(
+    df.loc[df['semanas'] == 40, 'Projeção de Embarques em Contêineres 2024'].iloc[0]
+)
+
+# dataframes para os rótulos
+df_lab25 = pd.DataFrame({
+    'semanas': [36],
+    'Quantidade de Contêineres': [y36_2025],
+    'lbl': [f'Máximo projetado 2025\nsemana 36: {y36_2025:.0f}']
+})
+df_lab24 = pd.DataFrame({
+    'semanas': [40],
+    'Quantidade de Contêineres': [y40_2024],
+    'lbl': [f'Máximo projetado 2024\nsemana 40: {y40_2024:.0f}']
+})
+
+# adicionar as duas anotações (sem herdar o mapeamento de cor do plot)
+plot = (
+    plot
+    # 2025 - vermelho
+    + geom_point(
+        data=df_lab25,
+        mapping=aes(x='semanas', y='Quantidade de Contêineres'),
+        size=3, color='red', inherit_aes=False, show_legend=False
+    )
+    + geom_text(
+        data=df_lab25,
+        mapping=aes(x='semanas', y='Quantidade de Contêineres', label='lbl'),
+        nudge_x=0.3, nudge_y=15, size=13, color='red',
+        inherit_aes=False, show_legend=False
+    )
+    # 2024 - verde
+    + geom_point(
+        data=df_lab24,
+        mapping=aes(x='semanas', y='Quantidade de Contêineres'),
+        size=3, color='darkgreen', inherit_aes=False, show_legend=False
+    )
+    + geom_text(
+        data=df_lab24,
+        mapping=aes(x='semanas', y='Quantidade de Contêineres', label='lbl'),
+        nudge_x=0.3, nudge_y=15, size=13, color='darkgreen',
+        inherit_aes=False, show_legend=False
+    )
+)
+
+plot.show()
+```
+
+
+## EXPORTAÇÕES BRASIL-EUA DE MANGA 
+
+::: columns
+::: {.column width="60%"}
+
+<br>
+
+- Projeta-se um aumento próximo de 10%, de 1.900 para 2.100 contêineres. Contudo, até o dado da semana 33, o efetivo ficou bem abaixo do projetado (cerca de 250 projetado e 113 efetivamente enviados). Na semana 34 o projetado era de 225 mas o efetivo será bem menor). 
+
+- Em 2025, o pico de embarques está projetado para ocorrer na semana 36, diferente de 2024, quando o pico estava previsto para a semana 40.
+
+- Aproveitando os preços mais altos, como consequência da redução dos volumes exportados pelo México no encerramento da temporada.
+
+:::
+
+::: {.column width="40%"}
+
+![](imgs/hidro.jpg){width=85%}
+
+:::
+:::
+
+
+## EXPORTAÇÕES BRASIL-EUA DE MANGA 
+
+```{python peru13, echo=FALSE, message=FALSE}
+import pandas as pd
+from numpy import arange
+import math
+from datetime import date
+from dateutil.relativedelta import relativedelta
+import requests
+
+from plotnine import (
+    ggplot, aes, geom_line, geom_point, geom_text, annotate,
+    scale_x_date, scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import element_text
+
+# --- Parâmetros de período (últimos 12 meses até hoje) ---
+hoje = date.today()
+inicio = hoje - relativedelta(months=12)
+fmt = "%d/%m/%Y"
+
+# --- Série SGS (PTAX venda diária = 1) ---
+url = (f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados"
+       f"?formato=json&dataInicial={inicio.strftime(fmt)}&dataFinal={hoje.strftime(fmt)}")
+
+# --- Baixa e prepara dados ---
+resp = requests.get(url, timeout=30)
+resp.raise_for_status()
+df = pd.DataFrame(resp.json())
+df["data"]  = pd.to_datetime(df["data"], format="%d/%m/%Y")
+df["valor"] = pd.to_numeric(df["valor"].str.replace(",", ".", regex=False))
+df = df.sort_values("data").reset_index(drop=True)
+
+# --- fun: pega a data disponível mais próxima ---
+def get_nearest(df, date_str):
+    d = pd.to_datetime(date_str)
+    i = (df["data"] - d).abs().idxmin()
+    return df.loc[i, "data"], df.loc[i, "valor"]
+
+# Datas-alvo
+eleicao, v_eleicao = get_nearest(df, "2024-11-05")
+t10, v_t10         = get_nearest(df, "2025-04-02")
+t50, v_t50         = get_nearest(df, "2025-07-09")
+# nova data: posse (toma de posesión)
+tpos, v_tpos = get_nearest(df, "2025-01-20")
+# Último debate antes das eleições (1º de outubro de 2024)
+ult_debate, v_ult_debate = get_nearest(df, "2024-10-01")
+
+# Quebras do eixo Y: de 0,10 em 0,10
+min_break = math.floor(df["valor"].min()*10)/10
+max_break = math.ceil(df["valor"].max()*10)/10
+breaks_ = arange(min_break, max_break+0.1, 0.10)
+
+# Helper p/ formatar decimal com vírgula no label
+fmt_pt = lambda v: f"{v:.2f}".replace(".", ",")
+
+plot = (
+    ggplot(df, aes("data", "valor"))
+    + geom_line(color="red", size=1.2)
+
+    # pontos-âncora nas três datas
+    + geom_point(aes(x=eleicao, y=v_eleicao), size=2.5)
+    + geom_point(aes(x=t10,     y=v_t10),     size=2.5)
+    + geom_point(aes(x=t50,     y=v_t50),     size=2.5)
+    + geom_point(aes(x=tpos, y=v_tpos), size=2.5)
+    # ponto
+    + geom_point(aes(x=ult_debate, y=v_ult_debate), size=2.5)
+    # textos estilo “callout” (sem linhas verticais)
+    + geom_text(aes(x=eleicao, y=v_eleicao),
+                label=f"Eleição EUA\n{fmt_pt(v_eleicao)}", nudge_y=0.12, ha="left", size=15)
+    + geom_text(aes(x=t10, y=v_t10),
+                label=f"Imposto 10%\n{fmt_pt(v_t10)}", nudge_y=0.12, ha="left", size=15)
+    + geom_text(aes(x=t50, y=v_t50),
+                label=f"Imposto 50%\n{fmt_pt(v_t50)}", nudge_y=0.12, ha="left", size=15)
+    + geom_text(aes(x=tpos, y=v_tpos),
+            label=f"Posse do Trump\n{fmt_pt(v_tpos)}", nudge_y=0.12, ha="left", size=15)# texto estilo callout
+    + geom_text(
+    aes(x=ult_debate, y=v_ult_debate),
+    label=f"Último debate K x T\n{fmt_pt(v_ult_debate)}",
+    nudge_y=0.12, ha="left", size=15
+)
+    # setinhas discretas (opcional — comEMte se não quiser)
+    + annotate("segment", x=eleicao, xend=eleicao, y=v_eleicao+0.10, yend=v_eleicao+0.02, alpha=0.7)
+    + annotate("segment", x=t10,     xend=t10,     y=v_t10+0.10,     yend=v_t10+0.02,     alpha=0.7)
+    + annotate("segment", x=t50,     xend=t50,     y=v_t50+0.10,     yend=v_t50+0.02,     alpha=0.7)
+    # (opcional) setinha discreta
+  + annotate("segment", x=tpos, xend=tpos, y=v_tpos+0.10, yend=v_tpos+0.02, alpha=0.7)
+  # setinha opcional
+  + annotate(
+    "segment",
+    x=ult_debate, xend=ult_debate,
+    y=v_ult_debate+0.10, yend=v_ult_debate+0.02,
+    alpha=0.7
+)
+    + scale_x_date(date_breaks="1 month", date_labels="%b/%Y")
+    + scale_y_continuous(
+        breaks=breaks_,
+        labels=lambda l: [fmt_pt(v) for v in l]
+    )
+    + labs(
+        x="Meses do ano",
+        y="Taxa de cambio real (R$/US$)",
+        title="",
+        caption="Fonte: Banco Central do Brasil (SGS 1 — PTAX Venda diaria). Dados reprocessados pelo Observatório de Mercado de Manga da Embrapa."
+    )
+    + theme_minimal()
+    + theme(
+        axis_title_x=element_text(size=18, face="bold"),
+        axis_title_y=element_text(size=18, face="bold"),
+        axis_text_y=element_text(size=18, face="bold"),
+        axis_text_x=element_text(angle=45, ha='center', size=16),
+        plot_title=element_text(size=14, weight="bold"),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(14, 6.5)
+    )
+)
+
+plot.show()
+```
+
+
+# O MERCADO INTERNO
+
+- DEMANDA
+- PREÇOS
+- CARACTERÍSTICAS
+- DESAFIOS
+
+## ANÁLISE DA DEMANDA DE MANGA 
+
+```{python peru3, echo=FALSE, message=FALSE}
+
+import pandas as pd
+from plotnine import *
+from mizani.formatters import date_format
+import matplotlib.pyplot as plt
+
+# Load the CSV file
+data = pd.read_csv('dados/ipca_manga.csv', sep=';', decimal='.')
+
+# Traduzir os meses do português para o inglês
+meses_pt_en = {
+    'jan': 'Jan', 'fev': 'Feb', 'mar': 'Mar', 'abr': 'Apr',
+    'mai': 'May', 'jun': 'Jun', 'jul': 'Jul', 'ago': 'Aug',
+    'set': 'Sep', 'out': 'Oct', 'nov': 'Nov', 'dez': 'Dec'
+}
+
+# Aplicar substituição
+data['mes_EM'] = data['mes'].str.lower().replace(meses_pt_en, regex=True)
+
+# Converter para datetime
+data['mes_EM'] = pd.to_datetime(data['mes_EM'], format='%b/%y')
+
+# Criar o gráfico
+plot = (
+    ggplot(data, aes(x='mes_EM', y='pe_manga')) +
+    geom_line(color='darkblue', size=1.5) +
+    labs(
+        title='',
+        x='Meses do ano',
+        y='Peso no orçamento da Família',
+        caption='Fonte: IPCA/IBGE (2025). Dados reprocessados pelo Observatório de Manga da Embrapa.'
+    ) +
+    scale_x_datetime(date_breaks='6 months', date_labels='%b/%y') +
+    theme_minimal() +
+    theme(
+        figure_size=(14, 6.5),
+        axis_title_y=element_text(size=14, face="bold"),
+        axis_title_x=element_text(size=14, face="bold"),
+        axis_text_x=element_text(rotation=45, hjust=1, size=14),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=12)
+    )
+)
+
+# Mostrar o gráfico
+plot.show()
+
+```
+
+## PREÇOS RECEBIDOS PELOS PRODUTORES
+
+```{python peru4a, echo=FALSE, message=FALSE}
+import pandas as pd
+from pathlib import Path
+import plotnine as p9
+from mizani.formatters import number_format, date_format
+
+# Caminho para os arquivos
+data_dir = Path("/Users/jricardofl/Dropbox/tempecon/dados_manga")
+
+df = (
+    pd.read_csv(data_dir/'dados_manga_palmer_semana.csv', sep=';', decimal='.')
+    .drop(columns=['produto', 'regiao', 'ano', 'semana'])
+)
+
+# Cria o intervalo de dados de 2012-01-07 ate a semana de 2025
+date_range = pd.date_range(start='2012-01-01', end='2025-08-21', freq='W-SAT')
+
+# Remove datas especificas (semana 53)
+dates_to_remove = [pd.Timestamp('2016-12-31'), pd.Timestamp('2022-12-31')]
+date_range = date_range[~date_range.isin(dates_to_remove)]
+
+# Designa a date range como uma nova coluna
+df['date'] = date_range[:len(df)]
+
+df['date2'] = date_range[:len(df)]
+
+# Configura a data como index
+df = df.set_index('date')
+
+# Carrega igpdi dataset
+igpdi = (
+    pd.read_csv(data_dir/'igpdi.csv', sep=';', decimal='.')
+    .assign(date=df.index)
+    .drop(columns=['ano', 'semana'])
+    .set_index('date')
+)
+
+# Junta os DataFrames
+tabela = df.join(igpdi, how='inner')
+
+# Deflaciona a serie de preços de manga
+indice_data_base = tabela.query("date == date.max()").igpdi.values[0]
+tabela = tabela.assign(real=lambda x: (indice_data_base / x.igpdi) * x.preco)
+
+# Criação da variável preco_palmer
+preco_palmer = tabela['real']
+
+# Estima a tendEMcia por média móvel
+#trend_palmer = preco_palmer.rolling(window=52, center=True).mean()
+
+# Gráfico
+
+# Visualização de dados
+
+plot = (
+    p9.ggplot(tabela) +
+    p9.aes(x="date2") + 
+    p9.geom_line(p9.aes(y="real"), color="blue", size=1) + 
+    scale_y_continuous(breaks=[1, 2, 3, 4, 5, 6, 7, 8]) +
+    p9.scale_x_date(
+        date_breaks="1 year", date_labels="%Y"
+    ) +
+    p9.labs(
+        x="Semanas de cada ano",
+        y="Preços deflacionados de Manga Palmer (R$/kg)",
+        caption="Fonte: CEPEA (2025). Dados reprocessados pelo Observatório de Manga da Embrapa."
+    ) +
+    p9.theme_minimal() +
+    p9.theme(
+        axis_title_x=element_text(size=15, face="bold"),
+        axis_title_y=element_text(size=16, face="bold"),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        legend_title=element_text(size=14),
+        legend_text=element_text(size=12),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(14, 6.5)
+    )
+)
+
+# Mostra o gráfico
+plot.show()
+```
+
+## PREÇOS RECEBIDOS PELOS PRODUTORES
+
+```{python peru5a, echo=FALSE, message=FALSE}
+import pandas as pd
+from pathlib import Path
+from plotnine import *
+
+# ----------------------------
+# 1) Leitura e preparação (seu bloco)
+# ----------------------------
+data_dir = Path("/Users/jricardofl/Dropbox/tempecon/dados_manga")
+
+df = (
+    pd.read_csv(data_dir/'dados_manga_palmer_semana.csv', sep=';', decimal='.')
+    .drop(columns=['produto', 'regiao', 'ano', 'semana'])
+)
+
+# Intervalo semanal (W-SAT) e remoção das semanas 53
+date_range = pd.date_range(start='2012-01-01', end='2025-08-21', freq='W-SAT')
+dates_to_remove = [pd.Timestamp('2016-12-31'), pd.Timestamp('2022-12-31')]
+date_range = date_range[~date_range.isin(dates_to_remove)]
+
+# Atribui datas e index
+df['date'] = date_range[:len(df)]
+df['date2'] = date_range[:len(df)]  # se precisar manter
+df = df.set_index('date')
+
+# IGP-DI com o mesmo índice temporal
+igpdi = (
+    pd.read_csv(data_dir/'igpdi.csv', sep=';', decimal='.')
+    .assign(date=df.index)            # força alinhamento 1-para-1 por posição
+    .drop(columns=['ano', 'semana'])
+    .set_index('date')
+)
+
+# Join e deflacionamento
+tabela = df.join(igpdi, how='inner')
+indice_data_base = tabela.query("date == date.max()").igpdi.values[0]
+tabela = tabela.assign(real=lambda x: (indice_data_base / x.igpdi) * x.preco)
+
+# Série final (preço real deflacionado)
+preco_palmer = tabela['real']
+
+# ----------------------------
+# 2) Construir ano/semana (52 semanas por ano)
+# ----------------------------
+dados = tabela[['real']].rename(columns={'real': 'preco'})
+dados['ano'] = dados.index.year
+# semana = contagem sequencial dentro de cada ano (1..52)
+dados['semana'] = dados.groupby('ano').cumcount() + 1
+
+# Garantia: manter apenas semanas 1..52
+dados = dados.query('1 <= semana <= 52').reset_index()
+
+# ----------------------------
+# 3) Média semanal (2022–2024) e dados de barras (2023–2025)
+# ----------------------------
+media_224 = (
+    dados.query('2022 <= ano <= 2024')
+         .groupby('semana', as_index=False)['preco']
+         .mean()
+         .rename(columns={'preco': 'Media_2022_2024'})
+)
+
+bars = dados.query('ano in [2023, 2024, 2025]').copy()
+bars['AnoLabel'] = bars['ano'].astype(str)
+
+# ----------------------------
+# 4) Plot (estilo da figura enviada)
+# ----------------------------
+cores_barras = {'2023': '#9ecae1', '2024': '#6b6b6b', '2025': '#FFD700'}
+#cores_barras = {
+#    '2023': '#1f77b4',   # azul mais escuro
+#    '2024': '#6b6b6b',   # cinza
+#    '2025': '#e6b800'    # amarelo/dourado mais forte
+#}
+cor_linha   = {'Média (2022–2024)': '#F2672b'}
+
+plot = (
+    ggplot()
+    # Barras semanais
+    + geom_col(
+        aes(x='semana', y='preco', fill='AnoLabel'),
+        data=bars,
+        position=position_dodge(width=0.8),
+        width=0.72
+    )
+    # Linha da média 2022–2024
+    + geom_line(
+        aes(x='semana', y='Media_2022_2024', group=1, color='"Média (2022–2024)"'),
+        data=media_224,
+        size=1.6
+    )
+    + geom_point(
+        aes(x='semana', y='Media_2022_2024', color='"Média (2022–2024)"'),
+        data=media_224,
+        size=2.1
+    )
+    + scale_fill_manual(name='', values=cores_barras)
+    + scale_color_manual(name='', values=cor_linha)
+    + scale_x_continuous(breaks=range(1, 53, 3))   # <--- eixo de 3 em 3
+    + labs(
+        x='Semanas de cada Ano',
+        y='Preço Palmer (R$)',
+        caption='Fonte: CEPEA reprocessado pelo Observatório de Mercado da Manga da Embrapa'
+    )
+    + theme_minimal()
+    + theme(
+        axis_title_x=element_text(size=15, face="bold"),
+        axis_title_y=element_text(size=16, face="bold"),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=14),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(14, 6.5)
+    )
+)
+
+plot.show()
+
+# (opcional) salvar
+# ggsave(plot=plot, filename=str(data_dir/'preco_palmer_semanal.png'), width=14, height=6.5, dpi=300)
+# ggsave(plot=plot, filename=str(data_dir/'preco_palmer_semanal.svg'), width=14, height=6.5, dpi=300)
+```
+
+## PREÇOS RECEBIDOS PELOS PRODUTORES
+
+```{python peru5, echo=FALSE, message=FALSE}
+import pandas as pd
+from pathlib import Path
+import plotnine as p9
+from mizani.formatters import number_format, date_format
+
+# Caminho para os arquivos
+data_dir = Path("/Users/jricardofl/Dropbox/tempecon/dados_manga")
+
+df = (
+    pd.read_csv(data_dir/'dados_manga_tommy_semana.csv', sep=';', decimal='.')
+    .drop(columns=['produto', 'regiao', 'ano', 'semana'])
+)
+
+# Cria o intervalo de dados de 2012-01-07 ate a semana de 2025
+date_range = pd.date_range(start='2012-01-01', end='2025-08-21', freq='W-SAT')
+
+# Remove datas especificas (semana 53)
+dates_to_remove = [pd.Timestamp('2016-12-31'), pd.Timestamp('2022-12-31')]
+date_range = date_range[~date_range.isin(dates_to_remove)]
+
+# Designa a date range como uma nova coluna
+df['date'] = date_range[:len(df)]
+
+df['date2'] = date_range[:len(df)]
+
+# Configura a data como index
+df = df.set_index('date')
+
+# Carrega igpdi dataset
+igpdi = (
+    pd.read_csv(data_dir/'igpdi.csv', sep=';', decimal='.')
+    .assign(date=df.index)
+    .drop(columns=['ano', 'semana'])
+    .set_index('date')
+)
+
+# Junta os DataFrames
+tabela = df.join(igpdi, how='inner')
+
+# Deflaciona a serie de preços de manga
+indice_data_base = tabela.query("date == date.max()").igpdi.values[0]
+tabela = tabela.assign(real=lambda x: (indice_data_base / x.igpdi) * x.preco)
+
+# Criação da variável preco_palmer
+preco_palmer = tabela['real']
+
+# Estima a tendEMcia por média móvel
+#trend_palmer = preco_palmer.rolling(window=52, center=True).mean()
+
+# Gráfico
+
+# Visualização de dados
+
+plot = (
+    p9.ggplot(tabela) +
+    p9.aes(x="date2") + 
+    p9.geom_line(p9.aes(y="real"), color="darkgreen", size=1) + 
+    scale_y_continuous(breaks=[1, 2, 3, 4, 5, 6, 7, 8]) +
+    p9.scale_x_date(
+        date_breaks="1 year", date_labels="%Y"
+    ) +
+    p9.labs(
+        x="Semanas de cada ano",
+        y="Preços deflacionados de Manga Tommy (R$/kg)",
+        caption="Fonte: CEPEA (2025). Dados reprocessados pelo Observatório de Manga da Embrapa."
+    ) +
+    p9.theme_minimal() +
+    p9.theme(
+        axis_title_x=element_text(size=15, face="bold"),
+        axis_title_y=element_text(size=16, face="bold"),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        legend_title=element_text(size=14),
+        legend_text=element_text(size=12),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(14, 6.5)
+    )
+)
+
+# Mostra o gráfico
+plot.show()
+```
+
+## PREÇOS RECEBIDOS PELOS PRODUTORES
+
+```{python peru5a, echo=FALSE, message=FALSE}
+import pandas as pd
+from pathlib import Path
+from plotnine import *
+
+# ----------------------------
+# 1) Leitura e preparação (seu bloco)
+# ----------------------------
+data_dir = Path("/Users/jricardofl/Dropbox/tempecon/dados_manga")
+
+df = (
+    pd.read_csv(data_dir/'dados_manga_tommy_semana.csv', sep=';', decimal='.')
+    .drop(columns=['produto', 'regiao', 'ano', 'semana'])
+)
+
+# Intervalo semanal (W-SAT) e remoção das semanas 53
+date_range = pd.date_range(start='2012-01-01', end='2025-08-21', freq='W-SAT')
+dates_to_remove = [pd.Timestamp('2016-12-31'), pd.Timestamp('2022-12-31')]
+date_range = date_range[~date_range.isin(dates_to_remove)]
+
+# Atribui datas e index
+df['date'] = date_range[:len(df)]
+df['date2'] = date_range[:len(df)]  # se precisar manter
+df = df.set_index('date')
+
+# IGP-DI com o mesmo índice temporal
+igpdi = (
+    pd.read_csv(data_dir/'igpdi.csv', sep=';', decimal='.')
+    .assign(date=df.index)            # força alinhamento 1-para-1 por posição
+    .drop(columns=['ano', 'semana'])
+    .set_index('date')
+)
+
+# Join e deflacionamento
+tabela = df.join(igpdi, how='inner')
+indice_data_base = tabela.query("date == date.max()").igpdi.values[0]
+tabela = tabela.assign(real=lambda x: (indice_data_base / x.igpdi) * x.preco)
+
+# Série final (preço real deflacionado)
+preco_tommy = tabela['real']
+
+# ----------------------------
+# 2) Construir ano/semana (52 semanas por ano)
+# ----------------------------
+dados = tabela[['real']].rename(columns={'real': 'preco'})
+dados['ano'] = dados.index.year
+# semana = contagem sequencial dentro de cada ano (1..52)
+dados['semana'] = dados.groupby('ano').cumcount() + 1
+
+# Garantia: manter apenas semanas 1..52
+dados = dados.query('1 <= semana <= 52').reset_index()
+
+# ----------------------------
+# 3) Média semanal (2022–2024) e dados de barras (2023–2025)
+# ----------------------------
+media_224 = (
+    dados.query('2022 <= ano <= 2024')
+         .groupby('semana', as_index=False)['preco']
+         .mean()
+         .rename(columns={'preco': 'Media_2022_2024'})
+)
+
+bars = dados.query('ano in [2023, 2024, 2025]').copy()
+bars['AnoLabel'] = bars['ano'].astype(str)
+
+# ----------------------------
+# 4) Plot (estilo da figura enviada)
+# ----------------------------
+cores_barras = {'2023': '#9ecae1', '2024': '#6b6b6b', '2025': '#FFD700'}
+
+cor_linha   = {'Média (2022–2024)': '#F2672b'}
+
+plot = (
+    ggplot()
+    # Barras semanais
+    + geom_col(
+        aes(x='semana', y='preco', fill='AnoLabel'),
+        data=bars,
+        position=position_dodge(width=0.8),
+        width=0.72
+    )
+    # Linha da média 2022–2024
+    + geom_line(
+        aes(x='semana', y='Media_2022_2024', group=1, color='"Média (2022–2024)"'),
+        data=media_224,
+        size=1.6
+    )
+    + geom_point(
+        aes(x='semana', y='Media_2022_2024', color='"Média (2022–2024)"'),
+        data=media_224,
+        size=2.1
+    )
+    + scale_fill_manual(name='', values=cores_barras)
+    + scale_color_manual(name='', values=cor_linha)
+    + scale_x_continuous(breaks=range(1, 53, 3))   # <--- eixo de 3 em 3
+    + labs(
+        x='Semanas de cada Ano',
+        y='Preço Tommy (R$)',
+        caption='Fonte: CEPEA reprocessado pelo Observatório de Mercado da Manga da Embrapa'
+    )
+    + theme_minimal()
+    + theme(
+        axis_title_x=element_text(size=15, face="bold"),
+        axis_title_y=element_text(size=16, face="bold"),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=14),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(14, 6.5)
+    )
+)
+
+plot.show()
+
+# (opcional) salvar
+# ggsave(plot=plot, filename=str(data_dir/'preco_palmer_semanal.png'), width=14, height=6.5, dpi=300)
+# ggsave(plot=plot, filename=str(data_dir/'preco_palmer_semanal.svg'), width=14, height=6.5, dpi=300)
+```
+
+## O CONSUMO DE MANGA NO MERCADO INTERNO {.left}
+
+<br>
+
+| **Frequência de compra**                     | **Raramente** | **Diariamente** | **Semanalmente** | **Quinzenalmente** | **Mensalmente** |
+|-------|:-------------:|:---------------:|:----------------:|:------------------:|:---------------:|
+|          | 1,8%          | 2,8%            | 69,7%            | 12,8%              | 12,8%           |
+
+| **Critério escolha**  | **Aparência** | **Preço** | **Maturação** | **Cheiro** | **Cor**      |
+|-------|:-------------:|:---------------:|:----------------:|:------------------:|:---------------:|
+|                                                  | 85,3%         | 35,8%     | 28,4%         | 15,6%      | 12,8%        |
+
+| **Preferência de variedade** |  | **Tommy** | **Espada** | **Rosa** |   **Palmer**  |
+|------------------------------|:----------:|:---------:|:----------:|:--------:|:---:|
+|                              |     | 43,1%     | 31,1%      | 33,9%    |  61,4%     |
+
+| **Quantidade média da compra** | **01 unidade** | **02 a 03 unidades** | **04 a 05 unidades** | **05 a 10 unidades** | **Mais de 10 unidades** |
+|--------------------------------|:--------------:|:--------------------:|:--------------------:|:--------------------:|:-----------------------:|
+|                                | 0,9%           | 30,3%                | 46,8%                | 17,4%                | 4,6%                    |
+
+<p style="font-size:0.85em; margin-top:0.5rem;">Fonte: MANGABEIRA, 2024.</p>
+
+
+## O CONSUMO DE MANGA NO MERCADO INTERNO {.left}
+
+<br>
+
+| **Se a qualidade fosse melhor, você compraria...**| **Muito mais** | **Um pouco a mais** | **Mesma a quantidade** |                             
+|--------------------------------------------------|:---------------:|:---------:|:------------:|
+|                                                  | 19,2%          | 35,8%               | 45%                    |                  
+| **Preferência de maturação**                      | **Verde**     | **De vez** | **Madura**    |                             
+|                                                  | 3,7%          | 75,2%      | 21,1%         |                            
+| **Quantidade de variedades que costuma comprar por vez** | **Uma** | **Duas** | **Três** |          
+|                                                          | 65,1%            | 31,2%             | 3,7%              |          
+
+<p style="font-size:0.85em; margin-top:0.5rem;">Fonte: MANGABEIRA, 2024.</p>
+
+
+## O CONSUMO DE MANGA NO MERCADO INTERNO {.left}
+
+<br> 
+
+<br> 
+
+| **Você pagaria mais por uma qualidade melhor de manga?**                      | **Com Certeza Não**     | **Talvez** | **Com Certeza Sim**    |                |             |
+|--------------------------------------------------|---------------|---------|------------|
+|                                                  | 8,3%          | 21,1%      | 70,6%         |
+| **Se a qualidade aumentar, e o preço também, você vai comprar**                      | **Menos**     | **Mesma Quantidade** | **Mais**    |                |
+|                                                  | 10,1%          | 78%      | 11,9%         |
+
+<p style="font-size:0.85em; margin-top:0.5rem;">Fonte: MANGABEIRA, 2024.</p>
+
+## A Qualidade das mangas
+
+#### Temos sido negligentes com nossos clientes.
+
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba1.png" width="65%">
+</div>
+
+## A Qualidade das mangas
+
+#### Produtos ruins não aumentam a demanda.
+
+<div style="text-align: center;">
+  <img src="imgs/embala6.jpg" width="68%">
+</div>
+
+## A Qualidade das mangas
+
+#### É urgente **diferenciar um produto** – sair da lógica de commodity.
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba2.png" width="85%">
+</div>
+
+## Diferenciação no mercado
+
+<div style="text-align: center;">
+  <img src="imgs/embala17.jpg" width="70%">
+</div>
+
+## {.center .thankslide}
+
+::: columns
+::: {.column width="60%"}
+
+<div style="text-align: center;">
+  <img src="imgs/dicas.png" width="70%">
+</div>
+
+
+:::
+::: {.column width="40%"}
+
+<div style="text-align: center;">
+  <img src="imgs/logo_manga.png" width="60%">
+</div>
+
+:::
+:::
+
+ <div style="text-align: center;"> 
+  <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
+    MUITO OBRIGADO!
+  </h2>
+  <br>
+  <!-- This part will have a smaller font size -->
+  <p style="font-size: 0.8em; color: #333;">
+    <a href="https://www.embrapa.br/observatorio-da-manga" target="_blank">
+      https://www.embrapa.br/observatorio-da-manga
+    </a>
+    <br>
+    <a href="https://www.embrapa.br/observatorio-da-uva" target="_blank">
+      https://www.embrapa.br/observatorio-da-uva
+    </a>
+    <br>
+📲 **WhatsApp:** <br>
++55 87 99961-5799  
+  </p>
+  <br>
+  <img src="imgs/apoio2.png" width="23%">
+</div>
+
+
