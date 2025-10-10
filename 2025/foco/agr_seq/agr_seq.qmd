@@ -1,0 +1,1017 @@
+---
+title: "REVISÃO DE FOCO DA UNIDADE - AGRICULTURA DEPENDENTE DE CHUVA"
+author: "João Ricardo F. de Lima"
+date: "today"
+editor: source
+lang: pt
+language: 
+  toc-title-document: '<a href="https://observatoriosdemercado.github.io/manga/" target="_blank"><img src="https://github.com/observatoriosdemercado/manga/blob/main/logo_embrapa.jpg?raw=true" alt="Logotipo Embrapa" width="150"></a>'
+format: 
+  html:
+    toc: true
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+    toc-location: left
+    code-fold: false
+    embed-resources: true
+    page-layout: full
+#    fig-asp: 0.618
+    fig-width: 10
+    fig-height: 8
+#    fig-dpi: 200
+    fig-align: center
+    df-print: paged
+theme:
+  light: flatly
+execute:
+  echo: false
+  message: false
+  warning: false
+  cache: false
+jupyter: python3
+---
+
+## Revisão de Foco
+
+Esta análise é para a agricultura dependente de chuva. 
+
+```{python}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+import pandas as pd
+from pandas import NA
+import re
+import unicodedata
+
+# Load dataset
+df = (
+    pd.read_csv('dados/agr_seq.csv', sep=',')
+)
+
+# 1) nomes atuais (vêm direto do df)
+old_cols = list(df.columns)
+
+# 2) seus novos nomes (na MESMA ordem das colunas atuais)
+new_cols = [
+    "data","email","nome","cidade_uf","perfil",
+    "qualidade_pesq","relevancia_solucoes","agilidade_respostas","conhecimento_tecnico",
+    "interacao_agro","comunicacao","oportunidades","riscos",
+    "importancia_tec_hid","importancia_melhoramento","importancia_biossanlina","importancia_caprinos",
+    "importancia_ilpf","importancia_conservaçao","importancia_forragem","importancia_bov_leite",
+    "importancia_microrgan","importancia_energetico","importancia_agroecol","importancia_baixo_c",
+    "satisfacao_tec_hid","satisfacao_melhoramento","satisfacao_biossanlina","satisfacao_caprinos",
+    "satisfacao_ilpf","satisfacao_conservaçao","satisfacao_forragem","satisfacao_bov_leite",
+    "satisfacao_microrgan","satisfacao_energetico","satisfacao_agroecol","satisfacao_baixo_c",
+    "demandas","comentarios","contribuicao_sociedade"
+]
+
+# 3) checar e aplicar
+if len(old_cols) != len(new_cols):
+    raise ValueError(f"Número de colunas difere: {len(old_cols)} ≠ {len(new_cols)}")
+
+mapping = dict(zip(old_cols, new_cols))
+df = df.rename(columns=mapping)
+
+# conferir
+#print(df.columns.tolist())
+```
+
+```{python}
+# ajuste na variável data
+df["data"] = pd.to_datetime(df["data"], dayfirst=True, errors="coerce")
+df[["data"]].head()
+
+# ajuste de cidade
+def strip_acc(s): 
+    return "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+
+def norm_key(x):
+    x = strip_acc(str(x)).upper().strip()
+    x = re.sub(r"\s+", " ", x)
+    return x
+
+# mapeamento MANUAL (cidade-uf2) para os valores que você mostrou
+over = {
+    # --- Petrolina e variações ---
+    "PETROLINA, PE": "Petrolina-PE",
+    "PETROLINA-PE": "Petrolina-PE",
+    "PETROLINA": "Petrolina-PE",                 # se você quiser forçar PE mesmo sem UF
+    "PETROLINA PERNAMBUCO": "Petrolina-PE",
+    "PETROLINA / PERNAMBUCO": "Petrolina-PE",    # caso apareça com separador diferente
+    "PETROLINA - PERNAMBUCO": "Petrolina-PE",
+    "PETROLINA - PE": "Petrolina-PE",
+
+    # --- cidades BA/CE/PE etc ---
+    "AFRANIO-PE": "Afrânio-PE",
+    "SOBRAL - CE": "Sobral-CE",
+    "BRASILIA-DF": "Brasília-DF",
+    "CASA NOVA BA": "Casa Nova-BA",
+    "CASA NOVA": "Casa Nova-BA",
+    "FORTALEZA, CE": "Fortaleza-CE",
+    "FORTALEZA": "Fortaleza-CE",
+    "FORTALEZA/CE": "Fortaleza-CE",
+    "CURACA BAHIA": "Curaçá-BA",
+    "PAU DOS FERROS - RN": "Pau dos Ferros-RN",
+    "PETROLINA/DORMENTES": "Petrolina-PE",            
+    
+# 2 cidades no mesmo campo → marcar para revisão
+
+    "ITAJU DO COLONIA BAHIA": "Itajú do Colônia-BA",
+    "IACU BAHIA": "Iaçu-BA",
+    "UAUA BAHIA": "Uauá-BA",
+    "LIMOEIRO DO NORTE": "Limoeiro do Norte-CE",
+    "SERRA TALHADA, PERNAMBUCO": "Serra Talhada-PE",
+    "RUY BARBOSA - BAHIA": "Ruy Barbosa-BA",
+    "SAO BENTO DO UNA": "São Bento do Una-PE",
+    "PETROLINA - PERNAMBUCO": "Petrolina-PE",
+    "RECIFE - PERNAMBUCO": "Recife-PE",
+    "SANTA CRUZ/ PE": "Santa Cruz-PE",           
+    
+# se precisar, depois refinamos qual Santa Cruz
+    "JEQUIE BA": "Jequié-BA",
+    "SANTA MARIA DA BOA VISTA-PE": "Santa Maria da Boa Vista-PE",
+    "DORMENTES PERNAMBUCO": "Dormentes-PE",
+    "OLHO D'AGUA DAS FLORES ALAGOAS": "Olho d'Água das Flores-AL",
+    "ASSU - RIO GRANDE DO NORTE": "Assú-RN",
+    "BELEM/PA": "Belém-PA",
+    "FILADELFIA - BA": "Filadélfia-BA",
+    "JUAZEIRO-BA": "Juazeiro-BA",
+    "CAMPO FORMOSO BAHIA": "Campo Formoso-BA",
+    "ITIUBA - BA": "Itiúba-BA",
+    "JAGUARARI-BA": "Jaguarari-BA",
+    "FORTUNA- MA": "Fortuna-MA",
+    "SENHOR DO BONFIM BA": "Senhor do Bonfim-BA",
+    "SANTANA DO IPANEMA AL": "Santana do Ipanema-AL",
+    "NOSSA SENHORA DA GLORIA": "Nossa Senhora da Glória-SE",  
+
+    # --- entradas genéricas / estado ou região (sem cidade) ---
+    "ALAGOAS": "-AL",
+    "FORA DO BRASIL": "Exterior",
+    "MINAS GERAIS": "-MG",
+    "CEARA": "-CE",
+    "MARANHAO": "-MA",
+    "BAHIA": "-BA",
+    "REGIAO NORDESTE": "Nordeste",
+
+    # alguns formatos equivalentes
+    "FORTALEZA , CE": "Fortaleza-CE",
+    "FORTALEZA ": "Fortaleza-CE",
+    "PETROLINA - PE": "Petrolina-PE",
+    "PETROLINA-PE ": "Petrolina-PE",
+    "PETROLINA -  PE": "Petrolina-PE",
+}
+
+# aplicar o mapeamento
+df["cidade_uf2"] = df["cidade_uf"].map(lambda x: over.get(norm_key(x), pd.NA))
+
+# conferir o que ainda ficou sem padronizar
+pendentes = (
+    df.loc[df["cidade_uf2"].isna(), "cidade_uf"]
+      .astype(str).str.strip()
+      .value_counts()
+      .reset_index().rename(columns={"index":"resposta","cidade_uf":"freq"})
+)
+pendentes.head(50)
+
+# criaçao das variáveis cidade e estado
+
+def split_cidade_estado(val):
+    if pd.isna(val):
+        return (pd.NA, pd.NA)
+    s = str(val).strip()
+    s_cf = s.casefold()
+
+    # casos especiais
+    if s_cf == "exterior":
+        return ("Exterior", "Exterior")
+    if s_cf == "nordeste":
+        return ("Nordeste", "Nordeste")
+
+    # Cidade-UF ou -UF
+    m = re.match(r"^\s*(.*?)\s*-\s*([A-Za-z]{2})\s*$", s)
+    if m:
+        cidade = m.group(1).strip() or pd.NA
+        uf = m.group(2).upper().strip()
+        return (cidade, uf)
+    return (pd.NA, pd.NA)
+
+# aplica e cria as novas colunas
+df[["cidade", "uf"]] = df["cidade_uf2"].apply(lambda x: pd.Series(split_cidade_estado(x)))
+```
+
+# Estatística Descritiva do Estado
+
+```{python}
+(df["uf"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+
+```{python}
+# tira espaços nas pontas (evita falhas de casca)
+df["perfil"] = df["perfil"].astype(str).str.strip()
+
+# mapeamentos desejados
+mapping = {
+    "Universidade/Pesquisador": "Universidade/IF/Pesquisador",
+    "Professora": "Universidade/IF/Pesquisador",
+    "Professor IF": "Universidade/IF/Pesquisador",
+    "Analista da Embrapa": "Pesquisador/Analista da Embrapa",
+    "Pesquisador da Embrapa": "Pesquisador/Analista da Embrapa",
+    "GER. EXECUTIVO DO SINDICATO DOS PROD. RURAIS PETROLINA": "Outros",
+    "BANCO DO NORDESTE DO BRASIL": "Outros",
+    "Empresa  Privada": "Outros", 
+    "Sociedade civil organizada (ONGs, entidades representativas, movimentos sociais)": "Sociedade Civil Organizada",
+    "Agropecuária": "Outros",# sugestão; troque aqui se preferir outro rótulo
+}
+
+df["perfil"] = df["perfil"].replace(mapping)
+```
+
+# Estatística Descritiva do Perfil ou sua Organização
+
+```{python}
+(df["perfil"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+# Estatística Descritiva do Perfil X Estado (%)
+
+```{python}
+# ordem das colunas (UF). Pode ser alfabética ou pela frequência geral
+uf_order = sorted(df["uf"].dropna().unique().tolist())
+# ou: uf_order = df["uf"].value_counts().index.tolist()
+
+# % por perfil (cada linha soma 100)
+ct_pct = pd.crosstab(
+    df["perfil"],   # linhas
+    df["uf"],       # colunas
+    normalize="index"
+).reindex(columns=uf_order, fill_value=0).mul(100).round(1)
+
+# (opcional) formato "x.x%"
+ct_pct_fmt = ct_pct.map(lambda x: f"{x:.1f}")
+
+ct_pct_fmt  # tabela pronta
+
+```
+
+# Percepção sobre o desempenho, a competência e o impacto da Embrapa Semiárido no setor agropecuário 
+
+## Estatística sobre a qualidade da pesquisa e inovação desenvolvida pela Embrapa Semiárido
+
+```{python}
+ordem = ["Muito Ruim","Ruim","Regular","Boa","Excelente"]
+map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
+df["qualidade_pesq_code"] = df["qualidade_pesq"].map(map_q).astype("Int64")
+#df[["qualidade_pesq","qualidade_pesq_code"]].head()
+```
+
+```{python}
+(df["qualidade_pesq"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+### Estatística Descritiva do Perfil x Qualidade Pesquisa (%)
+
+```{python}
+ordem = ["Muito Ruim","Ruim","Regular","Boa","Excelente"]
+ct_pct = pd.crosstab(
+    df["perfil"],
+    pd.Categorical(df["qualidade_pesq"], categories=ordem, ordered=True),
+    normalize="index"            # fração por linha
+).reindex(columns=ordem, fill_value=0).mul(100).round(1)
+
+ct_pct  # -> números (ex.: 42.5). Se quiser “%”:
+ct_pct_fmt = ct_pct.applymap(lambda x: f"{x:.1f}")
+ct_pct_fmt_desc = ct_pct_fmt.reindex(columns=ordem[::-1])
+ct_pct_fmt_desc
+```
+
+### Estatística Descritiva do Estado x Qualidade Pesquisa (%)
+
+```{python}
+ordem = ["Muito Ruim","Ruim","Regular","Boa","Excelente"]
+ct_pct = pd.crosstab(
+    df["uf"],
+    pd.Categorical(df["qualidade_pesq"], categories=ordem, ordered=True),
+    normalize="index"            # fração por linha
+).reindex(columns=ordem, fill_value=0).mul(100).round(1)
+
+ct_pct  # -> números (ex.: 42.5). Se quiser “%”:
+ct_pct_fmt = ct_pct.applymap(lambda x: f"{x:.1f}")
+ct_pct_fmt_desc = ct_pct_fmt.reindex(columns=ordem[::-1])
+ct_pct_fmt_desc
+```
+
+## Nível de relevância das soluções e tecnologias que a Embrapa Semiárido tem  oferecido
+
+```{python}
+ordem = ["Nenhuma Relevância","Baixa Relevância","Média Relevância","Alta Relevância","Essencial","Não tenho opinião"]
+map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
+df["relevancia_solucoes_code"] = df["relevancia_solucoes"].map(map_q).astype("Int64")
+```
+
+
+```{python}
+(df["relevancia_solucoes"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+## Agilidade da Embrapa Semiárido em responder às demandas e desafios
+
+```{python}
+ordem = ["Muito Lenta","Lenta","Regular","Ágil","Muito Ágil","Não tenho opinião"]
+map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
+df["agilidade_respostas_code"] = df["agilidade_respostas"].map(map_q).astype("Int64")
+```
+
+```{python}
+(df["agilidade_respostas"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+## Conhecimento técnico da equipe da Embrapa Semiárido
+
+```{python}
+ordem = ["Muito Insuficiente","Insuficiente","Adequado","Forte","Excepcional","Não tenho opinião"]
+map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
+df["conhecimento_tecnico_code"] = df["conhecimento_tecnico"].map(map_q).astype("Int64")
+```
+
+```{python}
+(df["conhecimento_tecnico"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+## Interação da equipe técnica da Embrapa Semiárido com os membros do setor agropecuário
+
+```{python}
+ordem = ["Muito Insuficiente","Insuficiente","Adequado","Forte","Excepcional","Não tenho opinião"]
+map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
+df["interacao_agro_code"] = df["interacao_agro"].map(map_q).astype("Int64")
+```
+
+```{python}
+(df["interacao_agro"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+## Comunicação da Embrapa Semiárido sobre suas tecnologias
+
+```{python}
+ordem = ["Muito Ineficaz","Ineficaz","Regular","Eficaz","Muito Eficaz","Não tenho opinião"]
+map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
+df["comunicacao_code"] = df["comunicacao"].map(map_q).astype("Int64")
+```
+
+```{python}
+(df["comunicacao"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+# Oportunidades e prioridades para o desenvolvimento tecnológico e de inovação, bem como os riscos iminentes que demandam atenção imediata
+
+## Oportunidades tecnológicas na agricultura dependente de chuva que devem ser priorizadas
+
+```{python}
+#import re, unicodedata
+#import pandas as pd
+
+# --- as 7 opções válidas, exatamente como você quer ver nas colunas ---
+valid_opts = [
+    "Tecnologias para captação, reúso e uso eficiente da água, incluindo irrigação suplementar com energias renováveis",
+    "Desenvolvimento de cultivos e forrageiras adaptados à seca (variedades tolerantes, raízes profundas, palma, fruticultura de sequeiro, plantas nativas)",
+    "Técnicas de manejo do solo que favoreçam infiltração, retenção de água e conservação da matéria orgânica",
+    "Uso de inoculantes microbianos para melhorar absorção de nutrientes, produtividade e resistência ao estresse hídrico",
+    "Estratégias de produção animal adaptadas ao Semiárido (seleção genética de rebanhos, disponibilidade de forragem e uso sustentável da Caatinga)",
+    "Sistemas integrados e intensificação tecnológica adaptada às condições regionais (ILPF, aspectos sociais e ambientais)",
+    "Valorização de produtos agroalimentares regionais, como queijos artesanais diferenciados com segurança sanitária",
+]
+
+def norm(s: str) -> str:
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+    s = s.casefold().strip()
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+valid_norm = {norm(v): v for v in valid_opts}
+
+def split_opcions_with_commas(raw):
+    # saída default
+    out = [pd.NA, pd.NA, pd.NA, pd.NA]
+    if pd.isna(raw) or not str(raw).strip():
+        return pd.Series(out, index=["oportunidades_1","oportunidades_2","oportunidades_3","oportunidades_4"])
+
+    # 1) dividir pela vírgula (forms/Excel)
+    parts = [p.strip() for p in str(raw).split(",")]
+
+    # 2) juntar blocos consecutivos até bater numa opção válida normalizada
+    rec, unk = [], []
+    i, n = 0, len(parts)
+    while i < n:
+        matched = False
+        # tenta juntar de i..j, crescendo j
+        for j in range(i, n):
+            candidate = ", ".join(parts[i:j+1]).strip()
+            if norm(candidate) in valid_norm:
+                rec.append(valid_norm[norm(candidate)])
+                i = j + 1
+                matched = True
+                break
+        if not matched:
+            # não formou nenhuma opção válida — este pedaço é desconhecido;
+            # (tente absorver só 1 part; o próximo a gente tenta de novo)
+            unk.append(parts[i])
+            i += 1
+
+    # 3) preencher colunas conforme a regra
+    for k in range(min(3, len(rec))):
+        out[k] = rec[k]
+
+    if unk:
+        # qualquer coisa não listada vai para a 4ª
+        out[3] = " | ".join([u for u in unk if u])
+    elif len(rec) > 3:
+        # se não houver desconhecidas, a(s) válidas extra(s) vão para a 4ª
+        out[3] = " | ".join(rec[3:])
+
+    return pd.Series(out, index=["oportunidades_1","oportunidades_2","oportunidades_3","oportunidades_4"])
+
+# 4) aplicar
+df[["oportunidades_1","oportunidades_2","oportunidades_3","oportunidades_4"]] = (
+    df["oportunidades"].apply(split_opcions_with_commas)
+)
+
+```
+
+```{python}
+#import re, unicodedata
+#import pandas as pd
+
+# --- mapeamento: rótulo completo -> nome da dummy ---
+rotulo_para_dummy = {
+    # 7 oficiais:
+    "Tecnologias para captação, reúso e uso eficiente da água, incluindo irrigação suplementar com energias renováveis": "captacao_reuso",
+    "Desenvolvimento de cultivos e forrageiras adaptados à seca (variedades tolerantes, raízes profundas, palma, fruticultura de sequeiro, plantas nativas)": "forrageiras_adapta",
+    "Técnicas de manejo do solo que favoreçam infiltração, retenção de água e conservação da matéria orgânica": "manejo_solo",
+    "Uso de inoculantes microbianos para melhorar absorção de nutrientes, produtividade e resistência ao estresse hídrico": "inoculantes_microbianos",
+    "Estratégias de produção animal adaptadas ao Semiárido (seleção genética de rebanhos, disponibilidade de forragem e uso sustentável da Caatinga)": "animal_adaptada",
+    "Sistemas integrados e intensificação tecnológica adaptada às condições regionais (ILPF, aspectos sociais e ambientais)": "sistemas_integrados",
+    "Valorização de produtos agroalimentares regionais, como queijos artesanais diferenciados com segurança sanitária": "produtos_regionais",
+    # 4 extras:
+    "Ferramenta que associe a precipitação pluviométrica com a produção de forragem (buffel) | possibilitando a estimativa de taxa de lotação das propriedades": "precipitacao",
+    "A embrapa precisa trabalhar muito a seleções de plantas forrageiras adaptadas ao clima e resistentes as prinvipais pragas como a lagarta. E estudar maquinas adaptadas a colheita e plantio desse material forrageiro": "selecoes_plantas",
+    "Cadeias de produtos da Socio biodiversidade, Umbu, Licuri, maracujá da Caatinga, entre outras": "produtos_sociobio",
+    "Uso de espécies arbóreas nativas da caatinga como ênfase em Leguminosas (sabiá), Cpondias, Cactáceas, Algavaceas e suculentas em geral parra guardar água,, acumular matéria orgânica e alimentar rebanhos.": "especies_arboreas",
+}
+
+# normalizador (tira acento/caixa e compacta espaços)
+def norm(s: str) -> str:
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+    s = s.casefold()
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+# versões normalizadas das chaves
+normkey_to_dummy = {norm(k): v for k, v in rotulo_para_dummy.items()}
+
+# helper: pega todas as seleções da linha (1..3 + cada item de _4)
+def coletar_selecoes(row):
+    itens = []
+    for c in ["oportunidades_1","oportunidades_2","oportunidades_3"]:
+        v = row.get(c, pd.NA)
+        if pd.notna(v) and str(v).strip():
+            itens.append(str(v))
+    v4 = row.get("oportunidades_4", pd.NA)
+    if pd.notna(v4) and str(v4).strip():
+        # _4 pode ter múltiplos, separados por " | "
+        for t in str(v4).split("|"):
+            t = t.strip()
+            if t:
+                itens.append(t)
+    return [norm(x) for x in itens]
+
+# cria todas as dummies (0/1)
+all_norm_cols = df.apply(coletar_selecoes, axis=1)
+
+for nk, dummy_name in normkey_to_dummy.items():
+    df[dummy_name] = all_norm_cols.apply(lambda lst: int(nk in lst))
+
+# checagens rápidas
+dummy_cols = list(normkey_to_dummy.values())
+#print("Criadas:", dummy_cols)
+#print("Somas (quantos marcaram cada opção):")
+#print(df[dummy_cols].sum().sort_values(ascending=False))
+
+```
+
+```{python}
+#import re, unicodedata
+#import pandas as pd
+
+# 0) se alguma dummy ainda não existe, crie com 0
+for col in ["precipitacao", "selecoes_plantas", "produtos_sociobio", "especies_arboreas"]:
+    if col not in df.columns:
+        df[col] = 0
+
+def norm(s):
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+    return re.sub(r"\s+", " ", s.casefold().strip())
+
+# 1) palavras-chave (regex simples) para cada dummy
+KEYS = {
+    "precipitacao":      [r"\bprecipitacao\b", r"pluviometr", r"\bforragem\b", r"lotaca", r"\bbuffel\b"],
+    "selecoes_plantas":  [r"sele[cç](o|oe)es? de plantas", r"forrageir", r"\blagarta\b", r"maquina[s]?\s+adaptad"],
+    "produtos_sociobio": [r"socio.?biodiversidade", r"\bumbu\b", r"\blicuri\b", r"maracuja da caatinga"],
+    "especies_arboreas": [r"especies? arboreas", r"\bcactaceas?\b", r"\balgavaceas?\b", r"\bsuculentas?\b",
+                          r"\bsabia\b", r"\b[c|s]pondias\b", r"materia organica", r"alimentar rebanhos"],
+}
+
+def from_oportunidades4(row):
+    v = row.get("oportunidades_4")
+    if pd.isna(v) or not str(v).strip():
+        return {k: 0 for k in KEYS}  # nada para marcar
+    # _4 pode conter vários itens separados por " | "
+    toks = re.split(r"\s*\|\s*", str(v).strip())
+    toks_norm = [norm(t) for t in toks if t.strip()]
+    out = {}
+    for dummy, pats in KEYS.items():
+        hit = any(re.search(p, s) for s in toks_norm for p in pats)
+        out[dummy] = int(bool(hit))
+    return out
+
+# 2) aplicar e só LIGAR (1) onde houver match em _4; nunca desligar os 1 que já existem
+hits = df.apply(from_oportunidades4, axis=1).apply(pd.Series)
+
+for col in KEYS:
+    df[col] = df[col].where(df[col].eq(1), hits[col])
+
+# 3) checar quantos 1 acenderam nessas quatro
+#print(df[["precipitacao","selecoes_plantas","produtos_sociobio","especies_arboreas"]].sum())
+
+```
+
+```{python}
+# série com as proporções
+s = (df[dummy_cols].mean()*100).round(1).sort_values(ascending=False)
+
+# vira DataFrame com 2 colunas
+tabela = s.rename_axis("opcao").reset_index(name="perc")
+tabela
+
+```
+
+## Riscos na agricultura dependente de chuva merecem atenção imediata
+
+```{python}
+import re, unicodedata
+import pandas as pd
+
+valid_opts = [
+    "Perdas de produtividade causadas pela irregularidade das chuvas e baixa pluviosidade",
+    "Limitações da produção devido a solos degradados e baixa fertilidade",
+    "Necessidade de cultivares tolerantes ao déficit hídrico e melhor manejo de plantas nativas",
+    "Escassez de forragem e alimentos em períodos de seca prolongada",
+    "Baixa eficiência produtiva e tecnológica na caprinocultura, ovinocultura e bovinocultura",
+    "Deficiência em estruturas para abate e industrialização de leite e carne, dificultando a agregação de valor",
+    "Pressão sobre ecossistemas locais, degradação ambiental e falta de integração com sistemas sustentáveis (ILPF, uso da Caatinga)",
+]
+
+def norm(s: str) -> str:
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+    s = s.casefold().strip()
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+valid_norm = {norm(v): v for v in valid_opts}
+
+def split_riscos_with_commas(raw):
+    out = [pd.NA, pd.NA, pd.NA, pd.NA]
+    if pd.isna(raw) or not str(raw).strip():
+        return pd.Series(out, index=["riscos_1","riscos_2","riscos_3","riscos_4"])
+
+    # 1) normalizar separadores: transforma ; e quebras de linha em vírgula
+    txt = str(raw).replace(";", ",")
+    txt = re.sub(r"[\r\n]+", ",", txt)
+
+    # 2) split por vírgula e limpeza de bullets/hífens
+    parts = [re.sub(r"^[\-\•]\s*", "", p.strip()) for p in txt.split(",")]
+    parts = [p for p in parts if p]  # remove vazios
+
+    # 3) “parser por blocos” até bater exatamente numa opção válida
+    rec, unk, vistos = [], [], set()
+    i, n = 0, len(parts)
+    while i < n:
+        matched = False
+        for j in range(i, n):
+            candidate = ", ".join(parts[i:j+1]).strip()
+            key = norm(candidate)
+            if key in valid_norm:
+                lab = valid_norm[key]
+                if lab not in vistos:
+                    rec.append(lab); vistos.add(lab)
+                i = j + 1
+                matched = True
+                break
+        if not matched:
+            unk.append(parts[i])
+            i += 1
+
+    # 4) preencher 1–3 com válidas (na ordem)
+    for k in range(min(3, len(rec))):
+        out[k] = rec[k]
+
+    # 5) riscos_4 = desconhecidas (se houver) SENÃO válidas extras (4ª+)
+    if unk:
+        out[3] = " | ".join(dict.fromkeys(unk))
+    elif len(rec) > 3:
+        out[3] = " | ".join(rec[3:])
+
+    return pd.Series(out, index=["riscos_1","riscos_2","riscos_3","riscos_4"])
+
+# aplicar
+df[["riscos_1","riscos_2","riscos_3","riscos_4"]] = df["riscos"].apply(split_riscos_with_commas)
+
+```
+
+```{python}
+import re, unicodedata
+import pandas as pd
+
+# --- mapeamento: rótulo completo -> nome da dummy (edite os nomes se preferir) ---
+rotulo_para_dummy_riscos = {
+    "Perdas de produtividade causadas pela irregularidade das chuvas e baixa pluviosidade": 
+        "perdas_produtividade_chuva",
+    "Limitações da produção devido a solos degradados e baixa fertilidade":                     
+        "solos_degradados",
+    "Necessidade de cultivares tolerantes ao déficit hídrico e melhor manejo de plantas nativas": 
+        "cultivares_tolerantes",
+    "Escassez de forragem e alimentos em períodos de seca prolongada":                          
+        "escassez_forragem",
+    "Baixa eficiência produtiva e tecnológica na caprinocultura, ovinocultura e bovinocultura":  
+        "baixa_eficiencia_pecuaria",
+    "Deficiência em estruturas para abate e industrialização de leite e carne, dificultando a agregação de valor": 
+        "def_estrutura_abate_industr",
+    "Pressão sobre ecossistemas locais, degradação ambiental e falta de integração com sistemas sustentáveis (ILPF, uso da Caatinga)": 
+        "pressao_ecossistemas",
+}
+
+# normalizador (tira acento/caixa e compacta espaços)
+def norm(s: str) -> str:
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+    s = s.casefold()
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+# versões normalizadas das chaves
+normkey_to_dummy_riscos = {norm(k): v for k, v in rotulo_para_dummy_riscos.items()}
+
+# helper: pega as seleções da linha (somente riscos_1.._3; ignoramos riscos_4 pois é NA)
+def coletar_riscos(row):
+    itens = []
+    for c in ["riscos_1","riscos_2","riscos_3"]:
+        v = row.get(c, pd.NA)
+        if pd.notna(v) and str(v).strip():
+            itens.append(str(v))
+    return [norm(x) for x in itens]
+
+# cria as 7 dummies (0/1)
+all_norm = df.apply(coletar_riscos, axis=1)
+
+for nk, dummy_name in normkey_to_dummy_riscos.items():
+    df[dummy_name] = all_norm.apply(lambda lst: int(nk in lst))
+
+# checagem rápida
+dummy_riscos = list(normkey_to_dummy_riscos.values())
+#print("Criadas:", dummy_riscos)
+#print("Somas (quantos marcaram cada risco):")
+#print(df[dummy_riscos].sum().sort_values(ascending=False))
+```
+
+```{python}
+# lista das 7 dummies de riscos (ajuste se seus nomes forem outros)
+#dummy_riscos = [
+#    "perdas_produtividade_chuva",
+#    "solos_degradados",
+#    "cultivares_tolerantes",
+#    "escassez_forragem",
+#    "baixa_eficiencia_pecuaria",
+#    "def_estrutura_abate_industr",
+#    "pressao_ecossistemas",
+#]
+
+# série com as proporções (%)
+r = (df[dummy_riscos].mean() * 100).round(1).sort_values(ascending=False)
+
+# vira DataFrame com 2 colunas (opcao, perc)
+tabela = r.rename_axis("opcao").reset_index(name="perc")
+tabela
+```
+
+## Grau de importância que atribui para os temas abaixo relacionados
+
+```{python}
+import re, unicodedata
+import pandas as pd
+
+# 1) suas colunas Likert
+cols = [
+    'importancia_tec_hid','importancia_melhoramento','importancia_biossanlina',
+    'importancia_caprinos','importancia_ilpf','importancia_conservaçao',
+    'importancia_forragem','importancia_bov_leite','importancia_microrgan',
+    'importancia_energetico','importancia_agroecol','importancia_baixo_c'
+]
+
+# 2) normalizador (remove acentos, baixa caixa, comprime espaços)
+def norm(s):
+    if pd.isna(s): return s
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+    s = re.sub(r"\s+", " ", s.casefold().strip())
+    return s
+
+# 3) escolha de tratamento para "Não sei"
+USE_NA_FOR_NAO_SEI = False  # True -> NA ; False -> 0
+
+LIKERT_MAP = {
+    "muito importante": 3,
+    "moderadamente importante": 2,
+    "pouco importante": 1,
+    "nao sei": (pd.NA if USE_NA_FOR_NAO_SEI else 0),
+}
+
+# 4) aplicar em todas as colunas
+unmapped_report = {}  # para checagem
+for col in cols:
+    # backup do rótulo original
+    df[col + "_label"] = df[col]
+
+    # mapeamento robusto
+    df[col + "_code"] = (
+        df[col].map(lambda x: LIKERT_MAP.get(norm(x), pd.NA))
+               .astype("Int64")
+    )
+
+    # diagnosticar valores não mapeados (se houver)
+    vals = df[col].dropna().unique().tolist()
+    not_mapped = sorted({v for v in vals if LIKERT_MAP.get(norm(v), None) is None})
+    if not_mapped:
+        unmapped_report[col] = not_mapped
+
+# 5) ver se sobrou algo não mapeado
+#unmapped_report  # dict vazio = tudo ok
+```
+
+```{python}
+import pandas as pd
+
+# suas colunas Likert
+cols = [
+    'importancia_tec_hid','importancia_melhoramento','importancia_biossanlina',
+    'importancia_caprinos','importancia_ilpf','importancia_conservaçao',
+    'importancia_forragem','importancia_bov_leite','importancia_microrgan',
+    'importancia_energetico','importancia_agroecol','importancia_baixo_c'
+]
+
+# ordem da escala (Não sei = 0 no seu mapeamento, mas aqui usamos os rótulos)
+ordem = ["Muito importante", "Moderadamente importante", "Pouco importante", "Não sei"]
+
+rows = []
+for col in cols:
+    s = df[col + "_label"].astype(pd.CategoricalDtype(categories=ordem, ordered=True))
+    vc = s.value_counts(dropna=False, sort=False)  # já na ordem definida
+    total = int(vc.sum())
+    for cat in ordem:
+        n = int(vc.get(cat, 0))
+        perc = round(n / total * 100, 1) if total > 0 else pd.NA
+        rows.append({"variavel": col, "categoria": cat, "perc": perc})
+
+tabela_props = pd.DataFrame(rows)
+#tabela_props
+```
+
+```{python}
+tabela_wide = (
+    tabela_props.pivot(index="variavel", columns="categoria", values="perc")
+                .reindex(columns=ordem)   # garante ordem das colunas
+                .reset_index()
+)
+tabela_wide
+```
+
+## Grau de satisfação com atuação da Embrapa no desenvolvimento de tecnologias nas temáticas abaixo relacionadas
+
+```{python}
+#import re, unicodedata
+#import pandas as pd
+
+# 1) suas colunas Likert
+cols = [
+    'satisfacao_tec_hid', 'satisfacao_melhoramento',
+       'satisfacao_biossanlina', 'satisfacao_caprinos', 'satisfacao_ilpf',
+       'satisfacao_conservaçao', 'satisfacao_forragem', 'satisfacao_bov_leite',
+       'satisfacao_microrgan', 'satisfacao_energetico', 'satisfacao_agroecol',
+       'satisfacao_baixo_c'
+]
+
+# 2) normalizador (remove acentos, baixa caixa, comprime espaços)
+def norm(s):
+    if pd.isna(s): return s
+    s = "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+    s = re.sub(r"\s+", " ", s.casefold().strip())
+    return s
+
+# 3) escolha de tratamento para "Não sei"
+USE_NA_FOR_NAO_SEI = False  # True -> NA ; False -> 0
+
+LIKERT_MAP = {
+    "totalmente satisfeito": 5,
+    "satisfeito": 4,
+    "nem satisfeito nem insatisfeito": 3,
+    "insatisfeito": 2,
+    "totalmente insatisfeito": 1,
+    "nao sei": (pd.NA if USE_NA_FOR_NAO_SEI else 0),
+}
+
+# 4) aplicar em todas as colunas
+unmapped_report = {}  # para checagem
+for col in cols:
+    # backup do rótulo original
+    df[col + "_label"] = df[col]
+
+    # mapeamento robusto
+    df[col + "_code"] = (
+        df[col].map(lambda x: LIKERT_MAP.get(norm(x), pd.NA))
+               .astype("Int64")
+    )
+
+    # diagnosticar valores não mapeados (se houver)
+    vals = df[col].dropna().unique().tolist()
+    not_mapped = sorted({v for v in vals if LIKERT_MAP.get(norm(v), None) is None})
+    if not_mapped:
+        unmapped_report[col] = not_mapped
+
+# 5) ver se sobrou algo não mapeado
+#unmapped_report  # dict vazio = tudo ok
+```
+
+```{python}
+import pandas as pd
+
+# suas colunas Likert
+cols = [
+    'satisfacao_tec_hid', 'satisfacao_melhoramento',
+       'satisfacao_biossanlina', 'satisfacao_caprinos', 'satisfacao_ilpf',
+       'satisfacao_conservaçao', 'satisfacao_forragem', 'satisfacao_bov_leite',
+       'satisfacao_microrgan', 'satisfacao_energetico', 'satisfacao_agroecol',
+       'satisfacao_baixo_c'
+]
+
+# ordem da escala (Não sei = 0 no seu mapeamento, mas aqui usamos os rótulos)
+ordem = ["Totalmente satisfeito", "Satisfeito", "Nem satisfeito nem insatisfeito", "Insatisfeito", "Totalmente insatisfeito", "Não sei"]
+
+rows = []
+for col in cols:
+    s = df[col + "_label"].astype(pd.CategoricalDtype(categories=ordem, ordered=True))
+    vc = s.value_counts(dropna=False, sort=False)  # já na ordem definida
+    total = int(vc.sum())
+    for cat in ordem:
+        n = int(vc.get(cat, 0))
+        perc = round(n / total * 100, 1) if total > 0 else pd.NA
+        rows.append({"variavel": col, "categoria": cat, "n": n, "perc": perc})
+
+tabela_props = pd.DataFrame(rows)
+#tabela_props
+```
+
+```{python}
+tabela_wide2 = (
+    tabela_props.pivot(index="variavel", columns="categoria", values="perc")
+                .reindex(columns=ordem)   # garante ordem das colunas
+                .reset_index()
+)
+tabela_wide2
+```
+
+
+# Contribuição da Embrapa Semiárido para o desenvolvimento agropecuário do país
+
+```{python}
+ordem = ["Muito relevante","Razoavelmente relevante","Pouco relevante","Não é relevante","Não conheço o suficiente para opinar"]
+map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
+df["contribuicao_sociedade_code"] = df["contribuicao_sociedade"].map(map_q).astype("Int64")
+```
+
+```{python}
+(df["contribuicao_sociedade"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+
+# Demandas
+
+```{python}
+import re, unicodedata
+import pandas as pd
+
+def strip_acc(s: str) -> str:
+    return "".join(ch for ch in unicodedata.normalize("NFKD", s) if not unicodedata.combining(ch))
+
+def norm_text(s: str) -> str:
+    s = strip_acc(s).casefold()
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+# crie uma cópia “limpa”
+df["demandas_label"] = df["demandas"]  # backup do texto original
+df["demandas_clean"] = (
+    df["demandas"]
+      .astype(str)
+      .str.strip()
+      .replace({"": pd.NA, "nan": pd.NA, "NaN": pd.NA, "Sem comentários": pd.NA, "sem comentarios": pd.NA})
+)
+
+# versão normalizada (sem acentos/minúscula) – útil pra buscas
+df["demandas_norm"] = df["demandas_clean"].dropna().map(norm_text)
+
+```
+
+```{python}
+# stopwords bem simples PT-BR (edite à vontade)
+stops = {
+    "de","da","do","das","dos","e","a","o","as","os","um","uma","para","por","com",
+    "no","na","nos","nas","em","sobre","que","ao","à","às","ou","se","como","sobre",
+    "mais","menos","muito","pouco"
+}
+
+# tokenização super simples (palavras com letras acentuadas e números)
+def tokenize(s: str):
+    return re.findall(r"[a-zA-ZÀ-ÿ0-9]+", s)
+
+tokens = []
+for txt in df["demandas_norm"].dropna():
+    for t in tokenize(txt):
+        t2 = t.lower()
+        if t2 not in stops and len(t2) > 2:
+            tokens.append(t2)
+
+#pd.Series(tokens).value_counts().head(30)
+
+```
+
+```{python}
+from collections import Counter
+
+#bigrams = []
+#for txt in df["demandas_norm"].dropna():
+#    toks = [t for t in tokenize(txt) if t not in stops and len(t) > 2]
+#    bigrams += list(zip(toks, toks[1:]))
+
+#Counter(bigrams).most_common(20)
+
+```
+
+```{python}
+def any_match(text, patterns):
+    # text já normalizado; patterns devem ser strings simples
+    return any(p in text for p in patterns)
+
+temas = {
+    "forragens":       ["forrag", "palma", "sorgo", "buffel"],
+    "caprinos_ovinos": ["caprin", "ovin"],
+    "caatinga":        ["caatinga", "restauracao", "conservacao"],
+    "irrigacao":       ["irrigacao", "eficiencia"],
+    "biossalina":      ["biossalin"],
+    "energia":         ["energia", "fotovoltaic", "solar", "eolica"],
+    "mecanizacao":     ["mecaniza", "maquina"],
+    "aguas_salobras":  ["aguas de poco", "salobr"],
+    "produtos_regionais": ["panc", "licuri", "umbu", "queijo artesan"],
+    "gestao":          ["gestao", "empreendimentos rurais", "tomada de decis"],
+}
+
+for nome, pats in temas.items():
+    df[nome] = df["demandas_norm"].fillna("").apply(lambda s: int(any_match(s, pats)))
+
+#df[list(temas.keys())].sum().sort_values(ascending=False)
+```
+
+```{python}
+tabela_demandas = (
+    df.loc[df["demandas"].notna(), ["demandas"]]
+      .rename(columns={"demandas": "demanda"})
+      .reset_index()                # traz o índice original
+      .rename(columns={"index": "linha"})
+)
+#tabela_demandas
+#import pandas as pd
+
+pd.set_option("display.max_colwidth", None)
+tabela_demandas  # só avaliar a célula já mostra completo
+```
+
+# Comentários
+
+```{python}
+tabela_comentarios = (
+    df.loc[df["comentarios"].notna(), ["comentarios"]]
+      .rename(columns={"comentarios": "comentarios"})
+      .reset_index()                # traz o índice original
+      .rename(columns={"index": "linha"})
+)
+tabela_comentarios
+```
