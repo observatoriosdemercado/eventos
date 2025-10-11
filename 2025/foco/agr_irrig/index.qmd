@@ -34,7 +34,7 @@ jupyter: python3
 
 ## Revisão de Foco
 
-Esta análise é para a agricultura dependente de chuva. 
+Esta análise é para a agricultura irrigada. 
 
 ```{python}
 #| eval: true
@@ -745,7 +745,7 @@ for col in cols:
         rows.append({"variavel": col, "categoria": cat, "perc": perc})
 
 tabela_props = pd.DataFrame(rows)
-tabela_props
+#tabela_props
 ```
 
 ```{python}
@@ -808,7 +808,7 @@ for col in cols:
         unmapped_report[col] = not_mapped
 
 # 5) ver se sobrou algo não mapeado
-unmapped_report  # dict vazio = tudo ok
+#unmapped_report  # dict vazio = tudo ok
 ```
 
 ```{python}
