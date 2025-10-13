@@ -1,0 +1,60 @@
+---
+title: "REVISÃO DE FOCO DA EMBRAPA SEMIÁRIDO"
+author: "<br><br> Grupo Análise Stakeholders Externos <br><br> <br><br> Petrolina/PE, 13 de Outubro de 2025."
+format: 
+  revealjs:
+    logo: "imgs/logo_embrapa.png" #https://www.remove.bg/pt-br/upload
+    width: 1600
+    height: 900
+    slide-number: FALSE
+    theme: serif
+    css: estilos.css
+    transition: fade
+    toc: false
+    progress: true
+#/usr/local/bin/decktape reveal index.html presentation.pdf
+# se for xaringa, trocar reveal por remark, mas antes precisa abrir o html opEM index.html
+# pwd indica a pasta que está direcionado
+# ls -l lista os arquivos da pasta atual
+# cd .. volta para uma pasta anterior com espaco EMtre cd e  ..
+# cd ~/Dropbox/Embrapa/2025/EvEMtos/Fruit\ Attraction/fruitsp2025 muda a pasta sendo que a \ é por causa do espaço
+# se precisar abrir o html (erro de excesso de tempo) opEM index.html
+
+---
+## REVISÃO DE FOCO - QUESTÕES GERAIS
+
+| **Variável**                    | **Agricultura irrigada**                                                                 | **Agr dependente de chuva**                                                     | **Recursos naturais**                                                                                |
+|--------------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **UFs predominantes**          | PE **58,5%**, BA **26,2%**, CE **6,2%**                                                               | PE **31,5%**, BA **31,5%**, CE **13,0%**                                                | PE **34,6%**, BA **19,2%**, CE **11,5%**                                                            |
+| **Perfis predominantes**       | Produtor **30,8%**; Univ/IF **13,8%**; Embrapa **12,3%**                                 | Produtor **24,1%**; Univ/IF **22,2%**; Embrapa **14,8%**                                | Univ/IF **26,9%**; Embrapa **23,1%**; Produtor **15,4%**                                            |
+| **Qualidade da pesquisa**      | Excelente **44,6%**; Boa **38,5%** <br>Regular: **9,2%**                            | Boa **50,0%**; Excelente **40,7%** <br>Regular: **5,6%**                           | Boa **65,4%**; Excelente **34,6%**                                        |
+| **Contruibição Desenvolvimento**      | Muito Relevante: **81,5%**, Razoavelmente Relevante: **10,8%**                            | Muito Relevante: **88,9%**, Razoavelmente Relevante: **9,3%**                          | Muito Relevante: **73,1%**, Razoavelmente Relevante: **19,2%**                                        |
+
+## REVISÃO DE FOCO - QUESTÕES GERAIS
+
+| **Variável**                    | **Agricultura irrigada**                                                                 | **Agricultura dependente de chuva**                                                     | **Recursos naturais**                                                                                |
+|--------------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **Perfil x Qualidade**    | Outros: **33%** Muito Ruim, Produtor Rural: **50%** Excelente e **25%** Boa                                                                 | Órgão Governam: **14,3%** Muito Ruim, Produtor Rural: **53,8%** Boa e **23,1%** Regular                                                                | Produtor Rural: **100%** Boa e **0%** Regular ou inferior                                                                           |
+| **Relevância das soluções**    | Alta: **49,2%**, Essencial: **29,2%**                                                                 | Alta: **63%**, Essencial: **20,4%**                                                                | Alta: **53,8%**, Essencial: **30,8%**                                                                             |
+| **Agilidade responder demandas**    | Regular: **35,4%**, Ágil: **35,4%**, Lenta: **10,8%**                                                                 | Regular: **37%**, Ágil: **35,2%**, Lenta: **9,3%**                                                     | Ágil: **34,6%**, Regular: **26,9%**, Lenta: **11,5%**                                                            |
+
+## REVISÃO DE FOCO - QUESTÕES GERAIS
+
+| **Variável**                    | **Agricultura irrigada**                                                                 | **Agricultura dependente de chuva**                                                     | **Recursos naturais**                                                                                |
+|--------------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **Conhecimento Técnico**    | Excelente/Forte/ Adequado: **89,2%**                                                                | Excelente/Forte/ Adequado: **98,1%**                                                               | Excelente/Forte/ Adequado: **100%**                                                                          |
+| **Integração com o Agro**    | Insuficiente: **29,2%**, Adequado: **27,2%**, Forte: **26,2%**                                                                 | Insuficiente: **29,6%**, Forteo: **29,6%**, Adequado: **16,7%**                                                         | Forte **34,6%**, Insuficiente: **26,9%**, Adequado: **15,4%**                                                            |
+| **Comunicação**    | Eficaz: **32,3%**, Regular: **29,2%**, Muito Eficaz: **20%**, Ineficaz **15,4%**                                                                 | Eficaz: **44,4%**, Regular: **27,8%**, Ineficaz **13%**, Muito Eficaz: **11,1%**,                                                      | Eficaz: **46,2%**, Regular: **26,9%**, Muito Eficaz **15,4%**, Ineficaz: **7,7%**                                                         |
+
+## REVISÃO DE FOCO - QUESTÕES GERAIS
+
+| **Variável**                    | **Agricultura irrigada**                                                                 | **Agricultura dependente de chuva**                                                     | **Recursos naturais**                                                                                |
+|--------------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **Top-3 Oportunidades**        | Manejo do solo **67,7%**; <br> Melhoramento p/ estresses **63,1%**; <br> Fitossanidade **63,1%** | Forrageiras adaptadas **72,2%**; <br> Captação/reuso de água **55,6%**; <br> Raças/animais adaptados **51,9%** | Recuperação de áreas degradadas **65,4%**; <br> Uso da biodiversidade **65,4%**; <br> Manejo/conservação **53,8%** |
+
+
+## REVISÃO DE FOCO - QUESTÕES GERAIS
+
+| **Variável**                    | **Agricultura irrigada**                                                                 | **Agricultura dependente de chuva**                                                     | **Recursos naturais**                                                                                |
+|--------------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **Top-3 Riscos**               | Redução da mão de obra **69,2%**; <br> Vulnerabilidade a pragas **56,9%**; <br> Risco climático **53,8%** | Perdas de produtividade **61,1%**; <br> Falta de cultivares/raças tolerantes **59,3%**; <br> Escassez de forragem **51,9%** | Aumento de áreas degradadas **50,0%**; <br> Escassez hídrica **50,0%**; <br> Perda de biodiversidade **46,2%** |
