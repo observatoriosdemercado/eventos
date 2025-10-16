@@ -959,14 +959,14 @@ plot = (
     )
     + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
     + theme(
-        figure_size=(12, 7),
+        figure_size=(12, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
         plot_title=element_text(size=12, weight="bold"),
         plot_caption=element_text(size=9),
         legend_title=element_blank(),
-        legend_position="bottom"
+        legend_position="none"
     )
 )
 plot.show()
@@ -982,7 +982,7 @@ legenda = (
 ```
 
 
-## Riscos na agricultura irrigada merecem atenção imediata
+## Riscos na agricultura irrigada que merecem atenção imediata
 
 ```{python}
 #import pandas as pd
@@ -1054,8 +1054,9 @@ df[["riscos_1","riscos_2","riscos_3","riscos_4"]] = df["riscos"].apply(split_ris
 ```
 
 ```{python}
-#import re, unicodedata
-#import pandas as pd
+import re, unicodedata
+import pandas as pd
+from collections import defaultdict
 
 # --- mapeamento: rótulo completo -> nome da dummy (edite os nomes se preferir) ---
 rotulo_para_dummy_riscos = {
@@ -1065,7 +1066,7 @@ rotulo_para_dummy_riscos = {
     "A redução da disponibilidade de mão-de-obra para trabalhos em atividades operacionais de campo": "reducao_maodeobra",
     "As perdas pós-colheita e a baixa resistência das frutas ao transporte a longas distâncias comprometem a competitividade": "resistencias_pos_colhe",
     "A vulnerabilidade a pragas, doenças, estresses bióticos/abióticos e a falta de automação na colheita e avaliação de qualidade são entraves à produção": "vulnerab_pragas",
-    "Resistência de pragas e doenças aos defensivos.": "resist_pragas",
+    "Resistência de pragas e doenças aos defensivos.": "vulnerab_pragas",
 }
 
 # normalizador (tira acento/caixa e compacta espaços)
@@ -1090,11 +1091,17 @@ def coletar_riscos(row):
 # cria as 7 dummies (0/1)
 all_norm = df.apply(coletar_riscos, axis=1)
 
-for nk, dummy_name in normkey_to_dummy_riscos.items():
-    df[dummy_name] = all_norm.apply(lambda lst: int(nk in lst))
+# --- AGRUPA keys por dummy, para poder fazer OR (any) corretamente ---
+keys_by_dummy = defaultdict(list)
+for nk, dummy in normkey_to_dummy_riscos.items():
+    keys_by_dummy[dummy].append(nk)
 
-# checagem rápida
-dummy_riscos = list(normkey_to_dummy_riscos.values())
+# cria as dummies (0/1) — OR entre todas as chaves daquele dummy
+for dummy, keys in keys_by_dummy.items():
+    df[dummy] = all_norm.apply(lambda lst: int(any(k in lst for k in keys)))
+
+# lista final de dummies criadas
+dummy_riscos = list(keys_by_dummy.keys())
 #print("Criadas:", dummy_riscos)
 #print("Somas (quantos marcaram cada risco):")
 #print(df[dummy_riscos].sum().sort_values(ascending=False))
@@ -1107,6 +1114,77 @@ r = (df[dummy_riscos].mean() * 100).round(1).sort_values(ascending=False)
 # vira DataFrame com 2 colunas (opcao, perc)
 tabela = r.rename_axis("opcao").reset_index(name="perc")
 tabela
+```
+
+```{python}
+#import pandas as pd
+#from plotnine import *
+
+# ---- 0) mapeamentos ----
+dummy_para_rotulo_curto = {
+    "risco_clima": "Clima & extremos",
+    "inefic_agua": "Uso ineficiente da água",
+    "ausencia_sensores": "Sem sensores/irrig. inteligente",
+    "reducao_maodeobra": "Menor mão de obra disponível",
+    "resistencias_pos_colhe": "Perdas pós-colheita",
+    "vulnerab_pragas": "Pragas/doenças & automação",
+}
+
+# 1) Paleta fixa (10 cores) — troque pelos seus hex se já tiver um padrão
+
+CORES_FIXAS = {
+    "Clima & extremos": "#9BD34E",
+    "Sem sensores/irrig. inteligente": "#F4E24A",
+    "Menor mão de obra disponível": '#6d1575',
+    "Pragas/doenças & automação": '#595f8f',
+    "Uso Ineficiente da Água": '#178496',
+    "Perdas pós-colheita": '#076140',
+}
+
+# rótulo curto e rótulo de texto com vírgula
+tabela = tabela.copy()
+tabela["opcao_curta"] = tabela["opcao"].map(dummy_para_rotulo_curto).fillna(tabela["opcao"])
+tabela["label_pct"]   = tabela["perc"].map(lambda v: f"{v:.1f}%".replace(".", ","))
+tabela["cor"] = tabela["opcao_curta"].map(CORES_FIXAS)
+
+# ordenar pela % (decrescente) e “travar” a ordem no eixo
+tabela = tabela.sort_values("perc", ascending=True)  # ascending=True pq vamos dar coord_flip
+tabela["opcao_curta"] = pd.Categorical(tabela["opcao_curta"], categories=tabela["opcao_curta"], ordered=True)
+
+# ---- 2) gráfico (barras horizontais) ----
+plot = (
+    ggplot(tabela, aes(x="opcao_curta", y="perc", fill="opcao_curta"))
+    + geom_col(width=0.65)
+    + geom_text(aes(label="label_pct"), nudge_y=1.2, size=11, ha="left")
+    + coord_flip()
+    + scale_fill_manual(values=list(tabela.drop_duplicates("opcao_curta")["cor"]))
+    + labs(
+        title="Riscos na agricultura irrigada que merecem atenção",
+        x="",
+        y="Percentual dos respondentes (%)",
+    )
+    + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
+    + theme(
+        figure_size=(12, 8),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_position="none"
+    )
+)
+plot.show()
+
+# ---- 3) “Legenda” para o slide: curto x descrição completa ----
+legenda = (
+    tabela[["opcao", "opcao_curta"]]
+    .assign(descricao=tabela["opcao"].map(rotulo_original))
+    .rename(columns={"opcao_curta": "rótulo_curto", "descricao": "descrição"})
+    .drop_duplicates()
+)
+# Você pode exibir 'legenda' como uma tabela no slide.
 ```
 
 ## Grau de importância que atribui para os temas abaixo relacionados
@@ -1160,7 +1238,7 @@ for col in cols:
 ```
 
 ```{python}
-import pandas as pd
+#import pandas as pd
 
 # suas colunas Likert
 cols = [
@@ -1191,6 +1269,66 @@ tabela_wide = (
                 .reset_index()
 )
 tabela_wide
+```
+
+```{python}
+# dados longos: cols = ["variavel","resposta","perc"]  # perc em 0–100
+#from plotnine import *
+#import pandas as pd
+
+# mapeia o nome técnico -> rótulo curto (1 linha)
+map_var_to_label = {
+    "importancia_melhoramento":      "Melhoramento genético (frutas/oler.)",
+    "importancia_manejo_agua":       "Manejo da água (irrig.)",
+    "importancia_manejo_doencas":    "Manejo de doenças (irrig.)",
+    "importancia_manejo_pragas":     "Manejo de pragas (irrig.)",
+    "importancia_sistemas_prod":     "Sistemas de produção (frutas/oler.)",
+    "importancia_monit_gases":       "Monit./mitigação de GEE",
+    "importancia_ferramentas_biotec":"Biotecnologia aplicada",
+    "importancia_tecno_alimen":      "Tecnologia de alimentos",
+    "importancia_poscolheita":       "Pós-colheita (qualid./vida útil)",
+    "importancia_mercado":           "Estudos de mercado/viabilidade",
+}
+
+ordem = ["Não sei","Pouco importante","Moderadamente importante","Muito importante"]
+cores = {
+    "Muito importante": "#076140",           # verde escuro
+    "Moderadamente importante": "#2FA178",   # verde médio
+    "Pouco importante": "#F4E24A",           # amarelo
+    "Não sei": "#BAB0AC"                     # cinza
+}
+
+# 2) Aplica rótulos curtos (escolha com ou sem quebra de linha)
+dfp = tabela_props.copy()
+dfp["variavel"] = dfp["variavel"].map(map_var_to_label)
+dfp["categoria"] = pd.Categorical(dfp["categoria"], categories=ordem, ordered=True)
+
+# ordenar variáveis por % "Muito importante"
+ord_var = (dfp.query('categoria=="Muito importante"')
+              .sort_values("perc")["variavel"].tolist())
+dfp["variavel"] = pd.Categorical(dfp["variavel"], categories=ord_var, ordered=True)
+
+plot = (
+  ggplot(dfp, aes(x="variavel", y="perc", fill="categoria"))
+  + geom_col(width=0.75, position="fill")     # 100%
+  + coord_flip()
+  + scale_fill_manual(values={k:cores[k] for k in ordem})
+  + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
+  + labs(x="", y="Distribuição (%)", fill="")
+    + theme(
+        figure_size=(12, 8),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_text=element_text(size=12),
+        legend_position="bottom"
+    )
+)
+
+plot.show()
 ```
 
 ## Grau de satisfação com atuação da Embrapa no desenvolvimento de tecnologias nas temáticas abaixo relacionadas
@@ -1281,6 +1419,79 @@ tabela_wide2 = (
                 .reset_index()
 )
 tabela_wide2
+```
+
+```{python}
+# mapeia o nome técnico -> rótulo curto (1 linha)
+map_var_to_label = {
+    "satisfacao_melhoramento":      "Melhoramento genético (frutas/oler.)",
+    "satisfacao_manejo_agua":       "Manejo da água (irrig.)",
+    "satisfacao_manejo_doencas":    "Manejo de doenças (irrig.)",
+    "satisfacao_manejo_pragas":     "Manejo de pragas (irrig.)",
+    "satisfacao_sistemas_prod":     "Sistemas de produção (frutas/oler.)",
+    "satisfacao_monit_gases":       "Monit./mitigação de GEE",
+    "satisfacao_ferramentas_biotec":"Biotecnologia aplicada",
+    "satisfacao_tecno_alimen":      "Tecnologia de alimentos",
+    "satisfacao_poscolheita":       "Pós-colheita (qualid./vida útil)",
+    "satisfacao_mercado":           "Estudos de mercado/viabilidade",
+}
+
+ordem = ["Não sei","Totalmente insatisfeito","Nem satisfeito nem insatisfeito","Satisfeito","Totalmente satisfeito"]
+cores = {
+    "Totalmente satisfeito": "#0e0663",           # azul escuro
+    "Satisfeito": "#181078",   # azul médio
+    "Nem satisfeito nem insatisfeito": "#281f91",           # azul
+    "Totalmente insatisfeito": "#4237b3", #azul
+    "Não sei": "#685dde"                     # cinza
+}
+
+# 1) Garantias de tipo
+dfp = tabela_props.copy()
+dfp["perc"] = pd.to_numeric(dfp["perc"], errors="coerce").fillna(0)
+
+# 2) Rótulos curtos (já mapeiam 100%)
+dfp["variavel"] = dfp["variavel"].map(map_var_to_label)
+
+# 3) Categorias na ordem esperada (qualquer coisa fora vira "Não sei")
+ordem = ["Não sei","Totalmente insatisfeito","Nem satisfeito nem insatisfeito","Satisfeito","Totalmente satisfeito"]
+dfp.loc[~dfp["categoria"].isin(ordem), "categoria"] = "Não sei"
+dfp["categoria"] = pd.Categorical(dfp["categoria"], categories=ordem, ordered=True)
+
+# 4) Ordena e define como categórica
+ord_var = (dfp.query('categoria=="Totalmente satisfeito"')
+             .sort_values("perc")["variavel"].tolist())
+if not ord_var:
+    ord_var = sorted(dfp["variavel"].unique())
+dfp["variavel"] = pd.Categorical(dfp["variavel"], categories=ord_var, ordered=True)
+
+# 5) Cores + plot 100% empilhado
+cores = {
+    "Totalmente satisfeito": "#200663",
+    "Satisfeito": "#336b96",
+    "Nem satisfeito nem insatisfeito": "#59917d",
+    "Totalmente insatisfeito": "#7febe3",
+    "Não sei": "#59917d"
+}
+
+plot = (
+  ggplot(dfp, aes(x="variavel", y="perc", fill="categoria"))
+  + geom_col(width=0.75, position="fill")
+  + coord_flip()
+  + scale_fill_manual(values={k: cores[k] for k in ordem})
+  + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
+  + labs(x="", y="Distribuição (%)", fill="")
+  + theme(
+      figure_size=(12, 8),
+      legend_title=element_blank(),
+      legend_text=element_text(size=12),
+      legend_position="bottom",
+      panel_grid_major_y=element_blank(),
+      axis_text_y=element_text(size=13),
+      axis_text_x=element_text(size=13),
+  )
+)
+
+plot.show()
 ```
 
 # Contribuição da Embrapa Semiárido para o desenvolvimento agropecuário do país
