@@ -148,7 +148,7 @@ over = {
     "BOM JESUS, PI": "Bom Jesus-PI",
 
     # Região Nordeste (caso especial)
-    "REGIAO NORDESTE": "Nordeste",
+    "REGIAO NORDESTE": "Petrolina-PE",
 
     # Juazeiro (BA)
     "JUAZEIRO-BA": "Juazeiro-BA",
@@ -208,6 +208,50 @@ df[["cidade", "uf"]] = df["cidade_uf2"].apply(lambda x: pd.Series(split_cidade_e
 (df["uf"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
 ```
 
+```{python}
+#import pandas as pd
+from plotnine import *
+
+# 1) preparar dados (percentuais por UF, ordenados)
+dist = (
+    df['uf'].fillna('Sem UF')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('uf').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['uf'] = pd.Categorical(dist['uf'], categories=dist['uf'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.03)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='uf', y='pct', fill='uf'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='', x='', y='%', fill='UF')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=15, ha='right')
+    )
+)
+
+plot.show()
+```
 
 ```{python}
 # tira espaços nas pontas (evita falhas de casca)
@@ -248,6 +292,51 @@ df["perfil"] = df["perfil"].replace(mapping)
 (df["perfil"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
 ```
 
+```{python}
+#import pandas as pd
+#from plotnine import *
+
+# 1) preparar dados (percentuais por perfil, ordenados)
+dist = (
+    df['perfil'].fillna('Sem Perfil')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('perfil').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['perfil'] = pd.Categorical(dist['perfil'], categories=dist['perfil'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.06)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='perfil', y='pct', fill='perfil'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='', x='', y='%', fill='PERFIL')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
+```
+
 # Estatística Descritiva do Perfil X Estado (%)
 
 ```{python}
@@ -282,6 +371,48 @@ df["qualidade_pesq_code"] = df["qualidade_pesq"].map(map_q).astype("Int64")
 
 ```{python}
 (df["qualidade_pesq"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+```{python}
+# 1) preparar dados (percentuais por qualidade_pesq, ordenados)
+dist = (
+    df['qualidade_pesq'].fillna('Sem Resposta')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('qualidade_pesq').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['qualidade_pesq'] = pd.Categorical(dist['qualidade_pesq'], categories=dist['qualidade_pesq'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='qualidade_pesq', y='pct', fill='qualidade_pesq'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='Qualidade da Pesquisa', x='', y='%', fill='QUALIDADE DA PESQUISA')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
 ```
 
 ### Estatística Descritiva do Perfil x Qualidade Pesquisa (%)
@@ -329,6 +460,48 @@ df["relevancia_solucoes_code"] = df["relevancia_solucoes"].map(map_q).astype("In
 (df["relevancia_solucoes"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
 ```
 
+```{python}
+# 1) preparar dados (percentuais por qualidade_pesq, ordenados)
+dist = (
+    df['relevancia_solucoes'].fillna('Sem Resposta')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('relevancia_solucoes').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['relevancia_solucoes'] = pd.Categorical(dist['relevancia_solucoes'], categories=dist['relevancia_solucoes'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='relevancia_solucoes', y='pct', fill='relevancia_solucoes'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='Relevância das Soluções', x='', y='%', fill='RELEVÂNCIA DAS SOLUÇÕES')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
+```
+
 ## Agilidade da Embrapa Semiárido em responder às demandas e desafios
 
 ```{python}
@@ -339,6 +512,48 @@ df["agilidade_respostas_code"] = df["agilidade_respostas"].map(map_q).astype("In
 
 ```{python}
 (df["agilidade_respostas"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+```{python}
+# 1) preparar dados (percentuais por qualidade_pesq, ordenados)
+dist = (
+    df['agilidade_respostas'].fillna('Sem Resposta')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('agilidade_respostas').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['agilidade_respostas'] = pd.Categorical(dist['agilidade_respostas'], categories=dist['agilidade_respostas'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='agilidade_respostas', y='pct', fill='agilidade_respostas'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='Agilidade das Respostas', x='', y='%', fill='AGILIDADE DAS RESPOSTAS')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
 ```
 
 ## Conhecimento técnico da equipe da Embrapa Semiárido
@@ -353,6 +568,48 @@ df["conhecimento_tecnico_code"] = df["conhecimento_tecnico"].map(map_q).astype("
 (df["conhecimento_tecnico"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
 ```
 
+```{python}
+# 1) preparar dados (percentuais por qualidade_pesq, ordenados)
+dist = (
+    df['conhecimento_tecnico'].fillna('Sem Resposta')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('conhecimento_tecnico').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['conhecimento_tecnico'] = pd.Categorical(dist['conhecimento_tecnico'], categories=dist['conhecimento_tecnico'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='conhecimento_tecnico', y='pct', fill='conhecimento_tecnico'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='Conhecimento Técnico da Equipe', x='', y='%', fill='CONHECIMENTO TÉCNICO')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
+```
+
 ## Interação da equipe técnica da Embrapa Semiárido com os membros do setor agropecuário
 
 ```{python}
@@ -365,6 +622,48 @@ df["interacao_agro_code"] = df["interacao_agro"].map(map_q).astype("Int64")
 (df["interacao_agro"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
 ```
 
+```{python}
+# 1) preparar dados (percentuais por qualidade_pesq, ordenados)
+dist = (
+    df['interacao_agro'].fillna('Sem Resposta')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('interacao_agro').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['interacao_agro'] = pd.Categorical(dist['interacao_agro'], categories=dist['interacao_agro'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='interacao_agro', y='pct', fill='interacao_agro'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='Interação da equipe técnica com o Agro', x='', y='%', fill='INTERAÇAO TÉCNICA')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
+```
+
 ## Comunicação da Embrapa Semiárido sobre suas tecnologias
 
 ```{python}
@@ -375,6 +674,48 @@ df["comunicacao_code"] = df["comunicacao"].map(map_q).astype("Int64")
 
 ```{python}
 (df["comunicacao"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
+```
+
+```{python}
+# 1) preparar dados (percentuais por qualidade_pesq, ordenados)
+dist = (
+    df['comunicacao'].fillna('Sem Resposta')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('comunicacao').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['comunicacao'] = pd.Categorical(dist['comunicacao'], categories=dist['comunicacao'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='comunicacao', y='pct', fill='comunicacao'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='Comunicação sobre suas tecnologias', x='', y='%', fill='COMUNICAÇÃO TECNOLOGIAS')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
 ```
 
 # Oportunidades e prioridades para o desenvolvimento tecnológico e de inovação, bem como os riscos iminentes que demandam atenção imediata
@@ -850,6 +1191,47 @@ df["contribuicao_sociedade_code"] = df["contribuicao_sociedade"].map(map_q).asty
 (df["contribuicao_sociedade"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
 ```
 
+```{python}
+# 1) preparar dados (percentuais por qualidade_pesq, ordenados)
+dist = (
+    df['contribuicao_sociedade'].fillna('Sem Resposta')                      # evita NaN aparecer na legenda
+      .value_counts(dropna=False)
+      .rename_axis('contribuicao_sociedade').reset_index(name='n')
+)
+dist['pct'] = dist['n'] / dist['n'].sum() * 100
+dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+
+# manter ordem no eixo e na legenda
+dist['contribuicao_sociedade'] = pd.Categorical(dist['contribuicao_sociedade'], categories=dist['contribuicao_sociedade'], ordered=True)
+pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
+dist['label']  = dist['pct'].round(1).astype(str) + '%'
+dist['y_text'] = dist['pct'] + pad
+y_top = dist['y_text'].max() + pad          # garante folga no topo
+
+plot = (
+    ggplot(dist, aes(x='contribuicao_sociedade', y='pct', fill='contribuicao_sociedade'))
+    + geom_col(width=0.75)
+    + geom_text(aes(y='y_text', label='label'), va='bottom', size=13)
+    + scale_y_continuous(
+        limits=(0, y_top),                   # <<< evita cortar a 1ª etiqueta
+        expand=(0, 0),
+        labels=lambda v: [f'{x:.0f}%' for x in v]
+    )
+    + scale_x_discrete(expand=(0, 0)) 
+    + labs(title='Contribuição para o Desenvolvimento', x='', y='%', fill='CONTRIBUIÇÃO PARA O PAÍS')
+    + theme(
+        figure_size=(12, 8),
+        legend_position='none',
+        legend_direction='horizontal',
+        legend_title=element_text(size=13),
+        legend_text=element_text(size=13),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13, angle=45, ha='right')
+    )
+)
+
+plot.show()
+```
 
 # Demandas
 
