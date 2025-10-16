@@ -230,7 +230,6 @@ df[["cidade", "uf"]] = df["cidade_uf2"].apply(lambda x: pd.Series(split_cidade_e
 # Estatística Descritiva do Estado
 
 ```{python}
-#| echo: true
 (df["uf"].value_counts(normalize=True) * 100).round(1).astype(str) + "%"
 ```
 
@@ -886,11 +885,107 @@ tabela
 
 ```
 
+```{python}
+#import pandas as pd
+#from plotnine import *
+
+# ---- 0) mapeamentos ----
+dummy_para_rotulo_curto = {
+    "irriga_inteligente": "Irrigação inteligente",
+    "base_dados_fertiliza": "Bases de dados (fert.)",
+    "melhoramento_estresses": "Variedades tolerantes",
+    "manejo_fito": "Manejo fitossanitário",
+    "manejo_solo": "Manejo do solo (micro)",
+    "variedades": "Variedades p/ mercado",
+    "tecnol_clima": "Adaptação ao clima",
+    "atualizar_dados": "Atualização de dados",
+    "maquinas_pequenos": "Máquinas p/ pequenos",
+    "agr_biossalina": "Agricultura biossalina",
+}
+
+# se você tiver o dicionário dos rótulos longos (originais), ótimo:
+rotulo_original = {
+    "irriga_inteligente": "Desenvolvimento de sensores e tecnologias para uma irrigação inteligente e eficiente",
+    "base_dados_fertiliza": "Criação de Bases de dados e integração solo-planta-fertilizantes para otimização do manejo de fertilizantes",
+    "melhoramento_estresses": "Melhoramento genético e variedades adaptadas e tolerantes a estresses bióticos e abióticos",
+    "manejo_fito": "Tecnologias de manejo fitossanitário de precisão, controle biológico de pragas e detecção precoce de doenças",
+    "manejo_solo": "Práticas de manejo do solo e uso de microrganismos para aumentar fertilidade e reduzir pegada hídrica e de carbono",
+    "variedades": "Variedades com todas as características acima e que atendam às exigências do mercado",
+    "tecnol_clima": "Tecnologia para adaptar-se ao aquecimento do clima",
+    "atualizar_dados": "Atualizar bases: muitas informações dispersas/obsoletas; integrar e organizar dados",
+    "maquinas_pequenos": "Desenvolver/adaptar máquinas e implementos para médios e pequenos produtores",
+    "agr_biossalina": "Agricultura biossalina",
+}
+
+# ---- 1) partimos da sua 'tabela' (colunas: 'opcao', 'perc') ----
+# tabela = s.rename_axis("opcao").reset_index(name="perc")  # já feito por você
+
+# 1) Paleta fixa (10 cores) — troque pelos seus hex se já tiver um padrão
+
+CORES_FIXAS = {
+    "Irrigação inteligente": "#3B0056",
+    "Bases de dados (fert.)": "#444C8A",
+    "Variedades tolerantes": "#2D6F7A",
+    "Manejo fitossanitário": "#2FA178",
+    "Manejo do solo (micro)": "#9BD34E",
+    "Variedades p/ mercado": "#F4E24A",
+    "Adaptação ao clima": '#6d1575',
+    "Atualização de dados": '#595f8f',
+    "Máquinas p/ pequenos": '#178496',
+    "Agricultura biossalina": '#076140',
+}
+
+# rótulo curto e rótulo de texto com vírgula
+tabela = tabela.copy()
+tabela["opcao_curta"] = tabela["opcao"].map(dummy_para_rotulo_curto).fillna(tabela["opcao"])
+tabela["label_pct"]   = tabela["perc"].map(lambda v: f"{v:.1f}%".replace(".", ","))
+tabela["cor"] = tabela["opcao_curta"].map(CORES_FIXAS)
+
+# ordenar pela % (decrescente) e “travar” a ordem no eixo
+tabela = tabela.sort_values("perc", ascending=True)  # ascending=True pq vamos dar coord_flip
+tabela["opcao_curta"] = pd.Categorical(tabela["opcao_curta"], categories=tabela["opcao_curta"], ordered=True)
+
+# ---- 2) gráfico (barras horizontais) ----
+plot = (
+    ggplot(tabela, aes(x="opcao_curta", y="perc", fill="opcao_curta"))
+    + geom_col(width=0.65)
+    + geom_text(aes(label="label_pct"), nudge_y=1.2, size=11, ha="left")
+    + coord_flip()
+    + scale_fill_manual(values=list(tabela.drop_duplicates("opcao_curta")["cor"]))
+    + labs(
+        title="Oportunidades tecnológicas na agricultura irrigada (priorização)",
+        x="",
+        y="Percentual dos respondentes (%)",
+    )
+    + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
+    + theme(
+        figure_size=(12, 7),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_position="bottom"
+    )
+)
+plot.show()
+
+# ---- 3) “Legenda” para o slide: curto x descrição completa ----
+legenda = (
+    tabela[["opcao", "opcao_curta"]]
+    .assign(descricao=tabela["opcao"].map(rotulo_original))
+    .rename(columns={"opcao_curta": "rótulo_curto", "descricao": "descrição"})
+    .drop_duplicates()
+)
+# Você pode exibir 'legenda' como uma tabela no slide.
+```
+
+
 ## Riscos na agricultura irrigada merecem atenção imediata
 
 ```{python}
-import re, unicodedata
-import pandas as pd
+#import pandas as pd
 
 valid_opts = [
     "A escassez, a variabilidade hídrica e os eventos climáticos extremos representam desafios para a produção agrícola",
@@ -1000,9 +1095,9 @@ for nk, dummy_name in normkey_to_dummy_riscos.items():
 
 # checagem rápida
 dummy_riscos = list(normkey_to_dummy_riscos.values())
-print("Criadas:", dummy_riscos)
-print("Somas (quantos marcaram cada risco):")
-print(df[dummy_riscos].sum().sort_values(ascending=False))
+#print("Criadas:", dummy_riscos)
+#print("Somas (quantos marcaram cada risco):")
+#print(df[dummy_riscos].sum().sort_values(ascending=False))
 ```
 
 ```{python}
@@ -1187,7 +1282,6 @@ tabela_wide2 = (
 )
 tabela_wide2
 ```
-
 
 # Contribuição da Embrapa Semiárido para o desenvolvimento agropecuário do país
 
