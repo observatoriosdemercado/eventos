@@ -5,7 +5,7 @@ date: "today"
 editor: source
 lang: pt
 language: 
-  toc-title-document: '<a href="https://observatoriosdemercado.github.io/manga/" target="_blank"><img src="https://github.com/observatoriosdemercado/manga/blob/main/logo_embrapa.jpg?raw=true" alt="Logotipo Embrapa" width="150"></a>'
+  toc-title-document: '<a href="https://www.embrapa.br/semiarido" target="_blank"><img src="https://github.com/observatoriosdemercado/manga/blob/main/logo_embrapa.jpg?raw=true" alt="Logotipo Embrapa" width="150"></a>'
 format: 
   html:
     toc: true
@@ -1054,8 +1054,8 @@ df[["riscos_1","riscos_2","riscos_3","riscos_4"]] = df["riscos"].apply(split_ris
 ```
 
 ```{python}
-import re, unicodedata
-import pandas as pd
+#import re, unicodedata
+#import pandas as pd
 from collections import defaultdict
 
 # --- mapeamento: rótulo completo -> nome da dummy (edite os nomes se preferir) ---
