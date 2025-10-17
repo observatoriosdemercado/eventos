@@ -5,7 +5,7 @@ date: "today"
 editor: source
 lang: pt
 language: 
-  toc-title-document: '<a href="https://observatoriosdemercado.github.io/manga/" target="_blank"><img src="https://github.com/observatoriosdemercado/manga/blob/main/logo_embrapa.jpg?raw=true" alt="Logotipo Embrapa" width="150"></a>'
+  toc-title-document: '<a href="https://www.embrapa.br/semiarido" target="_blank"><img src="https://github.com/observatoriosdemercado/manga/blob/main/logo_embrapa.jpg?raw=true" alt="Logotipo Embrapa" width="150"></a>'
 format: 
   html:
     toc: true
@@ -860,6 +860,84 @@ tabela
 
 ```
 
+```{python}
+#import pandas as pd
+#from plotnine import *
+
+# ---- 0) mapeamentos ----
+dummy_para_rotulo_curto = {
+    "recupera_degradadas": "Recuperação de áreas degradadas",
+    "uso_biodiversidade": "Biodiversidade da Caatinga foco Bioeconomia",
+    "manejo_conservacao": "Técnicas de manejo/conservação solo-água",
+    "prospec_genes": "Prospecção de genes de tolerância a estresses",
+    "zoneamento_risco": "Zoneamento de risco climático",
+    "desenvolv_territorial": "Desenvolvimento territorial",
+    "manejo_epidemias": "Manejo de epidemias fitosanitarias",
+    "poliniza_manejo_abelhas": "Serviços polinização-manejo abelhas",
+}
+
+# ---- 1) partimos da sua 'tabela' (colunas: 'opcao', 'perc') ----
+# tabela = s.rename_axis("opcao").reset_index(name="perc")  # já feito por você
+
+# 1) Paleta fixa (10 cores) — troque pelos seus hex se já tiver um padrão
+
+CORES_FIXAS = {
+    "Recuperação de áreas degradadas": "#3B0056",
+    "Biodiversidade da Caatinga foco Bioeconomia": "#444C8A",
+    "Técnicas de manejo/conservação solo-água": "#2D6F7A",
+    "Prospecção de genes de tolerância a estresse": "#2FA178",
+    "Zoneamento de risco climático": "#9BD34E",
+    "Desenvolvimento territorial": "#F4E24A",
+    "Manejo de epidemias fitosanitarias": '#6d1575',
+    "Serviços polinização-manejo abelhas": '#595f8f',
+}
+
+# rótulo curto e rótulo de texto com vírgula
+tabela = tabela.copy()
+tabela["opcao_curta"] = tabela["opcao"].map(dummy_para_rotulo_curto).fillna(tabela["opcao"])
+tabela["label_pct"]   = tabela["perc"].map(lambda v: f"{v:.1f}%".replace(".", ","))
+tabela["cor"] = tabela["opcao_curta"].map(CORES_FIXAS)
+
+# ordenar pela % (decrescente) e “travar” a ordem no eixo
+tabela = tabela.sort_values("perc", ascending=True)  # ascending=True pq vamos dar coord_flip
+tabela["opcao_curta"] = pd.Categorical(tabela["opcao_curta"], categories=tabela["opcao_curta"], ordered=True)
+
+# ---- 2) gráfico (barras horizontais) ----
+plot = (
+    ggplot(tabela, aes(x="opcao_curta", y="perc", fill="opcao_curta"))
+    + geom_col(width=0.65)
+    + geom_text(aes(label="label_pct"), nudge_y=1.2, size=11, ha="left")
+    + coord_flip()
+    + scale_fill_manual(values=list(tabela.drop_duplicates("opcao_curta")["cor"]))
+    + labs(
+        title="Oportunidades tecnológicas na agricultura irrigada (priorização)",
+        x="",
+        y="Percentual dos respondentes (%)",
+    )
+    + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
+    + theme(
+        figure_size=(12, 8),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_position="none"
+    )
+)
+plot.show()
+
+# ---- 3) “Legenda” para o slide: curto x descrição completa ----
+#legenda = (
+#    tabela[["opcao", "opcao_curta"]]
+#    .assign(descricao=tabela["opcao"].map(rotulo_original))
+#    .rename(columns={"opcao_curta": "rótulo_curto", "descricao": #"descrição"})
+#    .drop_duplicates()
+#)
+# Você pode exibir 'legenda' como uma tabela no slide.
+```
+
 ## Riscos em Recursos Naturais que merecem atenção imediata
 
 ```{python}
@@ -935,7 +1013,6 @@ def split_riscos_with_commas(raw):
 
 # aplicar
 df[["riscos_1","riscos_2","riscos_3","riscos_4"]] = df["riscos"].apply(split_riscos_with_commas)
-
 ```
 
 ```{python}
@@ -998,6 +1075,91 @@ r = (df[dummy_riscos].mean() * 100).round(1).sort_values(ascending=False)
 # vira DataFrame com 2 colunas (opcao, perc)
 tabela = r.rename_axis("opcao").reset_index(name="perc")
 tabela
+```
+
+```{python}
+#import pandas as pd
+#from plotnine import *
+
+# ---- 0) mapeamentos ----
+dummy_para_rotulo_curto = {
+    "aumento_degrada": "Aumento áreas degradadas-desertificação",
+    "escassez_hidrica": "Escassez hídrica",
+    "perda_biodiv": "Perda da biodiversidade nativa por desmatamento",
+    "perda_produtiv": "Perdas de produtividade devido clima",
+    "baixa_adoc_tec": "Baixa adoção de tecnologias sustentáveis",
+    "aumento_improdutiv": "Aumento das áreas improdutivas",
+    "ausencia_politicas": "Ausência de programas e políticas públicas",
+    "saniliza_solos": "Salinização de solos áreas irrigadas",
+    "reducao_poliniza": "Redução de polinizadores e fauna",
+    "perda_sementes_nativ": "Perda de sementes nativas e adaptadas",
+    "contamina_aguas": "Contaminação de águas superficiais/ subterrâneas",
+    "valorar_recnat": "Valorar os recursos naturais ",
+    "introd_especies_exoticas": "Introdução espécies exóticas invasoras",
+}
+
+# 1) Paleta fixa (13 cores) — troque pelos seus hex se já tiver um padrão
+
+CORES_FIXAS = {
+    "Aumento áreas degradadas-desertificação": "#9bd34e",
+    "Escassez hídrica": "#d39c4e",
+    "Perda da biodiversidade nativa por desmatamento": '#d3ca4e',
+    "Perdas de produtividade devido clima": '#add34e',
+    "Baixa adoção de tecnologias sustentáveis": '#5c9139',
+    "Aumento das áreas improdutivas": '#044a09',
+    "Ausência de programas e políticas públicas": '#0b999e',
+    "Salinização de solos áreas irrigadas": '#127adb',
+    "Redução de polinizadores e fauna": '#7589d1',
+    "Perda de sementes nativas e adaptadas": '#6656f5',
+    "Contaminação de águas superficiais/ subterrâneas": '#7520d6',
+    "Valorar os recursos naturais ": '#64436e',
+    "Introdução espécies exóticas invasoras": '#9c057d',
+}
+
+# rótulo curto e rótulo de texto com vírgula
+tabela = tabela.copy()
+tabela["opcao_curta"] = tabela["opcao"].map(dummy_para_rotulo_curto).fillna(tabela["opcao"])
+tabela["label_pct"]   = tabela["perc"].map(lambda v: f"{v:.1f}%".replace(".", ","))
+tabela["cor"] = tabela["opcao_curta"].map(CORES_FIXAS)
+
+# ordenar pela % (decrescente) e “travar” a ordem no eixo
+tabela = tabela.sort_values("perc", ascending=True)  # ascending=True pq vamos dar coord_flip
+tabela["opcao_curta"] = pd.Categorical(tabela["opcao_curta"], categories=tabela["opcao_curta"], ordered=True)
+
+# ---- 2) gráfico (barras horizontais) ----
+plot = (
+    ggplot(tabela, aes(x="opcao_curta", y="perc", fill="opcao_curta"))
+    + geom_col(width=0.65)
+    + geom_text(aes(label="label_pct"), nudge_y=1.2, size=11, ha="left")
+    + coord_flip()
+    + scale_fill_manual(values=list(tabela.drop_duplicates("opcao_curta")["cor"]))
+    + labs(
+        title="Riscos na agricultura irrigada que merecem atenção",
+        x="",
+        y="Percentual dos respondentes (%)",
+    )
+    + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
+    + theme(
+        figure_size=(12, 8),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_position="none"
+    )
+)
+plot.show()
+
+# ---- 3) “Legenda” para o slide: curto x descrição completa ----
+#legenda = (
+#    tabela[["opcao", "opcao_curta"]]
+#    .assign(descricao=tabela["opcao"].map(rotulo_original))
+#    .rename(columns={"opcao_curta": "rótulo_curto", "descricao": #"descrição"})
+#    .drop_duplicates()
+#)
+# Você pode exibir 'legenda' como uma tabela no slide.
 ```
 
 ## Grau de importância que atribui para os temas abaixo relacionados
@@ -1086,6 +1248,68 @@ tabela_wide = (
                 .reset_index()
 )
 tabela_wide
+```
+
+```{python}
+# dados longos: cols = ["variavel","resposta","perc"]  # perc em 0–100
+#from plotnine import *
+#import pandas as pd
+
+# mapeia o nome técnico -> rótulo curto (1 linha)
+map_var_to_label = {
+    "importancia_avalia_impactos":      "Avaliação impactos socioambientais",
+    "importancia_bioeconomia":       "Bioeconomia da Caatinga",
+    "importancia_estrateg_mitiga":    "Mitigação e convivência c/ eventos extremos",
+    "importancia_estudos_ecologicos":     "Estudos ecológicos comunidades biológicas",
+    "importancia_model_climatica":     "Modelagem climática ",
+    "importancia_nanoencapsula":       "Nanoencapsulamento compostos bioativos",
+    "importancia_pratic_conservac": "Práticas conservacionistas e monitoramento",
+    "importancia_recupera_areas_degrada":      "Recuperação e manejo de áreas degradadas",
+    "importancia_sementes_nat":       "Conservação e multiplicação sementes nativas",
+    "importancia_sensoria_remoto":           "Sensoriamento remoto e geoprocessamento",
+    "importancia_tecno_capta_agua":           "Tecnologias de captação- reuso água",
+    "importancia_valoracao":           "Valoração dos serviços ecossistêmicos",
+}
+
+ordem = ["Não sei","Pouco importante","Moderadamente importante","Muito importante"]
+cores = {
+    "Muito importante": "#076140",           # verde escuro
+    "Moderadamente importante": "#2FA178",   # verde médio
+    "Pouco importante": "#F4E24A",           # amarelo
+    "Não sei": "#BAB0AC"                     # cinza
+}
+
+# 2) Aplica rótulos curtos (escolha com ou sem quebra de linha)
+dfp = tabela_props.copy()
+dfp["variavel"] = dfp["variavel"].map(map_var_to_label)
+dfp["categoria"] = pd.Categorical(dfp["categoria"], categories=ordem, ordered=True)
+
+# ordenar variáveis por % "Muito importante"
+ord_var = (dfp.query('categoria=="Muito importante"')
+              .sort_values("perc")["variavel"].tolist())
+dfp["variavel"] = pd.Categorical(dfp["variavel"], categories=ord_var, ordered=True)
+
+plot = (
+  ggplot(dfp, aes(x="variavel", y="perc", fill="categoria"))
+  + geom_col(width=0.75, position="fill")     # 100%
+  + coord_flip()
+  + scale_fill_manual(values={k:cores[k] for k in ordem})
+  + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
+  + labs(x="", y="Distribuição (%)", fill="")
+    + theme(
+        figure_size=(12, 8),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_text=element_text(size=12),
+        legend_position="bottom"
+    )
+)
+
+plot.show()
 ```
 
 ## Grau de satisfação com atuação da Embrapa no desenvolvimento de tecnologias nas temáticas abaixo relacionadas
@@ -1178,6 +1402,80 @@ tabela_wide2 = (
 tabela_wide2
 ```
 
+```{python}
+# mapeia o nome técnico -> rótulo curto (1 linha)
+map_var_to_label = {
+    "satisfacao_avalia_impactos":      "Avaliação impactos socioambientais",
+    "satisfacao_bioeconomia":       "Bioeconomia da Caatinga",
+    "satisfacao_estrateg_mitiga":    "Mitigação e convivência c/ eventos extremos",
+    "satisfacao_estudos_ecologicos":     "Estudos ecológicos comunidades biológicas",
+    "satisfacao_model_climatica":     "Modelagem climática ",
+    "satisfacao_nanoencapsula":       "Nanoencapsulamento compostos bioativos",
+    "satisfacao_pratic_conservac": "Práticas conservacionistas e monitoramento",
+    "satisfacao_recupera_areas_degrada":      "Recuperação e manejo de áreas degradadas",
+    "satisfacao_sementes_nat":       "Conservação e multiplicação sementes nativas",
+    "satisfacao_sensoria_remoto":           "Sensoriamento remoto e geoprocessamento",
+    "satisfacao_tecno_capta_agua":           "Tecnologias de captação- reuso água",
+    "satisfacao_valoracao":           "Valoração dos serviços ecossistêmicos",
+}
+
+ordem = ["Não sei","Totalmente insatisfeito","Nem satisfeito nem insatisfeito","Satisfeito","Totalmente satisfeito"]
+cores = {
+    "Totalmente satisfeito": "#0e0663",           # azul escuro
+    "Satisfeito": "#181078",   # azul médio
+    "Nem satisfeito nem insatisfeito": "#281f91",           # azul
+    "Totalmente insatisfeito": "#4237b3", #azul
+    "Não sei": "#685dde"                     # cinza
+}
+
+# 1) Garantias de tipo
+dfp = tabela_props.copy()
+dfp["perc"] = pd.to_numeric(dfp["perc"], errors="coerce").fillna(0)
+
+# 2) Rótulos curtos (já mapeiam 100%)
+dfp["variavel"] = dfp["variavel"].map(map_var_to_label)
+
+# 3) Categorias na ordem esperada (qualquer coisa fora vira "Não sei")
+ordem = ["Não sei","Totalmente insatisfeito","Nem satisfeito nem insatisfeito","Satisfeito","Totalmente satisfeito"]
+dfp.loc[~dfp["categoria"].isin(ordem), "categoria"] = "Não sei"
+dfp["categoria"] = pd.Categorical(dfp["categoria"], categories=ordem, ordered=True)
+
+# 4) Ordena e define como categórica
+ord_var = (dfp.query('categoria=="Totalmente satisfeito"')
+             .sort_values("perc")["variavel"].tolist())
+if not ord_var:
+    ord_var = sorted(dfp["variavel"].unique())
+dfp["variavel"] = pd.Categorical(dfp["variavel"], categories=ord_var, ordered=True)
+
+# 5) Cores + plot 100% empilhado
+cores = {
+    "Totalmente satisfeito": "#200663",
+    "Satisfeito": "#336b96",
+    "Nem satisfeito nem insatisfeito": "#59917d",
+    "Totalmente insatisfeito": "#7febe3",
+    "Não sei": "#59917d"
+}
+
+plot = (
+  ggplot(dfp, aes(x="variavel", y="perc", fill="categoria"))
+  + geom_col(width=0.75, position="fill")
+  + coord_flip()
+  + scale_fill_manual(values={k: cores[k] for k in ordem})
+  + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
+  + labs(x="", y="Distribuição (%)", fill="")
+  + theme(
+      figure_size=(12, 8),
+      legend_title=element_blank(),
+      legend_text=element_text(size=11),
+      legend_position="bottom",
+      panel_grid_major_y=element_blank(),
+      axis_text_y=element_text(size=13),
+      axis_text_x=element_text(size=13),
+  )
+)
+
+plot.show()
+```
 
 # Contribuição da Embrapa Semiárido para o desenvolvimento agropecuário do país
 
