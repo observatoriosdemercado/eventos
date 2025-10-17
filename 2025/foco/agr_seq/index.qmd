@@ -60,10 +60,10 @@ new_cols = [
     "data","email","nome","cidade_uf","perfil",
     "qualidade_pesq","relevancia_solucoes","agilidade_respostas","conhecimento_tecnico",
     "interacao_agro","comunicacao","oportunidades","riscos",
-    "importancia_tec_hid","importancia_melhoramento","importancia_biossanlina","importancia_caprinos",
+    "importancia_tec_hid","importancia_melhoramento","importancia_biossalina","importancia_caprinos",
     "importancia_ilpf","importancia_conservaçao","importancia_forragem","importancia_bov_leite",
     "importancia_microrgan","importancia_energetico","importancia_agroecol","importancia_baixo_c",
-    "satisfacao_tec_hid","satisfacao_melhoramento","satisfacao_biossanlina","satisfacao_caprinos",
+    "satisfacao_tec_hid","satisfacao_melhoramento","satisfacao_biossalina","satisfacao_caprinos",
     "satisfacao_ilpf","satisfacao_conservaçao","satisfacao_forragem","satisfacao_bov_leite",
     "satisfacao_microrgan","satisfacao_energetico","satisfacao_agroecol","satisfacao_baixo_c",
     "demandas","comentarios","contribuicao_sociedade"
@@ -1208,7 +1208,7 @@ import pandas as pd
 
 # 1) suas colunas Likert
 cols = [
-    'importancia_tec_hid','importancia_melhoramento','importancia_biossanlina',
+    'importancia_tec_hid','importancia_melhoramento','importancia_biossalina',
     'importancia_caprinos','importancia_ilpf','importancia_conservaçao',
     'importancia_forragem','importancia_bov_leite','importancia_microrgan',
     'importancia_energetico','importancia_agroecol','importancia_baixo_c'
@@ -1258,7 +1258,7 @@ import pandas as pd
 
 # suas colunas Likert
 cols = [
-    'importancia_tec_hid','importancia_melhoramento','importancia_biossanlina',
+    'importancia_tec_hid','importancia_melhoramento','importancia_biossalina',
     'importancia_caprinos','importancia_ilpf','importancia_conservaçao',
     'importancia_forragem','importancia_bov_leite','importancia_microrgan',
     'importancia_energetico','importancia_agroecol','importancia_baixo_c'
@@ -1290,6 +1290,68 @@ tabela_wide = (
 tabela_wide
 ```
 
+```{python}
+# dados longos: cols = ["variavel","resposta","perc"]  # perc em 0–100
+#from plotnine import *
+#import pandas as pd
+
+# mapeia o nome técnico -> rótulo curto (1 linha)
+map_var_to_label = {
+    "importancia_agroecol":      "Sistema de produção agroecológico",
+    "importancia_baixo_c":       "Sistemas de produção de baixo carbono",
+    "importancia_biossalina":    "Agricultura biossalina",
+    "importancia_bov_leite": "Sistema de produção de bovinos leiteiros",
+    "importancia_caprinos":     "Sistema de produção caprinos-ovinos",
+    "importancia_conservaçao":     "Conservação genética de bovinos",
+    "importancia_energetico":       "Sistema de prod. culturas c/ potencial energético",
+    "importancia_forragem": "Sistema de produção de forragem",
+    "importancia_ilpf":      "ILPF e recuperação de pastos",
+    "importancia_melhoramento":       "Melhoramento genético de culturas",
+    "importancia_microrgan":           " Microrganismos promotores de crescimento",
+    "importancia_tec_hid":           " Tecnologias hídricas",
+}
+
+ordem = ["Não sei","Pouco importante","Moderadamente importante","Muito importante"]
+cores = {
+    "Muito importante": "#076140",           # verde escuro
+    "Moderadamente importante": "#2FA178",   # verde médio
+    "Pouco importante": "#F4E24A",           # amarelo
+    "Não sei": "#BAB0AC"                     # cinza
+}
+
+# 2) Aplica rótulos curtos (escolha com ou sem quebra de linha)
+dfp = tabela_props.copy()
+dfp["variavel"] = dfp["variavel"].map(map_var_to_label)
+dfp["categoria"] = pd.Categorical(dfp["categoria"], categories=ordem, ordered=True)
+
+# ordenar variáveis por % "Muito importante"
+ord_var = (dfp.query('categoria=="Muito importante"')
+              .sort_values("perc")["variavel"].tolist())
+dfp["variavel"] = pd.Categorical(dfp["variavel"], categories=ord_var, ordered=True)
+
+plot = (
+  ggplot(dfp, aes(x="variavel", y="perc", fill="categoria"))
+  + geom_col(width=0.75, position="fill")     # 100%
+  + coord_flip()
+  + scale_fill_manual(values={k:cores[k] for k in ordem})
+  + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
+  + labs(x="", y="Distribuição (%)", fill="")
+    + theme(
+        figure_size=(12, 8),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_text=element_text(size=12),
+        legend_position="bottom"
+    )
+)
+
+plot.show()
+```
+
 ## Grau de satisfação com atuação da Embrapa no desenvolvimento de tecnologias nas temáticas abaixo relacionadas
 
 ```{python}
@@ -1299,7 +1361,7 @@ tabela_wide
 # 1) suas colunas Likert
 cols = [
     'satisfacao_tec_hid', 'satisfacao_melhoramento',
-       'satisfacao_biossanlina', 'satisfacao_caprinos', 'satisfacao_ilpf',
+       'satisfacao_biossalina', 'satisfacao_caprinos', 'satisfacao_ilpf',
        'satisfacao_conservaçao', 'satisfacao_forragem', 'satisfacao_bov_leite',
        'satisfacao_microrgan', 'satisfacao_energetico', 'satisfacao_agroecol',
        'satisfacao_baixo_c'
@@ -1352,7 +1414,7 @@ import pandas as pd
 # suas colunas Likert
 cols = [
     'satisfacao_tec_hid', 'satisfacao_melhoramento',
-       'satisfacao_biossanlina', 'satisfacao_caprinos', 'satisfacao_ilpf',
+       'satisfacao_biossalina', 'satisfacao_caprinos', 'satisfacao_ilpf',
        'satisfacao_conservaçao', 'satisfacao_forragem', 'satisfacao_bov_leite',
        'satisfacao_microrgan', 'satisfacao_energetico', 'satisfacao_agroecol',
        'satisfacao_baixo_c'
@@ -1382,6 +1444,81 @@ tabela_wide2 = (
                 .reset_index()
 )
 tabela_wide2
+```
+
+```{python}
+# mapeia o nome técnico -> rótulo curto (1 linha)
+map_var_to_label = {
+    "satisfacao_agroecol":      "Sistema de produção agroecológico",
+    "satisfacao_baixo_c":       "Sistemas de produção de baixo carbono",
+    "satisfacao_biossalina":    "Agricultura biossalina",
+    "satisfacao_bov_leite": "Sistema de produção de bovinos leiteiros",
+    "satisfacao_caprinos":     "Sistema de produção caprinos-ovinos",
+    "satisfacao_conservaçao":     "Conservação genética de bovinos",
+    "satisfacao_energetico":       "Sistema de prod. culturas c/ potencial energético",
+    "satisfacao_forragem": "Sistema de produção de forragem",
+    "satisfacao_ilpf":      "ILPF e recuperação de pastos",
+    "satisfacao_melhoramento":       "Melhoramento genético de culturas",
+    "satisfacao_microrgan":           " Microrganismos promotores de crescimento",
+    "satisfacao_tec_hid":           " Tecnologias hídricas",
+}
+
+ordem = ["Não sei","Totalmente insatisfeito","Nem satisfeito nem insatisfeito","Satisfeito","Totalmente satisfeito"]
+cores = {
+    "Totalmente satisfeito": "#0e0663",           # azul escuro
+    "Satisfeito": "#181078",   # azul médio
+    "Nem satisfeito nem insatisfeito": "#281f91",           # azul
+    "Totalmente insatisfeito": "#4237b3", #azul
+    "Não sei": "#685dde"                     # cinza
+}
+
+# 1) Garantias de tipo
+dfp = tabela_props.copy()
+dfp["perc"] = pd.to_numeric(dfp["perc"], errors="coerce").fillna(0)
+
+# 2) Rótulos curtos (já mapeiam 100%)
+dfp["variavel"] = dfp["variavel"].map(map_var_to_label)
+
+# 3) Categorias na ordem esperada (qualquer coisa fora vira "Não sei")
+ordem = ["Não sei","Totalmente insatisfeito","Nem satisfeito nem insatisfeito","Satisfeito","Totalmente satisfeito"]
+dfp.loc[~dfp["categoria"].isin(ordem), "categoria"] = "Não sei"
+dfp["categoria"] = pd.Categorical(dfp["categoria"], categories=ordem, ordered=True)
+
+# 4) Ordena e define como categórica
+ord_var = (dfp.query('categoria=="Totalmente satisfeito"')
+             .sort_values("perc")["variavel"].tolist())
+if not ord_var:
+    ord_var = sorted(dfp["variavel"].unique())
+dfp["variavel"] = pd.Categorical(dfp["variavel"], categories=ord_var, ordered=True)
+
+# 5) Cores + plot 100% empilhado
+cores = {
+    "Totalmente satisfeito": "#200663",
+    "Satisfeito": "#336b96",
+    "Nem satisfeito nem insatisfeito": "#59917d",
+    "Totalmente insatisfeito": "#7febe3",
+    "Não sei": "#59917d"
+}
+
+plot = (
+  ggplot(dfp, aes(x="variavel", y="perc", fill="categoria"))
+  + geom_col(width=0.75, position="fill")
+  + coord_flip()
+  + scale_fill_manual(values={k: cores[k] for k in ordem})
+  + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
+  + labs(x="", y="Distribuição (%)", fill="")
+  + theme(
+      figure_size=(12, 8),
+      legend_title=element_blank(),
+      legend_text=element_text(size=12),
+      legend_position="bottom",
+      panel_grid_major_y=element_blank(),
+      axis_text_y=element_text(size=13),
+      axis_text_x=element_text(size=13),
+  )
+)
+
+plot.show()
 ```
 
 # Contribuição da Embrapa Semiárido para o desenvolvimento agropecuário do país
