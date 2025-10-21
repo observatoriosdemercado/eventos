@@ -910,7 +910,7 @@ plot = (
     + coord_flip()
     + scale_fill_manual(values=list(tabela.drop_duplicates("opcao_curta")["cor"]))
     + labs(
-        title="Oportunidades tecnológicas na agricultura irrigada (priorização)",
+        title="Oportunidades tecnológicas em Recursos Naturais (priorização)",
         x="",
         y="Percentual dos respondentes (%)",
     )
@@ -1134,7 +1134,7 @@ plot = (
     + coord_flip()
     + scale_fill_manual(values=list(tabela.drop_duplicates("opcao_curta")["cor"]))
     + labs(
-        title="Riscos na agricultura irrigada que merecem atenção",
+        title="Riscos em Recursos Naturais que merecem atenção",
         x="",
         y="Percentual dos respondentes (%)",
     )
