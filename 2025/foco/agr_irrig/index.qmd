@@ -1470,7 +1470,7 @@ cores = {
     "Satisfeito": "#336b96",
     "Nem satisfeito nem insatisfeito": "#59917d",
     "Totalmente insatisfeito": "#7febe3",
-    "Não sei": "#59917d"
+    "Não sei": "#076140"
 }
 
 plot = (
