@@ -361,7 +361,7 @@ ct_pct_fmt  # tabela pronta
 ## Estatística sobre a qualidade da pesquisa e inovação desenvolvida pela Embrapa Semiárido
 
 ```{python}
-ordem = ["Não tenho opinião", "Muito Ruim","Ruim","Regular","Boa","Excelente"]
+ordem = ["Muito Ruim","Ruim","Regular","Boa","Excelente", "Não tenho opinião"]
 map_q = {k:i for i,k in enumerate(ordem)}          # Muito Ruim=0 … Excelente=4
 df["qualidade_pesq_code"] = df["qualidade_pesq"].map(map_q).astype("Int64")
 #df[["qualidade_pesq","qualidade_pesq_code"]].head()
@@ -379,10 +379,14 @@ dist = (
       .rename_axis('qualidade_pesq').reset_index(name='n')
 )
 dist['pct'] = dist['n'] / dist['n'].sum() * 100
-dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+#dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
 
 # manter ordem no eixo e na legenda
-dist['qualidade_pesq'] = pd.Categorical(dist['qualidade_pesq'], categories=dist['qualidade_pesq'], ordered=True)
+#dist['qualidade_pesq'] = pd.Categorical(dist['qualidade_pesq'], categories=dist['qualidade_pesq'], ordered=True)
+dist = (dist.set_index('qualidade_pesq')
+            .reindex(ordem, fill_value=0)
+            .reset_index())
+dist['qualidade_pesq'] = pd.Categorical(dist['qualidade_pesq'], categories=ordem, ordered=True)
 pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
 dist['label']  = dist['pct'].round(1).astype(str) + '%'
 dist['y_text'] = dist['pct'] + pad
@@ -466,10 +470,16 @@ dist = (
       .rename_axis('relevancia_solucoes').reset_index(name='n')
 )
 dist['pct'] = dist['n'] / dist['n'].sum() * 100
-dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+#dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
 
 # manter ordem no eixo e na legenda
-dist['relevancia_solucoes'] = pd.Categorical(dist['relevancia_solucoes'], categories=dist['relevancia_solucoes'], ordered=True)
+#dist['relevancia_solucoes'] = pd.Categorical(dist['relevancia_solucoes'], categories=dist['relevancia_solucoes'], ordered=True)
+dist = (dist.set_index('relevancia_solucoes')
+            .reindex(ordem, fill_value=0)
+            .reset_index())
+
+# manter ordem no eixo e na legenda
+dist['relevancia_solucoes'] = pd.Categorical(dist['relevancia_solucoes'], categories=ordem, ordered=True)
 pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
 dist['label']  = dist['pct'].round(1).astype(str) + '%'
 dist['y_text'] = dist['pct'] + pad
@@ -520,10 +530,16 @@ dist = (
       .rename_axis('agilidade_respostas').reset_index(name='n')
 )
 dist['pct'] = dist['n'] / dist['n'].sum() * 100
-dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+#dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
 
 # manter ordem no eixo e na legenda
-dist['agilidade_respostas'] = pd.Categorical(dist['agilidade_respostas'], categories=dist['agilidade_respostas'], ordered=True)
+#dist['agilidade_respostas'] = pd.Categorical(dist['agilidade_respostas'], categories=dist['agilidade_respostas'], ordered=True)
+dist = (dist.set_index('agilidade_respostas')
+            .reindex(ordem, fill_value=0)
+            .reset_index())
+
+# manter ordem no eixo e na legenda
+dist['agilidade_respostas'] = pd.Categorical(dist['agilidade_respostas'], categories=ordem, ordered=True)
 pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
 dist['label']  = dist['pct'].round(1).astype(str) + '%'
 dist['y_text'] = dist['pct'] + pad
@@ -574,10 +590,16 @@ dist = (
       .rename_axis('conhecimento_tecnico').reset_index(name='n')
 )
 dist['pct'] = dist['n'] / dist['n'].sum() * 100
-dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+#dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
 
 # manter ordem no eixo e na legenda
-dist['conhecimento_tecnico'] = pd.Categorical(dist['conhecimento_tecnico'], categories=dist['conhecimento_tecnico'], ordered=True)
+#dist['conhecimento_tecnico'] = pd.Categorical(dist['conhecimento_tecnico'], categories=dist['conhecimento_tecnico'], ordered=True)
+dist = (dist.set_index('conhecimento_tecnico')
+            .reindex(ordem, fill_value=0)
+            .reset_index())
+
+# manter ordem no eixo e na legenda
+dist['conhecimento_tecnico'] = pd.Categorical(dist['conhecimento_tecnico'], categories=ordem, ordered=True)
 pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
 dist['label']  = dist['pct'].round(1).astype(str) + '%'
 dist['y_text'] = dist['pct'] + pad
@@ -628,10 +650,16 @@ dist = (
       .rename_axis('interacao_agro').reset_index(name='n')
 )
 dist['pct'] = dist['n'] / dist['n'].sum() * 100
-dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+#dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
 
 # manter ordem no eixo e na legenda
-dist['interacao_agro'] = pd.Categorical(dist['interacao_agro'], categories=dist['interacao_agro'], ordered=True)
+#dist['interacao_agro'] = pd.Categorical(dist['interacao_agro'], categories=dist['interacao_agro'], ordered=True)
+dist = (dist.set_index('interacao_agro')
+            .reindex(ordem, fill_value=0)
+            .reset_index())
+
+# manter ordem no eixo e na legenda
+dist['interacao_agro'] = pd.Categorical(dist['interacao_agro'], categories=ordem, ordered=True)
 pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
 dist['label']  = dist['pct'].round(1).astype(str) + '%'
 dist['y_text'] = dist['pct'] + pad
@@ -682,10 +710,16 @@ dist = (
       .rename_axis('comunicacao').reset_index(name='n')
 )
 dist['pct'] = dist['n'] / dist['n'].sum() * 100
-dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+#dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
 
 # manter ordem no eixo e na legenda
-dist['comunicacao'] = pd.Categorical(dist['comunicacao'], categories=dist['comunicacao'], ordered=True)
+#dist['comunicacao'] = pd.Categorical(dist['comunicacao'], categories=dist['comunicacao'], ordered=True)
+dist = (dist.set_index('comunicacao')
+            .reindex(ordem, fill_value=0)
+            .reset_index())
+
+# manter ordem no eixo e na legenda
+dist['comunicacao'] = pd.Categorical(dist['comunicacao'], categories=ordem, ordered=True)
 pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
 dist['label']  = dist['pct'].round(1).astype(str) + '%'
 dist['y_text'] = dist['pct'] + pad
@@ -1541,10 +1575,16 @@ dist = (
       .rename_axis('contribuicao_sociedade').reset_index(name='n')
 )
 dist['pct'] = dist['n'] / dist['n'].sum() * 100
-dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
+#dist = dist.sort_values('pct', ascending=False).reset_index(drop=True)
 
 # manter ordem no eixo e na legenda
-dist['contribuicao_sociedade'] = pd.Categorical(dist['contribuicao_sociedade'], categories=dist['contribuicao_sociedade'], ordered=True)
+#dist['contribuicao_sociedade'] = pd.Categorical(dist['contribuicao_sociedade'], categories=dist['contribuicao_sociedade'], ordered=True)
+dist = (dist.set_index('contribuicao_sociedade')
+            .reindex(ordem, fill_value=0)
+            .reset_index())
+
+# manter ordem no eixo e na legenda
+dist['contribuicao_sociedade'] = pd.Categorical(dist['contribuicao_sociedade'], categories=ordem, ordered=True)
 pad = max(1.0, dist['pct'].max() * 0.04)   # ~6% da barra mais alta ou 1.5, o maior
 dist['label']  = dist['pct'].round(1).astype(str) + '%'
 dist['y_text'] = dist['pct'] + pad
