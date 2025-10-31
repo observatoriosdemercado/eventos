@@ -250,7 +250,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='', x='', y='%', fill='UF')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -322,7 +322,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='', x='', y='%', fill='PERFIL')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -404,7 +404,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Qualidade da Pesquisa', x='', y='%', fill='QUALIDADE DA PESQUISA')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -497,7 +497,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Relevância das Soluções', x='', y='%', fill='RELEVÂNCIA DAS SOLUÇÕES')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -557,7 +557,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Agilidade das Respostas', x='', y='%', fill='AGILIDADE DAS RESPOSTAS')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -617,7 +617,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Conhecimento Técnico da Equipe', x='', y='%', fill='CONHECIMENTO TÉCNICO')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -677,7 +677,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Interação da equipe técnica com o Agro', x='', y='%', fill='INTERAÇAO TÉCNICA')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -737,7 +737,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Comunicação sobre suas tecnologias', x='', y='%', fill='COMUNICAÇÃO TECNOLOGIAS')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -998,7 +998,267 @@ plot = (
     )
     + scale_y_continuous(expand=(0.01, 0), limits=(0, tbl["perc"].max()*1.15))
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
+        panel_grid_major_y=element_blank(),
+        axis_text_y=element_text(size=13),
+        axis_text_x=element_text(size=13),
+        plot_title=element_text(size=12, weight="bold"),
+        plot_caption=element_text(size=9),
+        legend_title=element_blank(),
+        legend_position="none"
+    )
+)
+plot.show()
+
+```
+
+## Oportunidades tecnológicas na agricultura dependente de chuva que devem ser priorizadas
+
+```{python}
+# =========================================
+# 0) IMPORTS & HELPERS
+# =========================================
+#import re, unicodedata
+#import pandas as pd
+#from plotnine import *
+from collections import defaultdict
+
+def strip_acc(s: str) -> str:
+    return "".join(ch for ch in unicodedata.normalize("NFKD", str(s)) if not unicodedata.combining(ch))
+
+def norm(s: str) -> str:
+    s = strip_acc(str(s)).casefold().strip()
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+
+# =========================================
+# 1) OPÇÕES VÁLIDAS & PARSE do campo texto → colunas 1..4
+#    (se sua base já tem oportunidades_1.._4, pode pular esta seção)
+# =========================================
+valid_opts = [
+    "Tecnologias para captação, reúso e uso eficiente da água, incluindo irrigação suplementar com energias renováveis",
+    "Desenvolvimento de cultivos e forrageiras adaptados à seca (variedades tolerantes, raízes profundas, palma, fruticultura de sequeiro, plantas nativas)",
+    "Técnicas de manejo do solo que favoreçam infiltração, retenção de água e conservação da matéria orgânica",
+    "Uso de inoculantes microbianos para melhorar absorção de nutrientes, produtividade e resistência ao estresse hídrico",
+    "Estratégias de produção animal adaptadas ao Semiárido (seleção genética de rebanhos, disponibilidade de forragem e uso sustentável da Caatinga)",
+    "Sistemas integrados e intensificação tecnológica adaptada às condições regionais (ILPF, aspectos sociais e ambientais)",
+    "Valorização de produtos agroalimentares regionais, como queijos artesanais diferenciados com segurança sanitária",
+]
+valid_norm = {norm(v): v for v in valid_opts}
+
+def split_opcions_with_commas(raw):
+    out = [pd.NA, pd.NA, pd.NA, pd.NA]
+    if pd.isna(raw) or not str(raw).strip():
+        return pd.Series(out, index=["oportunidades_1","oportunidades_2","oportunidades_3","oportunidades_4"])
+    parts = [p.strip() for p in str(raw).split(",")]
+
+    rec, unk = [], []
+    i, n = 0, len(parts)
+    while i < n:
+        matched = False
+        for j in range(i, n):
+            candidate = ", ".join(parts[i:j+1]).strip()
+            if norm(candidate) in valid_norm:
+                rec.append(valid_norm[norm(candidate)])
+                i = j + 1
+                matched = True
+                break
+        if not matched:
+            unk.append(parts[i])
+            i += 1
+
+    for k in range(min(3, len(rec))):
+        out[k] = rec[k]
+    if unk:
+        out[3] = " | ".join([u for u in unk if u])
+    elif len(rec) > 3:
+        out[3] = " | ".join(rec[3:])
+    return pd.Series(out, index=["oportunidades_1","oportunidades_2","oportunidades_3","oportunidades_4"])
+
+# APLICA (ajuste o nome da coluna de origem se for diferente)
+if not set({"oportunidades_1","oportunidades_2","oportunidades_3","oportunidades_4"}).issubset(df.columns):
+    df[["oportunidades_1","oportunidades_2","oportunidades_3","oportunidades_4"]] = (
+        df["oportunidades"].apply(split_opcions_with_commas)
+    )
+
+# =========================================
+# 2) MAPA rótulo completo → dummy (inclui aliases das “extras”)
+# =========================================
+rotulo_para_dummy = {
+    # 7 oficiais:
+    valid_opts[0]: "captacao_reuso",
+    valid_opts[1]: "forrageiras_adapta",
+    valid_opts[2]: "manejo_solo",
+    valid_opts[3]: "inoculantes_microbianos",
+    valid_opts[4]: "animal_adaptada",
+    valid_opts[5]: "sistemas_integrados",
+    valid_opts[6]: "produtos_regionais",
+    # 4 respostas abertas (aliases):
+    "Ferramenta que associe a precipitação pluviométrica com a produção de forragem (buffel) | possibilitando a estimativa de taxa de lotação das propriedades": "precipitacao",
+    "A embrapa precisa trabalhar muito a seleções de plantas forrageiras adaptadas ao clima e resistentes as prinvipais pragas como a lagarta. E estudar maquinas adaptadas a colheita e plantio desse material forrageiro": "forrageiras_adapta",
+    "Cadeias de produtos da Socio biodiversidade, Umbu, Licuri, maracujá da Caatinga, entre outras": "produtos_regionais",
+    "Uso de espécies arbóreas nativas da caatinga como ênfase em Leguminosas (sabiá), Cpondias, Cactáceas, Algavaceas e suculentas em geral parra guardar água,, acumular matéria orgânica e alimentar rebanhos.": "animal_adaptada",
+}
+normkey_to_dummy = {norm(k): v for k, v in rotulo_para_dummy.items()}
+
+def coletar_selecoes(row):
+    itens = []
+    for c in ["oportunidades_1","oportunidades_2","oportunidades_3"]:
+        v = row.get(c, pd.NA)
+        if pd.notna(v) and str(v).strip():
+            itens.append(str(v))
+    v4 = row.get("oportunidades_4", pd.NA)
+    if pd.notna(v4) and str(v4).strip():
+        for t in str(v4).split("|"):
+            t = t.strip()
+            if t:
+                itens.append(t)
+    return [norm(x) for x in itens]
+
+all_norm_cols = df.apply(coletar_selecoes, axis=1)
+
+# Agrupa as chaves normalizadas por dummy
+keys_by_dummy = defaultdict(list)
+for nk, dummy in normkey_to_dummy.items():
+    keys_by_dummy[dummy].append(nk)
+
+# Cria cada dummy fazendo OR entre todas as suas chaves
+for dummy, keys in keys_by_dummy.items():
+    df[dummy] = all_norm_cols.apply(lambda lst: int(any(k in lst for k in keys)))
+
+# garante existência das 4 “extras” (caso a base não as tenha)
+for col in ["precipitacao", "selecoes_plantas", "produtos_sociobio", "especies_arboreas"]:
+    if col not in df.columns:
+        df[col] = 0
+
+
+# =========================================
+# 3) REGRAS EM oportunidades_4 (liga sem desligar) — opcional
+# =========================================
+KEYS = {
+    "precipitacao":      [r"\bprecipitacao\b", r"pluviometr", r"\bforragem\b", r"lotaca", r"\bbuffel\b"],
+    "selecoes_plantas":  [r"sele[cç](o|oe)es? de plantas", r"forrageir", r"\blagarta\b", r"maquina[s]?\s+adaptad"],
+    "produtos_sociobio": [r"socio.?biodiversidade", r"\bumbu\b", r"\blicuri\b", r"maracuja da caatinga"],
+    "especies_arboreas": [r"especies? arboreas", r"\bcactaceas?\b", r"\balgavaceas?\b", r"\bsuculentas?\b",
+                          r"\bsabia\b", r"\b[c|s]pondias\b", r"materia organica", r"alimentar rebanhos"],
+}
+
+def norm_simple(s):
+    return re.sub(r"\s+", " ", strip_acc(str(s)).casefold().strip())
+
+def from_oportunidades4(row):
+    v = row.get("oportunidades_4")
+    if pd.isna(v) or not str(v).strip():
+        return {k: 0 for k in KEYS}
+    toks = re.split(r"\s*\|\s*", str(v).strip())
+    toks_norm = [norm_simple(t) for t in toks if t.strip()]
+    out = {}
+    for dummy, pats in KEYS.items():
+        hit = any(re.search(p, s) for s in toks_norm for p in pats)
+        out[dummy] = int(bool(hit))
+    return out
+
+hits = df.apply(from_oportunidades4, axis=1).apply(pd.Series)
+for col in KEYS:
+    df[col] = df[col].where(df[col].eq(1), hits[col])  # só liga (OR)
+
+
+# =========================================
+# 4) ***FUSÃO POR OR NAS DUMMIES*** (o ponto que faltava)
+#     produtos_sociobio → produtos_regionais
+#     selecoes_plantas → forrageiras_adapta
+#     especies_arboreas → animal_adaptada
+# =========================================
+def fuse_or(df_, target, sources):
+    present = [c for c in sources if c in df_.columns]
+    if not present:
+        return
+    df_[target] = df_[present].max(axis=1)
+
+fuse_or(df, "produtos_regionais", ["produtos_regionais", "produtos_sociobio"])
+fuse_or(df, "forrageiras_adapta", ["forrageiras_adapta", "selecoes_plantas"])
+fuse_or(df, "animal_adaptada",    ["animal_adaptada", "especies_arboreas"])
+
+# (opcional) remove as auxiliares já fundidas
+# df = df.drop(columns=[c for c in ["produtos_sociobio","selecoes_plantas","especies_arboreas"] if c in df.columns])
+
+
+# =========================================
+# 5) PROPORÇÕES finais (agora com as fusões)
+# =========================================
+final_cols = [
+    "forrageiras_adapta", "captacao_reuso", "animal_adaptada",
+    "sistemas_integrados", "manejo_solo", "inoculantes_microbianos",
+    "produtos_regionais",  "precipitacao"
+]
+for c in final_cols:
+    if c not in df.columns:
+        df[c] = 0
+
+tabela = (df[final_cols].mean().mul(100).round(1)
+          .sort_values(ascending=False)
+          .rename_axis("opcao").reset_index(name="perc"))
+
+# (opcional) inspeção rápida:
+tabela
+```
+
+```{python}
+# =========================================
+# 6) GRÁFICO (barras horizontais com cores fixas)
+# =========================================
+dummy_para_rotulo_curto = {
+    "captacao_reuso":         "Captação e reúso da água",
+    "forrageiras_adapta":     "Cultivos/forrageiras adaptados à seca",
+    "animal_adaptada":        "Produção animal adaptada (Semiárido)",
+    "sistemas_integrados":    "Sistemas integrados (ILPF)",
+    "manejo_solo":            "Manejo do solo (água & matéria orgânica)",
+    "inoculantes_microbianos":"Inoculantes microbianos",
+    "produtos_regionais":     "Valorização de produtos regionais",
+    "precipitacao":           "Ferramenta Chuva com forragem (lotação)",
+}
+
+CORES_FIXAS = {
+    "Captação e reúso da água": "#3B0056",
+    "Cultivos/forrageiras adaptados à seca": "#444C8A",
+    "Produção animal adaptada (Semiárido)": "#9BD34E",
+    "Sistemas integrados (ILPF)": "#F4E24A",
+    "Manejo do solo (água & matéria orgânica)": "#2D6F7A",
+    "Inoculantes microbianos": "#2FA178",
+    "Valorização de produtos regionais": "#6d1575",
+    "Ferramenta Chuva com forragem (lotação)": "#595f8f",
+}
+
+tbl = tabela.copy()
+tbl["opcao_curta"] = tbl["opcao"].map(dummy_para_rotulo_curto).fillna(tbl["opcao"])
+tbl["perc"] = pd.to_numeric(tbl["perc"], errors="coerce").fillna(0)
+tbl = tbl.sort_values("perc", ascending=True)
+
+cats = tbl["opcao_curta"].drop_duplicates().tolist()
+tbl["opcao_curta"] = pd.Categorical(tbl["opcao_curta"], categories=cats, ordered=True)
+
+FALLBACK = "#999999"
+cores_dict = {c: CORES_FIXAS.get(c, FALLBACK) for c in cats}
+faltando_cores = [c for c in cats if c not in CORES_FIXAS]
+if faltando_cores:
+    print("Sem cor definida para:", faltando_cores)
+
+tbl["label_pct"] = tbl["perc"].map(lambda v: f"{v:.1f}%".replace(".", ","))
+
+plot = (
+    ggplot(tbl, aes(x="opcao_curta", y="perc", fill="opcao_curta"))
+    + geom_col(width=0.65)
+    + geom_text(aes(label="label_pct"), nudge_y=1.2, size=11, ha="left")
+    + coord_flip()
+    + scale_fill_manual(values=cores_dict)
+    + labs(
+        title="Oportunidades tecnológicas na agricultura dependente de chuva (priorização)",
+        x="", y="Percentual dos respondentes (%)",
+    )
+    + scale_y_continuous(expand=(0.01, 0), limits=(0, tbl["perc"].max()*1.15))
+    + theme(
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -1212,7 +1472,7 @@ plot = (
     )
     + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -1371,7 +1631,7 @@ plot = (
   + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
   + labs(x="", y="Distribuição (%)", fill="")
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -1542,7 +1802,7 @@ plot = (
   + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
   + labs(x="", y="Distribuição (%)", fill="")
   + theme(
-      figure_size=(12, 8),
+      figure_size=(10, 8),
       legend_title=element_blank(),
       legend_text=element_text(size=12),
       legend_position="bottom",
@@ -1602,7 +1862,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Contribuição para o Desenvolvimento', x='', y='%', fill='CONTRIBUIÇÃO PARA O PAÍS')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -1614,6 +1874,350 @@ plot = (
 
 plot.show()
 ```
+
+# Correlações entre Importância e Satisfação
+
+```{python}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+import pandas as pd
+import numpy as np
+
+# =====================================================
+# 1. Configuração dos pares importância/satisfação
+# =====================================================
+
+temas = {
+    "Tecnologias hídricas (água)": (
+        "importancia_tec_hid",
+        "satisfacao_tec_hid"
+    ),
+    "Melhoramento / genética": (
+        "importancia_melhoramento",
+        "satisfacao_melhoramento"
+    ),
+    "Biossalinidade / uso de água salina": (
+        "importancia_biossalina",
+        "satisfacao_biossalina"
+    ),
+    "Caprinos e pequenos ruminantes": (
+        "importancia_caprinos",
+        "satisfacao_caprinos"
+    ),
+    "ILPF / Integração Lavoura-Pecuária-Floresta": (
+        "importancia_ilpf",
+        "satisfacao_ilpf"
+    ),
+    "Conservação de solo e água / recuperação de áreas": (
+        "importancia_conservaçao",
+        "satisfacao_conservaçao"
+    ),
+    "Forragem / alimentação animal no Semiárido": (
+        "importancia_forragem",
+        "satisfacao_forragem"
+    ),
+    "Bovinocultura de leite": (
+        "importancia_bov_leite",
+        "satisfacao_bov_leite"
+    ),
+    "Microrganismos / bioinsumos": (
+        "importancia_microrgan",
+        "satisfacao_microrgan"
+    ),
+    "Bioenergia / aproveitamento energético": (
+        "importancia_energetico",
+        "satisfacao_energetico"
+    ),
+    "Agroecologia / produção sustentável": (
+        "importancia_agroecol",
+        "satisfacao_agroecol"
+    ),
+    "Emissões / baixo carbono": (
+        "importancia_baixo_c",
+        "satisfacao_baixo_c"
+    ),
+}
+
+# =====================================================
+# 2. Funções auxiliares para calcular os percentuais
+# =====================================================
+
+def tabela_importancia_por_col(df, col):
+    """
+    Retorna uma linha com percentuais de cada resposta de importância
+    e métricas agregadas (alta_importancia, baixa_importancia).
+    """
+    # Contar frequências relativas (%)
+    dist = (
+        df[col]
+        .value_counts(dropna=False, normalize=True) * 100
+    )
+
+    muito_imp = dist.get("Muito importante", 0.0)
+    moderado_imp = dist.get("Moderadamente importante", 0.0)
+    pouco_imp = dist.get("Pouco importante", 0.0)
+    nao_sei_imp = dist.get("Não sei", 0.0)
+
+    return {
+        "col_importancia": col,
+        "% Muito importante": round(muito_imp, 1),
+        "% Moderadamente importante": round(moderado_imp, 1),
+        "% Pouco importante": round(pouco_imp, 1),
+        "% Não sei (importância)": round(nao_sei_imp, 1),
+        # duas formas úteis de resumir:
+        "alta_importância_somente_muito(%)": round(muito_imp, 1),
+        "alta_importância_muito+moderado(%)": round(muito_imp + moderado_imp, 1),
+        "baixa_importância_pouco(%)": round(pouco_imp, 1),
+    }
+
+def tabela_satisfacao_por_col(df, col):
+    """
+    Retorna uma linha com percentuais de cada resposta de satisfação
+    e métricas agregadas (satisfeitos vs não satisfeitos).
+    Pressupõe que a coluna já esteja codificada como números 1..5
+    ou textos equivalentes que você já transformou em número.
+    """
+    # Vamos primeiro mapear para rótulos textuais estáveis
+    mapa_sat = {
+        5: "Totalmente satisfeito",
+        4: "Satisfeito",
+        3: "Nem satisfeito nem insatisfeito",
+        2: "Insatisfeito",
+        1: "Totalmente insatisfeito",
+        # se existir string tipo "nao sei", mantemos como "Não sei"
+        "nao sei": "Não sei",
+        "não sei": "Não sei",
+        "Não sei": "Não sei",
+        None: "Não sei",
+        np.nan: "Não sei",
+    }
+
+    col_temp = df[col].map(mapa_sat).fillna(df[col].astype(str))
+
+    dist = (
+        col_temp
+        .value_counts(dropna=False, normalize=True) * 100
+    )
+
+    tsat = dist.get("Totalmente satisfeito", 0.0)
+    sat = dist.get("Satisfeito", 0.0)
+    neutro = dist.get("Nem satisfeito nem insatisfeito", 0.0)
+    insat = dist.get("Insatisfeito", 0.0)
+    tinsat = dist.get("Totalmente insatisfeito", 0.0)
+    nsei = dist.get("Não sei", 0.0)
+
+    satisfeitos_pct = tsat + sat
+    nao_satisfeitos_pct = neutro + insat + tinsat
+
+    return {
+        "col_satisfacao": col,
+        "% Totalmente satisfeito": round(tsat, 1),
+        "% Satisfeito": round(sat, 1),
+        "% Nem satisfeito nem insatisfeito": round(neutro, 1),
+        "% Insatisfeito": round(insat, 1),
+        "% Totalmente insatisfeito": round(tinsat, 1),
+        "% Não sei (satisfação)": round(nsei, 1),
+        "satisfeitos_(4ou5)(%)": round(satisfeitos_pct, 1),
+        "nao_satisfeitos_(1a3)(%)": round(nao_satisfeitos_pct, 1),
+    }
+
+# =====================================================
+# 3. Construir as tabelas separadas
+# =====================================================
+
+linhas_importancia = []
+linhas_satisfacao = []
+
+for nome_tema, (col_imp, col_sat) in temas.items():
+    imp_info = tabela_importancia_por_col(df, col_imp)
+    sat_info = tabela_satisfacao_por_col(df, col_sat)
+
+    imp_info["Tema"] = nome_tema
+    sat_info["Tema"] = nome_tema
+
+    linhas_importancia.append(imp_info)
+    linhas_satisfacao.append(sat_info)
+
+tabela_importancia = pd.DataFrame(linhas_importancia)
+tabela_satisfacao = pd.DataFrame(linhas_satisfacao)
+
+# =====================================================
+# 4. Juntar tudo num diagnóstico único por tema
+# =====================================================
+
+diagnostico_temas = pd.merge(
+    tabela_importancia,
+    tabela_satisfacao,
+    on="Tema",
+    how="outer"
+)
+
+# Ordenar colunas em uma ordem mais amigável
+cols_ordem = [
+    "Tema",
+
+    # Importância
+    "% Muito importante",
+    "% Moderadamente importante",
+    "% Pouco importante",
+    "% Não sei (importância)",
+    "alta_importância_somente_muito(%)",
+    "alta_importância_muito+moderado(%)",
+    "baixa_importância_pouco(%)",
+
+    # Satisfação
+    "% Totalmente satisfeito",
+    "% Satisfeito",
+    "% Nem satisfeito nem insatisfeito",
+    "% Insatisfeito",
+    "% Totalmente insatisfeito",
+    "% Não sei (satisfação)",
+    "satisfeitos_(4ou5)(%)",
+    "nao_satisfeitos_(1a3)(%)",
+]
+
+diagnostico_temas = diagnostico_temas[cols_ordem]
+
+print("==== TABELA DE IMPORTÂNCIA POR TEMA ====")
+print(tabela_importancia.sort_values("Tema"))
+
+print("\n==== TABELA DE SATISFAÇÃO POR TEMA ====")
+print(tabela_satisfacao.sort_values("Tema"))
+
+print("\n==== DIAGNÓSTICO RESUMIDO (IMPORTÂNCIA x SATISFAÇÃO) ====")
+print(diagnostico_temas.sort_values("Tema"))
+```
+
+```{python}
+#import pandas as pd
+#import numpy as np
+
+# ============================================================
+# 1. Definir os thresholds de corte
+#    - Importância alta: >= 80% (muito + moderado)
+#    - Satisfação alta: >= 55% (satisfeito + totalmente satisfeito)
+# ============================================================
+
+thr_importancia = 80.0
+thr_satisfacao = 50.0
+
+df_quad = diagnostico_temas.copy()
+
+# Renomear para nomes curtos (só pra ficar mais legível)
+df_quad = df_quad.rename(columns={
+    "alta_importância_muito+moderado(%)": "importancia_alta_pct",
+    "satisfeitos_(4ou5)(%)": "satisfacao_alta_pct"
+})
+
+# ============================================================
+# 2. Criar flags (True/False) para alta importância e alta satisfação
+# ============================================================
+
+df_quad["flag_importancia_alta"] = df_quad["importancia_alta_pct"] >= thr_importancia
+df_quad["flag_satisfacao_alta"] = df_quad["satisfacao_alta_pct"] >= thr_satisfacao
+
+# ============================================================
+# 3. Função para classificar o quadrante estratégico
+# ============================================================
+
+def classificar_quadrante(row):
+    imp = row["flag_importancia_alta"]
+    sat = row["flag_satisfacao_alta"]
+
+    if imp and sat:
+        return "FORÇA INSTITUCIONAL (Alta importância & Alta satisfação)"
+
+    if imp and not sat:
+        return "GARGALO CRÍTICO / PRIORIDADE (Alta importância & Baixa satisfação)"
+
+    if (not imp) and sat:
+        return "MANUTENÇÃO / ATENDIMENTO ADEQUADO (Importância média & Satisfação alta)"
+    
+    # (not imp) and (not sat)
+    return "BAIXA PRIORIDADE IMEDIATA (Importância média & Satisfação baixa)"
+
+df_quad["Quadrante"] = df_quad.apply(classificar_quadrante, axis=1)
+
+# ============================================================
+# 4. Selecionar só as colunas mais importantes para mostrar
+# ============================================================
+
+classificacao_final = df_quad[[
+    "Tema",
+    "importancia_alta_pct",
+    "satisfacao_alta_pct",
+    "flag_importancia_alta",
+    "flag_satisfacao_alta",
+    "Quadrante"
+]].copy()
+
+# Deixar os nomes bonitos pro relatório
+classificacao_final = classificacao_final.rename(columns={
+    "importancia_alta_pct": "% Importância (Muito+Moderado)",
+    "satisfacao_alta_pct": "% Satisfeitos (4 ou 5)",
+    "flag_importancia_alta": "Importância alta?",
+    "flag_satisfacao_alta": "Satisfação alta?",
+})
+
+# ============================================================
+# 5. Criar tabela agregada por quadrante
+#    - Agrupa os temas por Quadrante e junta numa linha só
+# ============================================================
+
+resumo_quadrantes = (
+    classificacao_final
+    .groupby("Quadrante")
+    .agg({
+        "Tema": lambda s: ", ".join(sorted(s))
+    })
+    .reset_index()
+    .rename(columns={
+        "Tema": "Temas"
+    })
+)
+
+# Ordenar os quadrantes em uma ordem lógica para apresentação
+ordem_quadrantes = [
+    "FORÇA INSTITUCIONAL (Alta importância & Alta satisfação)",
+    "GARGALO CRÍTICO / PRIORIDADE (Alta importância & Baixa satisfação)",
+    "MANUTENÇÃO / ATENDIMENTO ADEQUADO (Importância média & Satisfação alta)",
+    "BAIXA PRIORIDADE IMEDIATA (Importância média & Satisfação baixa)",
+]
+
+resumo_quadrantes["__ordem__"] = resumo_quadrantes["Quadrante"].apply(
+    lambda q: ordem_quadrantes.index(q) if q in ordem_quadrantes else 999
+)
+resumo_quadrantes = resumo_quadrantes.sort_values("__ordem__").drop(columns="__ordem__")
+
+# ============================================================
+# 6. Mostrar resultados
+# ============================================================
+
+print("==== CLASSIFICAÇÃO POR TEMA ====")
+print(classificacao_final.sort_values("Quadrante"))
+
+print("\n==== QUADRANTES E TEMAS ====")
+print(resumo_quadrantes)
+
+```
+
+```{python}
+resumo_quadrantes_relatorio = resumo_quadrantes.copy()
+
+# renomear para ficar mais curto dentro do slide
+resumo_quadrantes_relatorio["Quadrante"] = resumo_quadrantes_relatorio["Quadrante"].replace({
+    "FORÇA INSTITUCIONAL (Alta importância & Alta satisfação)": "FORÇA INSTITUCIONAL",
+    "GARGALO CRÍTICO / PRIORIDADE (Alta importância & Baixa satisfação)": "GARGALO CRÍTICO / PRIORIDADE",
+    "MANUTENÇÃO / ATENDIMENTO ADEQUADO (Importância média & Satisfação alta)": "MANUTENÇÃO / ATENDIMENTO ADEQUADO",
+    "BAIXA PRIORIDADE IMEDIATA (Importância média & Satisfação baixa)": "BAIXA PRIORIDADE IMEDIATA",
+})
+
+print(resumo_quadrantes_relatorio.to_markdown(index=False))
+```
+
 
 # Demandas
 
