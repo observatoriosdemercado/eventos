@@ -265,7 +265,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='', x='', y='%', fill='UF')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -349,7 +349,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='', x='', y='%', fill='PERFIL')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -437,7 +437,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Qualidade da Pesquisa', x='', y='%', fill='QUALIDADE DA PESQUISA')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -531,7 +531,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Relevância das Soluções', x='', y='%', fill='RELEVÂNCIA DAS SOLUÇÕES')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -592,7 +592,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Agilidade das Respostas', x='', y='%', fill='AGILIDADE DAS RESPOSTAS')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -653,7 +653,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Conhecimento Técnico da Equipe', x='', y='%', fill='CONHECIMENTO TÉCNICO')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -714,7 +714,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Interação da equipe técnica com o Agro', x='', y='%', fill='INTERAÇAO TÉCNICA')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -775,7 +775,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Comunicação sobre suas tecnologias', x='', y='%', fill='COMUNICAÇÃO TECNOLOGIAS')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
@@ -1005,7 +1005,7 @@ plot = (
     )
     + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -1263,7 +1263,7 @@ plot = (
     )
     + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -1471,7 +1471,7 @@ plot = (
     )
     + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -1696,7 +1696,7 @@ plot = (
     )
     + scale_y_continuous(expand=(0.01, 0), limits=(0, tabela["perc"].max()*1.15))
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -1848,7 +1848,7 @@ plot = (
   + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
   + labs(x="", y="Distribuição (%)", fill="")
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -2013,7 +2013,7 @@ plot = (
   + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
   + labs(x="", y="Distribuição (%)", fill="")
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         panel_grid_major_y=element_blank(),
         axis_text_y=element_text(size=13),
         axis_text_x=element_text(size=13),
@@ -2181,7 +2181,7 @@ plot = (
   + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
   + labs(x="", y="Distribuição (%)", fill="")
   + theme(
-      figure_size=(12, 8),
+      figure_size=(10, 8),
       legend_title=element_blank(),
       legend_text=element_text(size=12),
       legend_position="bottom",
@@ -2365,7 +2365,7 @@ plot = (
   + scale_y_continuous(labels=lambda v: [f"{x*100:.0f}%" for x in v])
   + labs(x="", y="Distribuição (%)", fill="")
   + theme(
-      figure_size=(12, 8),
+      figure_size=(10, 8),
       legend_title=element_blank(),
       legend_text=element_text(size=12),
       legend_position="bottom",
@@ -2380,6 +2380,225 @@ plot.show()
 df = DF_ALL.copy()
 
 ```
+
+```{python}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+# ============================================
+# AGRICULTURA IRRIGADA — MATRIZ IMPORTÂNCIA x SATISFAÇÃO
+# thresholds: Importância >= 80%; Satisfação >= 50%
+# ============================================
+
+import pandas as pd
+import unicodedata
+
+AREA = "Agricultura Irrigada"
+thr_importancia = 80.0
+thr_satisfacao  = 50.0
+
+# --- 1) Funções utilitárias ---
+def _norm(s: str) -> str:
+    """lower + remove acento + tira espaços extras; lida com NaN."""
+    s = str(s).strip().lower()
+    s = unicodedata.normalize("NFKD", s).encode("ascii","ignore").decode("utf-8")
+    return s
+
+def _pct(series, keys):
+    """percentual (0-100) somado de chaves canonicalizadas."""
+    vals = series.dropna().map(_norm)
+    vc = (vals.value_counts(normalize=True) * 100)
+    return round(float(sum(vc.get(k, 0.0) for k in keys)), 1)
+
+# --- 2) Canonicalização das opções ---
+# Importância (cubra variações como "Muito importante", "muito imp.", etc.)
+IMP_MUITO      = {"muito importante", "muito", "mto importante"}
+IMP_MODERADO   = {"moderadamente importante", "moderado", "moderadamente"}
+IMP_POUCO      = {"pouco importante", "pouco"}
+IMP_NSEI       = {"nao sei", "nao sei.", "não sei", "ns"}
+
+# Satisfação (com e sem acento/maiúsculas; ordem 1..5 + "nao sei")
+SAT_TOT_INSAT  = {"totalmente insatisfeito", "1", "ti"}
+SAT_INSAT      = {"insatisfeito", "2", "i"}
+SAT_MEIO       = {"nem satisfeito nem insatisfeito", "3", "neutro", "indiferente"}
+SAT_SAT        = {"satisfeito", "4", "s"}
+SAT_TOT_SAT    = {"totalmente satisfeito", "5", "ts"}
+SAT_NSEI       = {"nao sei", "nao sei.", "não sei", "ns"}
+
+# --- 3) Mapeamento de rótulos bonitos (ajuste se quiser) ---
+label_map = {
+    "ferramentas_biotec": "Ferramentas biotecnológicas",
+    "manejo_agua":        "Manejo de água",
+    "manejo_doencas":     "Manejo de doenças",
+    "manejo_pragas":      "Manejo de pragas",
+    "melhoramento":       "Melhoramento",
+    "mercado":            "Inteligência/mercado",
+    "monit_gases":        "Monitoramento de gases",
+    "poscolheita":        "Pós-colheita",
+    "sistemas_prod":      "Sistemas de produção",
+    "tecno_alimen":       "Tecnologias de alimentos",
+}
+
+# --- 4) Descobrir pares importancia_/satisfacao_ nesta base ---
+cols_imp  = [c for c in df.columns if c.startswith("importancia_")]
+cols_sat  = [c for c in df.columns if c.startswith("satisfacao_")]
+
+def short(k): 
+    return (k.replace("importancia_","").replace("satisfacao_",""))
+
+keys = sorted(set(short(c) for c in cols_imp) & set(short(c) for c in cols_sat))
+
+# --- 5) Construir tabelas por tema ---
+imp_rows, sat_rows = [], []
+
+for k in keys:
+    c_imp, c_sat = f"importancia_{k}", f"satisfacao_{k}"
+    tema = label_map.get(k, k)
+
+    # Importância
+    pct_muito    = _pct(df[c_imp], IMP_MUITO)
+    pct_mod      = _pct(df[c_imp], IMP_MODERADO)
+    pct_pouco    = _pct(df[c_imp], IMP_POUCO)
+    pct_imp_nsei = _pct(df[c_imp], IMP_NSEI)
+    pct_alta     = round(pct_muito + pct_mod, 1)
+
+    imp_rows.append({
+        "Tema": tema,
+        "% Muito importante": pct_muito,
+        "% Moderadamente importante": pct_mod,
+        "% Pouco importante": pct_pouco,
+        "% Não sei (importância)": pct_imp_nsei,
+        "alta_importância_muito+moderado(%)": pct_alta
+    })
+
+    # Satisfação
+    pct_ts   = _pct(df[c_sat], SAT_TOT_SAT)
+    pct_s    = _pct(df[c_sat], SAT_SAT)
+    pct_mid  = _pct(df[c_sat], SAT_MEIO)
+    pct_i    = _pct(df[c_sat], SAT_INSAT)
+    pct_ti   = _pct(df[c_sat], SAT_TOT_INSAT)
+    pct_sat_nsei = _pct(df[c_sat], SAT_NSEI)
+
+    sat_rows.append({
+        "Tema": tema,
+        "% Totalmente satisfeito": pct_ts,
+        "% Satisfeito": pct_s,
+        "% Nem satisfeito nem insatisfeito": pct_mid,
+        "% Insatisfeito": pct_i,
+        "% Totalmente insatisfeito": pct_ti,
+        "% Não sei (satisfação)": pct_sat_nsei,
+        "satisfeitos_(4ou5)(%)": round(pct_s + pct_ts, 1),
+        "nao_satisfeitos_(1a3)(%)": round(pct_ti + pct_i + pct_mid, 1),
+    })
+
+imp_tbl = pd.DataFrame(imp_rows).sort_values("Tema")
+sat_tbl = pd.DataFrame(sat_rows).sort_values("Tema")
+
+# --- 6) Diagnóstico (join + quadrantes) ---
+diagnostico_irrig = (
+    imp_tbl.merge(
+        sat_tbl,
+        on="Tema", how="inner"
+    )
+)
+
+diagnostico_irrig["Importância alta?"] = diagnostico_irrig["alta_importância_muito+moderado(%)"] >= thr_importancia
+diagnostico_irrig["Satisfação alta?"]  = diagnostico_irrig["satisfeitos_(4ou5)(%)"] >= thr_satisfacao
+
+def quad(row):
+    imp, sat = row["Importância alta?"], row["Satisfação alta?"]
+    if imp and sat:     return "FORÇA INSTITUCIONAL"
+    if imp and not sat: return "PRIORIDADE ESTRATÉGICA"
+    if not imp and sat: return "ADEQUADO"
+    return "BAIXA PRIORIDADE"
+
+diagnostico_irrig["Quadrante"] = diagnostico_irrig.apply(quad, axis=1)
+
+# --- 7) Saídas para relatório/slide ---
+print(f"=== {AREA} — TABELA DE IMPORTÂNCIA POR TEMA ===")
+print(imp_tbl[[
+    "Tema","% Muito importante","% Moderadamente importante",
+    "% Pouco importante","% Não sei (importância)",
+    "alta_importância_muito+moderado(%)"
+]].to_markdown(index=False))
+
+print(f"\n=== {AREA} — TABELA DE SATISFAÇÃO POR TEMA ===")
+print(sat_tbl[[
+    "Tema","% Totalmente satisfeito","% Satisfeito",
+    "% Nem satisfeito nem insatisfeito","% Insatisfeito",
+    "% Totalmente insatisfeito","% Não sei (satisfação)",
+    "satisfeitos_(4ou5)(%)"
+]].to_markdown(index=False))
+
+cols_show = ["Tema","alta_importância_muito+moderado(%)","satisfeitos_(4ou5)(%)",
+             "Importância alta?","Satisfação alta?","Quadrante"]
+print(f"\n=== {AREA} — DIAGNÓSTICO (IMPORTÂNCIA x SATISFAÇÃO) ===")
+print(diagnostico_irrig[cols_show].sort_values(["Quadrante","Tema"]).to_markdown(index=False))
+
+resumo_quad_irrig = (
+    diagnostico_irrig.groupby("Quadrante")
+    .agg(Temas=("Tema", lambda s: ", ".join(sorted(s))))
+    .reset_index()
+)
+print("\n=== QUADRANTES E TEMAS — AGRICULTURA IRRIGADA ===")
+print(resumo_quad_irrig.to_markdown(index=False))
+```
+
+```{python}
+# =======================
+# TABELA FINAL — IRRIGADA
+# =======================
+
+# 1) ordenação desejada dos quadrantes
+ordem_quadrantes = {
+    "FORÇA INSTITUCIONAL": 1,
+    "PRIORIDADE ESTRATÉGICA": 2,
+    "ADEQUADO": 3,
+    "BAIXA PRIORIDADE": 4,
+}
+
+# 2) dataframe enxuto com as colunas na ordem do relatório
+tabela_irrig = (
+    diagnostico_irrig.loc[:, [
+        "Tema",
+        "alta_importância_muito+moderado(%)",
+        "satisfeitos_(4ou5)(%)",
+        "Importância alta?",
+        "Satisfação alta?",
+        "Quadrante"
+    ]]
+    .assign(_ord = lambda d: d["Quadrante"].map(ordem_quadrantes).fillna(99))
+    .sort_values(["_ord","Tema"], kind="stable")
+    .drop(columns="_ord")
+    .rename(columns={
+        "alta_importância_muito+moderado(%)": "% Importância (Muito + Moderado)",
+        "satisfeitos_(4ou5)(%)": "% Satisfeitos (4 + 5)"
+    })
+)
+
+# 3) opção A: imprimir em markdown (ponto decimal)
+print("=== Tabela — Agricultura Irrigada (ponto decimal) ===")
+print(tabela_irrig.to_markdown(index=False))
+
+# 4) opção B: imprimir em markdown com VÍRGULA decimal (para colar no relatório)
+def _fmt_com_virgula(x):
+    if isinstance(x, (int, float)):
+        return f"{x:.1f}".replace(".", ",")
+    return x
+
+tabela_irrig_pt = tabela_irrig.copy()
+for col in ["% Importância (Muito + Moderado)", "% Satisfeitos (4 + 5)"]:
+    tabela_irrig_pt[col] = tabela_irrig_pt[col].map(_fmt_com_virgula)
+
+print("\n=== Tabela — Agricultura Irrigada (vírgula decimal) ===")
+print(tabela_irrig_pt.to_markdown(index=False))
+
+# 5) (opcional) salvar CSV para anexar no relatório
+#tabela_irrig.to_csv("tabela_irrigada.csv", index=False, encoding="utf-8")
+```
+
 
 # Contribuição da Embrapa Semiárido para o desenvolvimento agropecuário do país
 
@@ -2429,7 +2648,7 @@ plot = (
     + scale_x_discrete(expand=(0, 0)) 
     + labs(title='Contribuição para o Desenvolvimento', x='', y='%', fill='CONTRIBUIÇÃO PARA O PAÍS')
     + theme(
-        figure_size=(12, 8),
+        figure_size=(10, 8),
         legend_position='none',
         legend_direction='horizontal',
         legend_title=element_text(size=13),
