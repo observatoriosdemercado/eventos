@@ -1,0 +1,394 @@
+---
+title: "MANGA, MANGAS, DE QUE MANGA ESTAMOS FALANDO?"
+author: "<br><br> JOÃO RICARDO F. DE LIMA <br><br> <br><br> Petrolina/PE, 29 de Novembro de 2025."
+format: 
+  revealjs:
+    logo: "imgs/logo_embrapa.png" #https://www.remove.bg/pt-br/upload
+    width: 1600
+    height: 900
+    slide-number: FALSE
+    theme: serif
+    css: estilos.css
+    fig-align: center
+    fig-width: 14
+    fig-height: 9
+    transition: fade
+    toc: false
+    progress: true
+jupyter: python313
+#/usr/local/bin/decktape reveal index.html presentation.pdf
+# se for xaringa, trocar reveal por remark, mas antes precisa abrir o html open index.html
+# pwd indica a pasta que está direcionado
+# ls -l lista os arquivos da pasta atual
+# cd .. volta para uma pasta anterior com espaco entre cd e  ..
+# cd ~/Dropbox/Embrapa/2025/Eventos/Fruit\ Attraction/fruitsp2025 muda a pasta sendo que a \ é por causa do espaço
+# se precisar abrir o html (erro de excesso de tempo) open index.html
+---
+
+## A MANGA E A SUA CRENÇA POPULAR
+
+<div style="text-align: center;">
+  <img src="imgs/manga_leite.png" width="50%">
+</div>
+
+## A MANGA E AS SUAS DIFICULDADES
+
+<center>
+<video controls data-autoplay width="470">
+  <source src="video/manga.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+</center>
+
+
+## A UVA CHAMA MAIS A ATENÇÃO...
+
+<div style="text-align: center;">
+  <img src="imgs/uvas.png" width="60%">
+</div>
+
+
+## MAS EXISTEM MUITAS MANGAS...
+
+<div style="text-align: center;">
+  <img src="imgs/euzebio.jpg" width="75%">
+</div>
+
+Foto: Euzebio Neves, 2025.
+
+## MAS EXISTEM MUITAS MANGAS...
+
+<div style="text-align: center;">
+  <img src="imgs/sebraepe1.png" width="65%">
+</div>
+
+## O CONSUMO DE MANGA NO MERCADO INTERNO {.left}
+
+<br>
+
+| **Frequência de compra**                     | **Raramente** | **Diariamente** | **Semanalmente** | **Quinzenalmente** | **Mensalmente** |
+|-------|:-------------:|:---------------:|:----------------:|:------------------:|:---------------:|
+|          | 1,8%          | 2,8%            | 69,7%            | 12,8%              | 12,8%           |
+
+| **Critério escolha**  | **Aparência** | **Preço** | **Maturação** | **Cheiro** | **Cor**      |
+|-------|:-------------:|:---------------:|:----------------:|:------------------:|:---------------:|
+|                                                  | 85,3%         | 35,8%     | 28,4%         | 15,6%      | 12,8%        |
+
+| **Preferência de variedade** |  | **Tommy** | **Espada** | **Rosa** |   **Palmer**  |
+|------------------------------|:----------:|:---------:|:----------:|:--------:|:---:|
+|                              |     | 43,1%     | 31,1%      | 33,9%    |  61,4%     |
+
+| **Quantidade média da compra** | **01 unidade** | **02 a 03 unidades** | **04 a 05 unidades** | **05 a 10 unidades** | **Mais de 10 unidades** |
+|--------------------------------|:--------------:|:--------------------:|:--------------------:|:--------------------:|:-----------------------:|
+|                                | 0,9%           | 30,3%                | 46,8%                | 17,4%                | 4,6%                    |
+
+<p style="font-size:0.85em; margin-top:0.5rem;">Fonte: MANGABEIRA, 2024.</p>
+
+
+## O CONSUMO DE MANGA NO MERCADO INTERNO {.left}
+
+<br>
+
+| **Se a qualidade fosse melhor, você compraria...**| **Muito mais** | **Um pouco a mais** | **Mesma a quantidade** |                             
+|--------------------------------------------------|:---------------:|:---------:|:------------:|
+|                                                  | 19,2%          | 35,8%               | 45%                    |                  
+| **Preferência de maturação**                      | **Verde**     | **De vez** | **Madura**    |                             
+|                                                  | 3,7%          | 75,2%      | 21,1%         |                            
+| **Quantidade de variedades que costuma comprar por vez** | **Uma** | **Duas** | **Três** |          
+|                                                          | 65,1%            | 31,2%             | 3,7%              |          
+
+<p style="font-size:0.85em; margin-top:0.5rem;">Fonte: MANGABEIRA, 2024.</p>
+
+
+## O CONSUMO DE MANGA NO MERCADO INTERNO {.left}
+
+<br> 
+
+<br> 
+
+| **Você pagaria mais por uma qualidade melhor de manga?**                      | **Com Certeza Não**     | **Talvez** | **Com Certeza Sim**    |                |             |
+|--------------------------------------------------|---------------|---------|------------|
+|                                                  | 8,3%          | 21,1%      | 70,6%         |
+| **Se a qualidade aumentar, e o preço também, você vai comprar**                      | **Menos**     | **Mesma Quantidade** | **Mais**    |                |
+|                                                  | 10,1%          | 78%      | 11,9%         |
+
+<p style="font-size:0.85em; margin-top:0.5rem;">Fonte: MANGABEIRA, 2024.</p>
+
+## A QUALIDADE DAS MANGAS
+
+#### Temos sido negligentes com nossos clientes.
+
+::: columns
+::: {.column width="45%"}
+
+<div style="text-align: center;">
+  <img src="imgs/consumidor1.png" width="85%">
+</div>
+
+:::
+::: {.column width="55%"}
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba1.png" width="140%">
+</div>
+
+:::
+:::
+
+## A QUALIDADE DAS MANGAS
+
+#### Produtos ruins não aumentam a demanda.
+
+<div style="text-align: center;">
+  <img src="imgs/embala6.jpg" width="60%">
+</div>
+
+## A QUALIDADE DAS MANGAS
+
+#### É urgente **diferenciar um produto** – sair da lógica de commodity.
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba2.png" width="85%">
+</div>
+
+## A PRODUÇÃO DE MANGA  
+
+
+#### Cada ano aumentam as áreas cultivadas e a produtividade na região.
+
+<div style="text-align: center;">
+  <img src="imgs/manga4.png" width="80%">
+</div>
+
+Fonte: [CEPEA, 2025.](https://www.hfbrasil.org.br/br/revista/acessar/completo/edicao-de-dezembro-anuario-2024-2025.aspx)
+
+
+## A PRODUÇÃO DE MANGA  
+
+<div style="text-align: center;">
+  <img src="imgs/fig7a.png" width="90%">
+</div>
+
+## VARIEDADES PERU RESERV. SAN LORENZO 
+
+<div style="text-align: center;">
+  <img src="imgs/angel1.png" width="85%">
+</div>
+
+<h2 style="font-size: 0.7em;">
+  Fonte: Angel Gamarra, 2025.
+</h2>
+
+## VARIEDADES PERU 
+
+<div style="text-align: center;">
+  <img src="imgs/peru1.png" width="60%">
+</div>
+
+## VARIEDADES MAIS POPULARES EUA 
+
+<div style="text-align: center;">
+  <img src="imgs/nmb1.png" width="75%">
+</div>
+
+<h2 style="font-size: 0.7em;">
+  Fonte: <https://www.mango.org/es/variedades-de-mango-y-disponibilidad/>, 2025.
+</h2>
+
+## VARIEDADES PARA EXPORTAÇÃO 
+
+<div style="text-align: center;">
+  <img src="imgs/campbell1.png" width="95%">
+</div>
+
+<h2 style="font-size: 0.7em;">
+  Fonte: Richard Campbell, 2025.
+</h2>
+
+## EXPORTAÇÕES BRASILEIRAS DE MANGAS
+
+```{python}
+
+#| label: peru8
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+import matplotlib.pyplot as plt
+import pandas as pd
+from plotnine import *
+
+# === deixar fundo transparente ===
+plt.rcParams['figure.facecolor'] = 'none'   # fundo da figura
+plt.rcParams['axes.facecolor'] = 'none'     # fundo da área do gráfico
+
+# Carregar os dados
+dados1 = pd.read_csv('dados/exportacoes_2012_2025.csv', sep=';', decimal='.')
+dados1.columns = ['Ano', 'Valor', 'Toneladas']
+
+# Sequência de anos 2012..2025
+dados1['Ano'] = pd.RangeIndex(start=2012, stop=2012 + len(dados1), step=1)
+
+# Converte para milhares
+dados1[['Valor', 'Toneladas']] = dados1[['Valor', 'Toneladas']] / 1000
+
+plot = (
+    ggplot(dados1, aes(x='Ano'))
+    + geom_col(aes(y='Toneladas', fill='"Mil toneladas"'), width=0.8, show_legend=True)
+    + geom_line(aes(y='Valor', color='"Milhões de dólares"'), size=2.2, show_legend=True)
+    + scale_fill_manual(name='', values={'Mil toneladas': '#FFD700'})
+    + scale_color_manual(name='', values={'Milhões de dólares': '#FF0000'})
+    + guides(fill=guide_legend(order=1), color=guide_legend(order=2))
+    + scale_x_continuous(breaks=range(2012, 2026))
+    + labs(
+        x='anos',
+        y='US$ Milhões / Mil Toneladas',
+        title='',
+        caption='Fonte: COMEXSTAT (2025). Dados reprocessados pelo Observatório de Manga da Embrapa.\n'
+                'Obs.: Dados até o mês de outubro de 2025.'
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=18),
+        figure_size=(16, 8),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+# desenha o gráfico na figura atual respeitando o fundo transparente
+fig = plot.draw()
+
+fig
+```
+
+## A CADEIA PRODUTIVA DESORGANIZADA
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente10.jpg" width="55%">
+</div>
+
+## VAMOS VER OS CASES DE SUCESSO...
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente6.jpg" width="70%">
+</div>
+
+## VAMOS VER OS CASES DE SUCESSO...
+
+- Embalagens criam identidade visual e destacam o produto.
+
+<div style="text-align: center;">
+  <img src="imgs/embala13a.png" width="90%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/ambiente7.jpg" width="75%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba4.jpg" width="68%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba5.jpg" width="70%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba6.jpg" width="50%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba7.jpg" width="65%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/embala29.png" width="80%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/embala30.png" width="60%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/manga_embalada.png" width="75%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba9.jpg" width="55%">
+</div>
+
+## VAMOS REPLICAR...  
+
+<div style="text-align: center;">
+  <img src="imgs/sebraeba8.jpg" width="68%">
+</div>
+
+## VAMOS REPLICAR...
+
+<div style="text-align: center;">
+  <img src="imgs/sebraepe1.jpg" width="60%">
+</div>
+
+## AS PESSOAS MERECEM AS MELHORES MANGAS!
+
+<div style="text-align: center;">
+  <img src="imgs/sebraepe2.png" width="90%">
+</div>
+  
+## {.center .thankslide}
+
+<div style="text-align: center;">
+  <img src="imgs/logo_manga.png" width="30%">
+</div>
+
+
+ <div style="text-align: center;"> 
+  <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
+    MUITO OBRIGADO!
+  </h2>
+  <br>
+  <!-- This part will have a smaller font size -->
+  <p style="font-size: 0.8em; color: #333;">
+    <a href="https://www.embrapa.br/observatorio-da-manga" target="_blank">
+      https://www.embrapa.br/observatorio-da-manga
+    </a>
+    <br>
+    <a href="https://www.embrapa.br/observatorio-da-uva" target="_blank">
+      https://www.embrapa.br/observatorio-da-uva
+    </a>
+    <br>
+📲 **WhatsApp:** <br>
++55 87 99961-5799  
+  </p>
+  <br>
+  <img src="imgs/apoio2.png" width="23%">
+</div>
