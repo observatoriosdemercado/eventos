@@ -23,7 +23,7 @@ format:
 
 <br>
 
-- Trabalho com *Ciências Sociais Aplicadas** — mercados, preços, emprego, comércio exterior, clima — e isso tem implicações para o tipo de dado que uso;
+- Trabalho com **Ciências Sociais Aplicadas** — mercados, preços, emprego, comércio exterior, clima — e isso tem implicações para o tipo de dado que uso;
 
 - Utilizo, por enquanto, exclusivamente **dados secundários**: não há experimentos de campo, ensaios ou coletas primárias;
 
@@ -413,9 +413,10 @@ Adaptado de https://beatrizmilz.github.io/slidesR/xaringan/09-2021-rday.html#9
 ## {.center .thankslide}
 
 <div style="text-align: center;">
-  <img src="imgs/logo_observatorios.png" width="55%">
+  <img src="imgs/logo_observatorios.png" width="40%">
 </div>
 
+<br>
 
 <div style="text-align: center;"> 
   <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
@@ -432,7 +433,8 @@ Adaptado de https://beatrizmilz.github.io/slidesR/xaringan/09-2021-rday.html#9
       https://www.embrapa.br/web/semiarido/observatorio-da-uva
     </a>
     <br>
-📲 **WhatsApp:** <br>
+    <br>
+📲 **WhatsApp:**
 +55 87 99961-5799  
   </p>
 </div>
