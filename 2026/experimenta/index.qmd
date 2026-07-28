@@ -97,13 +97,52 @@ format:
 
 <br>
 
-**APIs**
+**Application Programming Interface**
 
 - Banco Central do Brasil (SGS)
 - IBGE/SIDRA
 - NASA POWER
 - IPEADATA
 - Permitem acesso direto e atualização automatizada
+
+:::
+:::
+
+## QUANDO NÃO HÁ API: SCRAPING {.titulo-pequeno}
+
+::: columns
+::: {.column width="50%"}
+
+<br>
+
+**O problema: site sem API**
+
+- Exemplo: **National Mango Board** (nmb-database.com) — dados de volume e preço FOB de manga importada pelos EUA, por país de origem
+- O site só entrega os dados por um formulário web (sem API pública)
+- Antes: baixar pelo navegador, abrir e limpar no Excel — processo manual, repetido toda semana
+- Risco real: o Excel **corrompia as datas** na abertura/salvamento
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+**A solução: reproduzir o formulário via código**
+
+```r
+resp <- httr::POST(
+  "https://nmb-database.com/cropreports2/
+   reportgeneratevolume.php",
+  body = corpo_do_formulario,
+  encode = "raw"
+)
+# extrai o link "Export to Excel" da resposta
+# e baixa o arquivo automaticamente
+```
+
+- O script envia exatamente o mesmo POST que o formulário do site faz
+- Sem navegador, sem Excel, sem corrupção de dados
+- Roda todo mês junto com a atualização do dashboard
 
 :::
 :::

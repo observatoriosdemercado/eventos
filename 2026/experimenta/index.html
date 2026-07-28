@@ -277,13 +277,43 @@
 </ul>
 </div><div class="column" style="width:50%;">
 <p><br></p>
-<p><strong>APIs</strong></p>
+<p><strong>Application Programming Interface</strong></p>
 <ul>
 <li>Banco Central do Brasil (SGS)</li>
 <li>IBGE/SIDRA</li>
 <li>NASA POWER</li>
 <li>IPEADATA</li>
 <li>Permitem acesso direto e atualização automatizada</li>
+</ul>
+</div></div>
+</section>
+<section id="quando-não-há-api-scraping" class="slide level2 titulo-pequeno">
+<h2>QUANDO NÃO HÁ API: SCRAPING</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><br></p>
+<p><strong>O problema: site sem API</strong></p>
+<ul>
+<li>Exemplo: <strong>National Mango Board</strong> (nmb-database.com) — dados de volume e preço FOB de manga importada pelos EUA, por país de origem</li>
+<li>O site só entrega os dados por um formulário web (sem API pública)</li>
+<li>Antes: baixar pelo navegador, abrir e limpar no Excel — processo manual, repetido toda semana</li>
+<li>Risco real: o Excel <strong>corrompia as datas</strong> na abertura/salvamento</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><br></p>
+<p><strong>A solução: reproduzir o formulário via código</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>resp <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">POST</span>(</span>
+<span id="cb1-2"><a href=""></a>  <span class="st">"https://nmb-database.com/cropreports2/</span></span>
+<span id="cb1-3"><a href=""></a><span class="st">   reportgeneratevolume.php"</span>,</span>
+<span id="cb1-4"><a href=""></a>  <span class="at">body =</span> corpo_do_formulario,</span>
+<span id="cb1-5"><a href=""></a>  <span class="at">encode =</span> <span class="st">"raw"</span></span>
+<span id="cb1-6"><a href=""></a>)</span>
+<span id="cb1-7"><a href=""></a><span class="co"># extrai o link "Export to Excel" da resposta</span></span>
+<span id="cb1-8"><a href=""></a><span class="co"># e baixa o arquivo automaticamente</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>O script envia exatamente o mesmo POST que o formulário do site faz</li>
+<li>Sem navegador, sem Excel, sem corrupção de dados</li>
+<li>Roda todo mês junto com a atualização do dashboard</li>
 </ul>
 </div></div>
 </section></section>
@@ -511,13 +541,13 @@
 </div><div class="column" style="width:50%;">
 <p><br></p>
 <p><strong>Exemplo: API do Banco Central</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">import</span> requests</span>
-<span id="cb2-2"><a href=""></a>url <span class="op">=</span> (<span class="st">"https://api.bcb.gov.br/dados/serie/"</span></span>
-<span id="cb2-3"><a href=""></a>       <span class="st">"bcdata.sgs.1/dados"</span></span>
-<span id="cb2-4"><a href=""></a>       <span class="st">"?formato=json"</span></span>
-<span id="cb2-5"><a href=""></a>       <span class="st">"&amp;dataInicial=01/01/2024"</span></span>
-<span id="cb2-6"><a href=""></a>       <span class="st">"&amp;dataFinal=31/12/2024"</span>)</span>
-<span id="cb2-7"><a href=""></a>dados <span class="op">=</span> requests.get(url).json()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">import</span> requests</span>
+<span id="cb3-2"><a href=""></a>url <span class="op">=</span> (<span class="st">"https://api.bcb.gov.br/dados/serie/"</span></span>
+<span id="cb3-3"><a href=""></a>       <span class="st">"bcdata.sgs.1/dados"</span></span>
+<span id="cb3-4"><a href=""></a>       <span class="st">"?formato=json"</span></span>
+<span id="cb3-5"><a href=""></a>       <span class="st">"&amp;dataInicial=01/01/2024"</span></span>
+<span id="cb3-6"><a href=""></a>       <span class="st">"&amp;dataFinal=31/12/2024"</span>)</span>
+<span id="cb3-7"><a href=""></a>dados <span class="op">=</span> requests.get(url).json()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Dados de câmbio diário, atualizados automaticamente, sem copiar uma célula sequer.</p>
 </div></div>
 </section></section>
