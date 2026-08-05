@@ -1,6 +1,6 @@
 ---
 title: "A IMPORTÂNCIA DA FRUTICULTURA DO VALE DO SÃO FRANCISCO"
-author: "<br><br> JOÃO RICARDO F. DE LIMA <br> Pesquisador em Economia Aplicada <br><br> PETROLINA/PE, 04 de agosto de 2026."
+author: "<br><br> JOÃO RICARDO F. DE LIMA <br> Pesquisador em Economia Aplicada <br><br> PETROLINA/PE, 05 de agosto de 2026."
 format: 
   revealjs:
     logo: "imgs/logo_embrapa.png" #https://www.remove.bg/pt-br/upload
@@ -308,6 +308,346 @@ g7 <- ggplot(dados_area_tot, aes(x = Ano, y = AreaPlantada_ha)) +
 g7 + tema_transparente
 ```
 
+## ÁREA COM UVA NO VALE
+
+```{python}
+#| label: mba_areauva
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+
+# --- Imports
+from pathlib import Path
+#import os
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import *
+
+plt.close('all')  # evita que figuras de chunks anteriores atrapalhem a captura desta
+plt.rcParams['savefig.transparent'] = True  # remove o fundo branco do PNG
+
+data_dir = Path("C:/Users/Lenovo/Dropbox/tempecon/dados_uva/2025")
+
+# ========= Vale do São Francisco =========
+vale = pd.read_excel(
+    data_dir/'area_vale.xlsx',
+    skiprows=4,
+    na_values='-'
+)
+vale = vale.rename(columns={vale.columns[0]: 'mesorregiao'})
+vale = vale.iloc[:-1, :]  # remove total/rodapé
+
+# Somar todas as linhas (fica 1 linha com os anos)
+year_cols = vale.columns[1:]
+vale_sum = pd.DataFrame(vale[year_cols].sum()).T
+vale_sum.insert(0, 'regiao', 'Vale do São Francisco')
+
+# ========= Long format (melt) =========
+dados_long = vale_sum.melt(id_vars='regiao', var_name='year', value_name='value')
+
+# Garantir numérico e criar valor em mil ha
+dados_long['value'] = pd.to_numeric(dados_long['value'], errors='coerce')
+dados_long['value_k'] = dados_long['value'] / 1000.0
+
+# Ordenar anos (mesmo se forem strings)
+try:
+    anos_ordenados = sorted(dados_long['year'].unique(), key=lambda x: int(str(x)))
+except Exception:
+    anos_ordenados = sorted(dados_long['year'].unique())
+dados_long['year'] = pd.Categorical(dados_long['year'], categories=anos_ordenados, ordered=True)
+
+# ========= Plot =========
+paleta = {
+    "Vale do São Francisco": "#6F2DA8"  # Grape
+}
+cores = [paleta[k] for k in ["Vale do São Francisco"]]
+
+plot = (
+    ggplot(dados_long, aes(x='year', y='value_k', fill='regiao')) +
+    geom_col(position=position_dodge(width=0.9), size=1) +
+    scale_fill_manual(values=cores) +
+    labs(
+        y="Área Plantada de Uva (mil ha)",
+        x="Ano",
+        title="",
+        caption="Fonte: PAM/IBGE (2025) reprocessado pelo Observatório de Mercado de Uva da Embrapa"
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=18),
+        figure_size=(16, 8),
+    )
+)
+
+plot.show()
+```
+
+## QUANTIDADE DE UVA NO VALE
+
+```{python}
+#| label: mba_quantiuva
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+
+# --- Imports
+from pathlib import Path
+#import os
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import *
+
+plt.close('all')  # evita que figuras de chunks anteriores atrapalhem a captura desta
+plt.rcParams['savefig.transparent'] = True  # remove o fundo branco do PNG
+
+data_dir = Path("C:/Users/Lenovo/Dropbox/tempecon/dados_uva/2025")
+
+# ========= Vale do São Francisco =========
+vale = pd.read_excel(
+    data_dir/'quanti_vale.xlsx',
+    skiprows=4,
+    na_values='-'
+)
+vale = vale.rename(columns={vale.columns[0]: 'mesorregiao'})
+vale = vale.iloc[:-1, :]  # remove total/rodapé
+
+# Somar todas as linhas (fica 1 linha com os anos)
+year_cols = vale.columns[1:]
+vale_sum = pd.DataFrame(vale[year_cols].sum()).T
+vale_sum.insert(0, 'regiao', 'Vale do São Francisco')
+
+# ========= Long format (melt) =========
+dados_long = vale_sum.melt(id_vars='regiao', var_name='year', value_name='value')
+
+# Garantir numérico e criar valor em mil ha
+dados_long['value'] = pd.to_numeric(dados_long['value'], errors='coerce')
+dados_long['value_k'] = dados_long['value'] / 1000.0
+
+# Ordenar anos (mesmo se forem strings)
+try:
+    anos_ordenados = sorted(dados_long['year'].unique(), key=lambda x: int(str(x)))
+except Exception:
+    anos_ordenados = sorted(dados_long['year'].unique())
+dados_long['year'] = pd.Categorical(dados_long['year'], categories=anos_ordenados, ordered=True)
+
+# ========= Plot =========
+paleta = {
+    "Vale do São Francisco": "#6F2DA8"  # Grape
+}
+cores = [paleta[k] for k in ["Vale do São Francisco"]]
+
+plot = (
+    ggplot(dados_long, aes(x='year', y='value_k', fill='regiao')) +
+    geom_col(position=position_dodge(width=0.9), size=1) +
+    scale_fill_manual(values=cores) +
+    labs(
+        y="Quantidade Produzida de Uva (mil Ton.)",
+        x="Ano",
+        title="",
+        caption="Fonte: PAM/IBGE (2025) reprocessado pelo Observatório de Mercado de Uva da Embrapa"
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=18),
+        figure_size=(16, 8),
+    )
+)
+
+plot.show()
+```
+
+## ÁREA COM MANGA NO VALE
+
+```{python}
+#| label: mba_areamanga
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+
+# --- Imports
+from pathlib import Path
+#import os
+import pandas as pd
+from plotnine import *
+
+data_dir = Path("C:/Users/Lenovo/Dropbox/tempecon/dados_manga/2025")
+
+# ========= Vale do São Francisco =========
+vale = pd.read_excel(
+    data_dir/'area_vale.xlsx',
+    skiprows=4,
+    na_values='-'
+)
+vale = vale.rename(columns={vale.columns[0]: 'mesorregiao'})
+vale = vale.iloc[:-1, :]  # remove total/rodapé
+
+# Somar todas as linhas (fica 1 linha com os anos)
+year_cols = vale.columns[1:]
+vale_sum = pd.DataFrame(vale[year_cols].sum()).T
+vale_sum.insert(0, 'regiao', 'Vale do São Francisco')
+
+# ========= Long format (melt) =========
+dados_long = vale_sum.melt(id_vars='regiao', var_name='year', value_name='value')
+
+# Garantir numérico e criar valor em mil ha
+dados_long['value'] = pd.to_numeric(dados_long['value'], errors='coerce')
+dados_long['value_k'] = dados_long['value'] / 1000.0
+
+# Ordenar anos (mesmo se forem strings)
+try:
+    anos_ordenados = sorted(dados_long['year'].unique(), key=lambda x: int(str(x)))
+except Exception:
+    anos_ordenados = sorted(dados_long['year'].unique())
+dados_long['year'] = pd.Categorical(dados_long['year'], categories=anos_ordenados, ordered=True)
+
+# ========= Plot =========
+paleta = {
+    "Vale do São Francisco": "gold"  # Gold
+}
+cores = [paleta[k] for k in ["Vale do São Francisco"]]
+
+plot = (
+    ggplot(dados_long, aes(x='year', y='value_k', fill='regiao')) +
+    geom_col(position=position_dodge(width=0.9), size=1) +
+    scale_fill_manual(values=cores) +
+    labs(
+        y="Área Plantada de Manga (mil ha)",
+        x="Ano",
+        title="",
+        caption="Fonte: PAM/IBGE (2025) reprocessado pelo Observatório de Mercado de Manga da Embrapa"
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=18),
+        figure_size=(16, 8),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+# desenha o gráfico na figura atual respeitando o fundo transparente
+
+plot.show()
+```
+
+## QUANTIDADE DE MANGA NO VALE
+
+```{python}
+#| label: mba_quantimanga
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+
+# --- Imports
+from pathlib import Path
+#import os
+import pandas as pd
+from plotnine import *
+
+data_dir = Path("C:/Users/Lenovo/Dropbox/tempecon/dados_manga/2025")
+
+# ========= Vale do São Francisco =========
+vale = pd.read_excel(
+    data_dir/'quanti_vale.xlsx',
+    skiprows=4,
+    na_values='-'
+)
+vale = vale.rename(columns={vale.columns[0]: 'mesorregiao'})
+vale = vale.iloc[:-1, :]  # remove total/rodapé
+
+# Somar todas as linhas (fica 1 linha com os anos)
+year_cols = vale.columns[1:]
+vale_sum = pd.DataFrame(vale[year_cols].sum()).T
+vale_sum.insert(0, 'regiao', 'Vale do São Francisco')
+
+# ========= Long format (melt) =========
+dados_long = vale_sum.melt(id_vars='regiao', var_name='year', value_name='value')
+
+# Garantir numérico e criar valor em mil ha
+dados_long['value'] = pd.to_numeric(dados_long['value'], errors='coerce')
+dados_long['value_k'] = dados_long['value'] / 1000.0
+
+# Ordenar anos (mesmo se forem strings)
+try:
+    anos_ordenados = sorted(dados_long['year'].unique(), key=lambda x: int(str(x)))
+except Exception:
+    anos_ordenados = sorted(dados_long['year'].unique())
+dados_long['year'] = pd.Categorical(dados_long['year'], categories=anos_ordenados, ordered=True)
+
+# ========= Plot =========
+paleta = {
+    "Vale do São Francisco": "gold"  # Grape
+}
+cores = [paleta[k] for k in ["Vale do São Francisco"]]
+
+plot = (
+    ggplot(dados_long, aes(x='year', y='value_k', fill='regiao')) +
+    geom_col(position=position_dodge(width=0.9), size=1) +
+    scale_fill_manual(values=cores) +
+    labs(
+        y="Quantidade Produzida de Manga (mil Ton.)",
+        x="Ano",
+        title="",
+        caption="Fonte: PAM/IBGE (2025) reprocessado pelo Observatório de Mercado de Manga da Embrapa"
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=18),
+        figure_size=(16, 8),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+# desenha o gráfico na figura atual respeitando o fundo transparente
+
+plot.show()
+```
+
 ## GERAÇÃO DE EMPREGOS NA FRUTICULTURA
 
 ```{r}
@@ -491,6 +831,167 @@ g3 <- ggplot(dados3, aes(x = Ano)) +
 g3 + tema_transparente
 ```
 
+## EXPORTAÇÕES DE UVAS BRASIL X PERU
+
+```{python}
+#| label: mba_exp_brasil_peru
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import (
+    ggplot, aes, geom_line, scale_color_manual,
+    scale_x_continuous, scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+plt.close('all')  # evita que figuras de chunks anteriores atrapalhem a captura desta
+plt.rcParams['savefig.transparent'] = True  # remove o fundo branco do PNG
+
+# Leitura dos dados
+df = pd.read_csv("dados/brasil_peru_uva.csv", sep=";", decimal=".")
+
+# Garantindo tipos numéricos
+df["ano"] = pd.to_numeric(df["ano"], errors="coerce")
+df["Brasil"] = pd.to_numeric(df["Brasil"], errors="coerce")
+df["Peru"] = pd.to_numeric(df["Peru"], errors="coerce")
+
+# Removendo NA e ordenando
+df = df.dropna(subset=["ano", "Brasil", "Peru"]).sort_values("ano")
+
+# Convertendo para mil toneladas e passando para formato longo
+df["Brasil"] = df["Brasil"] / 1000
+df["Peru"] = df["Peru"] / 1000
+dados = df.melt(id_vars="ano", value_vars=["Brasil", "Peru"],
+                var_name="pais", value_name="valor")
+
+# Formatação numérica BR (milhar com ponto, decimal com vírgula)
+def fmt_pt(v):
+    s = f"{v:,.0f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+a_min, a_max = int(df["ano"].min()), int(df["ano"].max())
+
+plot = (
+    ggplot(dados, aes("ano", "valor", color="pais"))
+    + geom_line(size=1.5)
+    + scale_color_manual(values={"Brasil": "#6F2DA8", "Peru": "#FF0000"})
+    + scale_x_continuous(breaks=range(a_min, a_max + 1, 5))
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v) for v in l])
+    + labs(
+        x="Ano",
+        y="Mil toneladas",
+        title="",
+        caption="Fonte: COMTRADE/COMEXSTAT (2026). Dados reprocessados pelo "
+                "Observatório de Mercado da Embrapa."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(16, 8),
+    )
+)
+
+plot.show()
+```
+
+## EXPORTAÇÕES DE UVAS DO BRASIL X EUA
+
+```{python}
+#| label: mba_exporta_eua
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+import unicodedata
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import (
+    ggplot, aes, geom_col, geom_text, position_dodge,
+    scale_fill_manual, scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+plt.close('all')  # evita que figuras de chunks anteriores atrapalhem a captura desta
+plt.rcParams['savefig.transparent'] = True  # remove o fundo branco do PNG
+
+def _norm(s):
+    s = unicodedata.normalize('NFKD', str(s).strip().lower())
+    return ''.join(c for c in s if not unicodedata.combining(c))
+
+df = pd.read_csv("C:/Users/Lenovo/Dropbox/tempecon/dados_uva/USA_24_25.csv",
+                 sep=";", decimal=".")
+df.columns = ['mes', 'Toneladas_2024', 'Toneladas_2025']
+df['mes'] = df['mes'].map(_norm)
+
+ordem = ['janeiro', 'fevereiro', 'marco', 'abril', 'maio', 'junho',
+         'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+abbr = {'janeiro': 'Jan', 'fevereiro': 'Fev', 'marco': 'Mar', 'abril': 'Abr',
+        'maio': 'Mai', 'junho': 'Jun', 'julho': 'Jul', 'agosto': 'Ago',
+        'setembro': 'Set', 'outubro': 'Out', 'novembro': 'Nov',
+        'dezembro': 'Dez'}
+
+df = df[df['mes'].isin(ordem)]
+longo = df.melt(id_vars='mes',
+                value_vars=['Toneladas_2024', 'Toneladas_2025'],
+                var_name='Ano', value_name='valor')
+longo['Ano'] = longo['Ano'].str[-4:]
+longo['valor'] = pd.to_numeric(longo['valor'], errors='coerce')
+longo['mes_lab'] = pd.Categorical(longo['mes'].map(abbr),
+                                  categories=[abbr[m] for m in ordem],
+                                  ordered=True)
+
+def fmt1(v):
+    s = f"{v:,.1f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+longo['label'] = longo['valor'].map(
+    lambda v: fmt1(v) if pd.notna(v) else "")
+
+plot = (
+    ggplot(longo, aes('mes_lab', 'valor', fill='Ano'))
+    + geom_col(position=position_dodge(width=0.8), width=0.7)
+    + scale_fill_manual(values={'2024': '#6F2DA8', '2025': '#FF0000'})
+    + scale_y_continuous(labels=lambda l: [fmt1(v) for v in l])
+    + labs(
+        x="Meses",
+        y="Volume exportado para os EUA (ton)",
+        title="",
+        caption="Fonte: COMEXSTAT (2025). Dados reprocessados pelo "
+                "Observatório de Mercado da Embrapa."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=16),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(16, 8),
+    )
+)
+
+plot.show()
+```
+
 ## A IMPORTANTE FUNÇÃO DO MERCADO EXTERNO.
 
 - 92% DE TODA A MANGA EXPORTADA PELO BRASIL, EM 2025, FOI PRODUZIDA NO VALE DO SÃO FRANCISCO. 
@@ -527,6 +1028,235 @@ g5 <- ggplot(dados4a, aes(x = Ano)) +
         legend.position = "bottom", legend.title = element_blank(),
         legend.text = element_text(size = 22)) # Definindo posição da legenda
 g5 + tema_transparente
+```
+
+## EXPORTAÇÕES DE MANGAS BRASIL X PERU
+
+```{python}
+#| label: mba_exp_peru_brasil
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import (
+    ggplot, aes, geom_line, scale_color_manual,
+    scale_x_continuous, scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+# === fundo transparente ===
+plt.rcParams['figure.facecolor'] = 'none'
+plt.rcParams['axes.facecolor'] = 'none'
+
+# Leitura dos dados
+df = pd.read_csv("dados/brasil_peru_manga.csv", sep=";", decimal=".")
+
+# Garantindo tipos numéricos
+df["ano"] = pd.to_numeric(df["ano"], errors="coerce")
+df["Brasil"] = pd.to_numeric(df["Brasil"], errors="coerce")
+df["Peru"] = pd.to_numeric(df["Peru"], errors="coerce")
+
+# Removendo NA e ordenando
+df = df.dropna(subset=["ano", "Brasil", "Peru"]).sort_values("ano")
+
+# Convertendo para mil toneladas e passando para formato longo
+df["Brasil"] = df["Brasil"] / 1000
+df["Peru"] = df["Peru"] / 1000
+dados = df.melt(id_vars="ano", value_vars=["Brasil", "Peru"],
+                var_name="pais", value_name="valor")
+
+# Formatação numérica BR (milhar com ponto, decimal com vírgula)
+def fmt_pt(v):
+    s = f"{v:,.0f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+a_min, a_max = int(df["ano"].min()), int(df["ano"].max())
+
+plot = (
+    ggplot(dados, aes("ano", "valor", color="pais"))
+    + geom_line(size=1.5)
+    + scale_color_manual(values={"Brasil": "gold", "Peru": "#FF0000"})
+    + scale_x_continuous(breaks=range(a_min, a_max + 1, 5))
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v) for v in l])
+    + labs(
+        x="Ano",
+        y="Mil toneladas",
+        title="",
+        caption="Fonte: COMTRADE/COMEXSTAT/APEM (2026). Dados reprocessados pelo "
+                "Observatório de Mercado da Embrapa."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(16, 8),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+plot.show()
+```
+
+## EXPORTAÇÕES EUA × RESTO DO MUNDO
+
+<br>
+
+```{python}
+#| label: mba_manga_eua_resto
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 18
+#| fig-height: 16
+#| fig-align: "center"
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+plt.rcParams['figure.facecolor'] = 'none'
+plt.rcParams['axes.facecolor'] = 'none'
+
+df = pd.read_csv("dados/brasil_eua.csv", sep=";")
+df.columns = [c.strip() for c in df.columns]
+for c in ["ano", "exportacao_total", "exportacao_eua"]:
+    df[c] = pd.to_numeric(df[c], errors="coerce")
+df["perc_eua"] = (df["exportacao_eua"] / df["exportacao_total"] * 100).round(0)
+
+fig, ax1 = plt.subplots(figsize=(16, 8))
+ax2 = ax1.twinx()
+
+ax1.bar(df["ano"], df["exportacao_eua"], width=0.6, color="gold",
+        label="Contêineres p/ EUA")
+ax2.plot(df["ano"], df["perc_eua"], color="#FF0000", linewidth=2,
+         marker="o", label="% do total exportado")
+
+for x, y in zip(df["ano"], df["perc_eua"]):
+    ax2.annotate(f"{int(y)}%", (x, y), textcoords="offset points",
+                 xytext=(0, 10), ha="center", color="#FF0000",
+                 fontsize=13, fontweight="bold")
+
+ax1.set_xlabel("Ano", fontsize=18, fontweight="bold")
+ax1.set_ylabel("Contêineres exportados para os EUA",
+                fontsize=18, fontweight="bold")
+ax2.set_ylabel("% do total exportado pelo Brasil",
+                fontsize=18, fontweight="bold")
+ax1.set_xticks(df["ano"])
+ax1.tick_params(axis='both', labelsize=15)
+ax2.tick_params(axis='both', labelsize=15)
+# eixo do percentual começa em 0
+_ = ax2.set_ylim(0, (int(df["perc_eua"].max()) // 5 + 1) * 5)
+ax2.yaxis.set_major_formatter(FuncFormatter(lambda v, p: f"{int(v)}%"))
+for s in ax1.spines.values():
+    s.set_visible(False)
+for s in ax2.spines.values():
+    s.set_visible(False)
+ax1.set_facecolor('none')
+ax2.set_facecolor('none')
+fig.patch.set_alpha(0)
+
+l1, lab1 = ax1.get_legend_handles_labels()
+l2, lab2 = ax2.get_legend_handles_labels()
+_ = ax1.legend(l1 + l2, lab1 + lab2, loc='upper center',
+               bbox_to_anchor=(0.5, -0.12), ncol=2, fontsize=15, frameon=False)
+_ = fig.text(0.01, 0.01, "Fonte: COMEXSTAT (2025). Reprocessado pelo "
+             "Observatório de Mercado da Embrapa.", ha='left', fontsize=14)
+fig.subplots_adjust(bottom=0.20)
+plt.show()
+plt.close(fig)
+```
+
+
+## PREÇO NOS EUA — TOMMY ATKINS: 2024 × 2025 {.titulo-pequeno}
+
+```{python}
+#| label: mba_manga_preco_tommy
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+import pyreadr
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import (
+    ggplot, aes, geom_col, geom_text, position_dodge,
+    scale_fill_manual, scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+plt.rcParams['figure.facecolor'] = 'none'
+plt.rcParams['axes.facecolor'] = 'none'
+
+# --- Dados (RData via pyreadr) ---
+res = pyreadr.read_r("dados/dados_eua2.RData")
+df = res['dados']
+
+tommy = df[(df['variedade'] == 'TOMMY ATKINS') &
+           (df['origem'] == 'BRAZIL') &
+           (df['ano'].isin(['2024', '2025']))].copy()
+tommy['semana'] = tommy['semana'].astype(int)
+tommy['ano'] = tommy['ano'].astype(int)
+tommy = tommy[(tommy['semana'] >= 31) & (tommy['semana'] <= 50)]
+
+g = (tommy.groupby(['ano', 'semana'])['Tam_10'].mean()
+          .reset_index().dropna(subset=['Tam_10']))
+g['ano'] = pd.Categorical(g['ano'].astype(str), categories=['2024', '2025'],
+                          ordered=True)
+g['semana'] = pd.Categorical(g['semana'],
+                             categories=sorted(g['semana'].unique()),
+                             ordered=True)
+
+def fmt_pt(v, dec=2):
+    s = f"{v:,.{dec}f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+g['label'] = g['Tam_10'].map(lambda v: fmt_pt(v, 2))
+
+plot = (
+    ggplot(g, aes('semana', 'Tam_10', fill='ano'))
+    + geom_col(position=position_dodge(width=0.8), width=0.7)
+    + geom_text(aes(label='label'),
+                position=position_dodge(width=0.8),
+                va='bottom', size=9)
+    + scale_fill_manual(values={'2024': '#027559', '2025': 'gold'})
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v, 0) for v in l])
+    + labs(
+        x="Semanas", y="Preço (USD)", title="",
+        caption="Fonte: USDA/AMS (2025). Reprocessado pelo Observatório de "
+                "Mercado de Manga da Embrapa."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=15),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(16, 8),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+plot.show()
 ```
 
 ## VOLUME EXPORTADO UVA POR DESTINO
@@ -596,6 +1326,202 @@ ggplot(dados_exporta, aes(x = format(Ano, "%Y"), y = quilo/1000, fill = bloco)) 
         legend.text=element_text(size=10)) + # Definindo posição da legenda
   tema_transparente
 ```
+
+## RELAÇÃO CUSTO DE PRODUÇÃO X PREÇOS VITÓRIA {.titulo-pequeno}
+
+```{python}
+#| label: mba_custo_preco_vitória
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 18
+#| fig-height: 8
+#| fig-align: "center"
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import (
+    ggplot, aes, geom_col, geom_line, scale_fill_manual, scale_color_manual,
+    scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+plt.close('all')  # evita que figuras de chunks anteriores atrapalhem a captura desta
+plt.rcParams['savefig.transparent'] = True  # remove o fundo branco do PNG
+
+# Preço e custo de produção da manga Palmer, janeiro/2023 a junho/2026
+df = pd.read_csv("dados/preco_custo_vitoria.csv", sep=";", decimal=".")
+df.columns = ['mes', 'preco', 'custo']
+df['preco'] = (df['preco'].str.replace('R$', '', regex=False)
+                           .str.replace(',', '.', regex=False)
+                           .astype(float))
+df['custo'] = pd.to_numeric(df['custo'], errors='coerce')
+df['data'] = pd.date_range(start='2025-01-01', periods=len(df), freq='MS')
+df['data_lab'] = df['data'].dt.strftime('%m/%Y')
+df['data_lab'] = pd.Categorical(df['data_lab'], categories=df['data_lab'], ordered=True)
+
+def fmt_pt(v, dec=2):
+    s = f"{v:,.{dec}f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+plot = (
+    ggplot(df, aes(x='data_lab'))
+    + geom_col(aes(y='custo', fill='"Custo de Produção (R$/kg)"'), width=0.7)
+    + geom_line(aes(y='preco', color='"Preço Uva Vitória (R$/kg)"', group=1), size=1.8)
+    + scale_fill_manual(name=None, values={"Custo de Produção (R$/kg)": "#b22200"})
+    + scale_color_manual(name=None, values={"Preço Uva Vitória (R$/kg)": "purple"})
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v, 2) for v in l])
+    + labs(
+        x="Mês/Ano", y="R$/kg", title="",
+        caption="Fonte: CEPEA reprocessado pelo observatório de Mercado de Uva da Embrapa, 2026."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=16),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=11, rotation=90),
+        axis_text_y=element_text(size=16),
+        plot_caption=element_text(ha='left', size=14),
+        figure_size=(18, 8),
+    )
+)
+
+plot.show()
+```
+
+## RELAÇÃO CUSTO DE PRODUÇÃO X PREÇOS TOMMY {.titulo-pequeno}
+
+```{python}
+#| label: mba_custo_preco_tommy
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 18
+#| fig-height: 8
+#| fig-align: "center"
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import (
+    ggplot, aes, geom_col, geom_line, scale_fill_manual, scale_color_manual,
+    scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+plt.close('all')  # evita que figuras de chunks anteriores atrapalhem a captura desta
+plt.rcParams['savefig.transparent'] = True  # remove o fundo branco do PNG
+
+# Preço e custo de produção da manga Tommy Atkins, janeiro/2023 a junho/2026
+df = pd.read_csv("dados/preco_custo_tommy.csv", sep=";", decimal=".")
+df.columns = ['mes', 'preco', 'custo']
+df['preco'] = (df['preco'].str.replace('R$', '', regex=False)
+                           .str.replace(',', '.', regex=False)
+                           .astype(float))
+df['custo'] = pd.to_numeric(df['custo'], errors='coerce')
+df['data'] = pd.date_range(start='2024-01-01', periods=len(df), freq='MS')
+df['data_lab'] = df['data'].dt.strftime('%m/%Y')
+df['data_lab'] = pd.Categorical(df['data_lab'], categories=df['data_lab'], ordered=True)
+
+def fmt_pt(v, dec=2):
+    s = f"{v:,.{dec}f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+plot = (
+    ggplot(df, aes(x='data_lab'))
+    + geom_col(aes(y='custo', fill='"Custo de Produção (R$/kg)"'), width=0.7)
+    + geom_line(aes(y='preco', color='"Preço Tommy (R$/kg)"', group=1), size=1.8)
+    + scale_fill_manual(name=None, values={"Custo de Produção (R$/kg)": "#b22200"})
+    + scale_color_manual(name=None, values={"Preço Tommy (R$/kg)": "gold"})
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v, 2) for v in l])
+    + labs(
+        x="Mês/Ano", y="R$/kg", title="",
+        caption="Fonte: CEPEA reprocessado pelo Observatório de Mercado de Manga da Embrapa, 2026."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=16),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=11, rotation=90),
+        axis_text_y=element_text(size=16),
+        plot_caption=element_text(ha='left', size=14),
+        figure_size=(18, 8),
+    )
+)
+
+plot.show()
+```
+
+## RELAÇÃO CUSTO DE PRODUÇÃO X PREÇOS PALMER {.titulo-pequeno}
+
+```{python}
+#| label: mba_custo_preco_palmer
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 18
+#| fig-height: 8
+#| fig-align: "center"
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from plotnine import (
+    ggplot, aes, geom_col, geom_line, scale_fill_manual, scale_color_manual,
+    scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+plt.close('all')  # evita que figuras de chunks anteriores atrapalhem a captura desta
+plt.rcParams['savefig.transparent'] = True  # remove o fundo branco do PNG
+
+# Preço e custo de produção da manga Palmer, janeiro/2023 a junho/2026
+df = pd.read_csv("dados/preco_custo_palmer.csv", sep=";", decimal=".")
+df.columns = ['mes', 'preco', 'custo']
+df['preco'] = (df['preco'].str.replace('R$', '', regex=False)
+                           .str.replace(',', '.', regex=False)
+                           .astype(float))
+df['custo'] = pd.to_numeric(df['custo'], errors='coerce')
+df['data'] = pd.date_range(start='2024-01-01', periods=len(df), freq='MS')
+df['data_lab'] = df['data'].dt.strftime('%m/%Y')
+df['data_lab'] = pd.Categorical(df['data_lab'], categories=df['data_lab'], ordered=True)
+
+def fmt_pt(v, dec=2):
+    s = f"{v:,.{dec}f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+plot = (
+    ggplot(df, aes(x='data_lab'))
+    + geom_col(aes(y='custo', fill='"Custo de Produção (R$/kg)"'), width=0.7)
+    + geom_line(aes(y='preco', color='"Preço Palmer (R$/kg)"', group=1), size=1.8)
+    + scale_fill_manual(name=None, values={"Custo de Produção (R$/kg)": "#b22200"})
+    + scale_color_manual(name=None, values={"Preço Palmer (R$/kg)": "gold"})
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v, 2) for v in l])
+    + labs(
+        x="Mês/Ano", y="R$/kg", title="",
+        caption="Fonte: CEPEA reprocessado pelo observatório de Mercado de Manga da Embrapa, 2026."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=16),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=11, rotation=90),
+        axis_text_y=element_text(size=16),
+        plot_caption=element_text(ha='left', size=14),
+        figure_size=(18, 8),
+    )
+)
+
+plot.show()
+```
+
 
 ##  PERFIL DE PRODUTORES DE UVA
 
