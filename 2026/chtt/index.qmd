@@ -1,6 +1,6 @@
 ---
 title: "A IMPORTÂNCIA DA FRUTICULTURA DO VALE DO SÃO FRANCISCO"
-author: "<br><br> JOÃO RICARDO F. DE LIMA <br> Pesquisador em Economia Aplicada <br><br> PETROLINA/PE, 05 de agosto de 2026."
+author: "<br><br> JOÃO RICARDO F. DE LIMA <br> Pesquisador em Economia Aplicada <br><br> PETROLINA/PE, 18 de agosto de 2026."
 format: 
   revealjs:
     logo: "imgs/logo_embrapa.png" #https://www.remove.bg/pt-br/upload
