@@ -24,7 +24,7 @@ format:
 
 -   Contatos
 
-    -   Instagram: [\@jotaerre.econ](https://www.instagram.com/jotaerre.econ/)
+    -   Instagram: [\@observatoriodafruticultura](https://www.instagram.com/observatoriodafruticultura)
 
     -   Email: [joao.ricardo@embrapa.br](joao.ricardo@embrapa.br)
 
@@ -1140,7 +1140,34 @@ plot = (
 plot.show()
 ```
 
-## A CADEIA PRODUTIVA DA MANGICULTURA {.titulo-pequeno}
+## CUSTOS E A REFORMA TRIBUTÁRIA PARA O AGRO {.titulo-pequeno}
+
+::: columns
+::: {.column width="50%"}
+
+**O que é a Reforma Tributária?**
+
+- **PIS, Cofins, IPI, ICMS e ISS** dão lugar a **CBS, IBS e Imposto Seletivo**
+- **IVA não cumulativo:** o imposto pago em cada etapa vira **crédito** na etapa seguinte
+- **Fruta fresca (manga e uva): alíquota zero**
+- **Insumos agropecuários: 60% de redução** (≈ 10,6% efetivo sobre a alíquota de referência de 26,5%)
+- **Exportação: imune**, com manutenção do crédito das etapas anteriores
+- **Transição:** 2026 teste, 2027 CBS, 2033 sistema pleno
+
+:::
+::: {.column width="50%"}
+
+**A mudança da cultura necessária**
+
+- **Antes:** o imposto do insumo era embutido no preço e virava **custo sem crédito**. **Agora:** o imposto do insumo é **destacado na nota** e pode virar **crédito**, se o produtor for contribuinte
+- **Produtor acima de R$ 3,6 mi/ano:** contribuinte obrigatório
+- **Abaixo de R$ 3,6 mi:** pode **optar pelo regime regular** (art. 165). Quem não opta não recupera nada. **Exemplo:** R\$ 900 mil em insumos geram **R\$ 95.400 de crédito** (10,6%) para quem optou
+- **Hábitos novos:** exigir nota fiscal de todo insumo.
+
+:::
+:::
+
+## A CADEIA PRODUTIVA DA MANGICULTURA 
 
 ![](imgs/cadeia_manga_transparente.png){style="width:94%; max-width:none; max-height:none; margin-left:-2%;"}
 
@@ -1717,9 +1744,9 @@ knitr::include_graphics("imgs/embala14.jpg")
   <img src="imgs/sebraepe2.png" width="90%">
 </div>
 
-## {.center .thankslide}
+## {.thankslide}
 
-::: columns
+::: {.columns style="margin-top: -40px;"}
 ::: {.column width="50%"}
 <div style="text-align: center;">
   <img src="imgs/logo_conecta.png" width="50%">
@@ -1732,20 +1759,17 @@ knitr::include_graphics("imgs/embala14.jpg")
 :::
 :::
 <div style="text-align: center;"> 
-  <h2 style="color: #282f6b; font-size: 2em; margin-bottom: 20px;">
+  <h2 style="color: #282f6b; font-size: 2.5em; margin-bottom: 20px;">
     MUITO OBRIGADO!
   </h2>
-  <br>
   <!-- This part will have a smaller font size -->
-  <p style="font-size: 0.8em; color: #333;">
+  <p style="font-size: 1.0em; color: #333;">
     <a href="https://www.embrapa.br/observatorio-da-manga" target="_blank">
       https://www.embrapa.br/web/semiarido/observatorio-da-manga
     </a>
     <br>
-    <br>
 📲 **WhatsApp:** <br>
 +55 87 99961-5799
-<br>
   </p>
-  <img src="imgs/apoio4.png" width="35%">
+  <img src="imgs/apoio4.png" width="45%">
 </div>
