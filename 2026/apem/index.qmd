@@ -193,7 +193,7 @@ plot.show()
 
 ## PRODUCCIÓN DE MANGO EN EL VALLE
 
-#### Siempre se busca aumentar la productividad (28 t/ha) y la producción (1,29 millones de t)
+#### Siempre se busca aumentar la productividad (28 t/ha) y la producción (1,29 millones t)
 
 ```{python}
 #| label: mba_quantimanga
@@ -396,7 +396,7 @@ media <- colMeans(matrix(window(volume, end = c(2025, 12)), ncol = 12, byrow = T
 # Datas so para o eixo x (mes do ano) e nomes dos meses em espanhol
 meses    <- seq(as.Date("2021-01-01"), by = "month", length.out = 12)
 nome_mes <- c("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-              "Julio", "Agosto", "Septiemebre", "Octubre", "Noviembre", "Diciembre")
+              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
 
 barras <- data.frame(Meses    = rep(meses, 3),
                      variable = rep(c("2024", "2025", "2026"), each = 12),
@@ -1225,16 +1225,7 @@ plot = (
 plot.show()
 ```
 
-# RETOS 
-
-## VARIEDADES DE MANGO
-
-```{r}
-#| label: mba_variedades
-
-knitr::include_graphics("imgs/variety.png")
-```
-Fuente: Campbell (2025).
+# RETOS Y ESTRATEGIAS
 
 ## EL RESURGIMIENTO DE LA PALMER EN BRASIL
 
@@ -1245,58 +1236,214 @@ knitr::include_graphics("imgs/richard_camp.png")
 ```
 Fuente: Campbell (2025).
 
-## PALMER MADURADA DESPUÉS DE LA COSECHA EN VERDE {.titulo-pequeno}
+## TEMPERATURA DE SEPTIEMBRE A DICIEMBRE EN PETROLINA {.titulo-pequeno}
 
-```{r}
-#| label: mba_variedades31
-#| out-width: "120%"
+#### El segundo semestre está más caliente: 2023 y 2024 fueron los años más cálidos desde 2000
 
-knitr::include_graphics("imgs/palmer_murcha1.jpeg")
+```{python}
+#| label: clima_temperatura
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 20
+#| fig-height: 10
+#| fig-align: "center"
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from pathlib import Path
+from plotnine import *
+
+plt.close('all')
+plt.rcParams['savefig.transparent'] = True
+
+# Temperatura diaria a 2 m en Petrolina (NASA POWER, 2000-2026, guardada en dados/)
+clima = pd.read_csv(Path('dados/clima_petrolina_temp.csv'), sep=';', parse_dates=['data'])
+sd = clima[clima['data'].dt.month.isin([9, 10, 11, 12])]
+sd = sd.groupby(sd['data'].dt.year)['t2m'].agg(['mean', 'count'])
+sd = sd[sd['count'] >= 120]                       # solo años con septiembre-diciembre completos (2026 aún no)
+base = sd['mean'].mean()                          # promedio 2000-2025
+d = (sd['mean'] - base).rename('dif').reset_index()
+d.columns = ['ano', 'dif']
+d['ano'] = d['ano'].astype(str)
+d['signo'] = np.where(d['dif'] > 0, 'arriba', 'abajo')
+d['etiqueta'] = d['dif'].map(lambda v: f'{v:+.1f}'.replace('.', ','))
+
+plot = (
+    ggplot(d, aes('ano', 'dif', fill='signo'))
+    + geom_col(width=0.7)
+    + geom_hline(yintercept=0, color='black')
+    + geom_text(aes(label='etiqueta', y='dif + 0.12 * (dif > 0) - 0.12 * (dif <= 0)'), size=14)
+    + scale_fill_manual(values={'arriba': '#b22200', 'abajo': '#1f77b4'})
+    + scale_y_continuous(labels=lambda l: [f'{v:+.1f}'.replace('.', ',') if v else '0' for v in l])
+    + labs(x='Año', y='Diferencia respecto al promedio (°C)', title='',
+           caption=f'Temperatura media del aire de septiembre a diciembre en Petrolina (PE); promedio 2000–2025: {base:.1f}'.replace('.', ',') + ' °C.\n'
+                   'Fuente: NASA POWER, reprocesado por el Observatorio de Mercado de Mango de Embrapa. No incluye 2026 (año en curso).')
+    + theme_minimal()
+    + theme(
+        legend_position='none',
+        axis_title_x=element_text(weight='bold', size=20),
+        axis_title_y=element_text(weight='bold', size=20),
+        axis_text_x=element_text(size=18, angle=45, ha='center'),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(20, 10),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+plot.show()
 ```
-Fecha de la foto: 17/09/2026 en Petrolina.
 
-## PALMER MADURADA DESPUÉS DE LA COSECHA EN VERDE {.titulo-pequeno}
+## DÍAS MUY CALIENTES EN EL SEGUNDO SEMESTRE {.titulo-pequeno}
 
-```{r}
-#| label: mba_variedades32
-#| out-width: "120%"
+#### En 2026, de septiembre al 17 de octubre, hubo 42 días con máxima superior a 35 °C: casi el doble del promedio
 
-knitr::include_graphics("imgs/palmer_murcha2.png")
+```{python}
+#| label: clima_dias_calientes
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 20
+#| fig-height: 10
+#| fig-align: "center"
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from pathlib import Path
+from plotnine import *
+
+plt.close('all')
+plt.rcParams['savefig.transparent'] = True
+
+LIMITE = 35   # día muy caliente: temperatura máxima superior a 35 °C (mismo criterio del modelo de previsión de precios)
+clima = pd.read_csv(Path('dados/clima_petrolina_temp.csv'), sep=';', parse_dates=['data']).dropna(subset=['t2m_max'])
+clima['caliente'] = clima['t2m_max'] > LIMITE
+mes, dia = clima['data'].dt.month, clima['data'].dt.day
+
+def contar(mascara, minimo, panel):
+    c = clima[mascara].groupby(clima['data'].dt.year)['caliente'].agg(['sum', 'count'])
+    c = c[c['count'] >= minimo]['sum'].rename('dias').reset_index()
+    c.columns = ['ano', 'dias']
+    c['panel'] = panel
+    return c
+
+p1 = 'Septiembre a diciembre (años completos)'
+p2 = '1 de septiembre al 17 de octubre'
+d = pd.concat([contar(mes.isin([9, 10, 11, 12]), 120, p1),
+               contar((mes == 9) | ((mes == 10) & (dia <= 17)), 47, p2)], ignore_index=True)
+d['color'] = np.where(d['ano'] == 2026, '2026', 'otros')
+prom = (d[d['ano'] <= 2025].groupby('panel', observed=True)['dias'].mean().rename('prom').reset_index())
+# el promedio (línea roja) va en el título de cada panel
+nombre = {p: f'{p}\nLínea roja: promedio 2000–2025 = {v:.0f} días' for p, v in zip(prom['panel'], prom['prom'])}
+d['panel'] = pd.Categorical(d['panel'].map(nombre), categories=[nombre[p1], nombre[p2]], ordered=True)
+prom['panel'] = pd.Categorical(prom['panel'].map(nombre), categories=[nombre[p1], nombre[p2]], ordered=True)
+d['etiqueta'] = np.where(d['ano'] == 2026, d['dias'].astype(str), '')
+
+plot = (
+    ggplot(d, aes('ano', 'dias', fill='color'))
+    + geom_col(width=0.75)
+    + geom_hline(aes(yintercept='prom'), data=prom, color='#FF0000', linetype='dashed', size=1.1)
+    + geom_text(aes(label='etiqueta'), size=18, fontweight='bold', va='bottom', nudge_y=0.8)
+    + facet_wrap('~panel', ncol=2, scales='free_y')
+    + scale_fill_manual(values={'otros': '#6F2DA8', '2026': '#FF8C00'})
+    + scale_x_continuous(breaks=range(2000, 2027, 4))
+    + labs(x='Año', y=f'Días con máxima superior a {LIMITE} °C', title='',
+           caption='Fuente: NASA POWER (temperatura máxima diaria a 2 m, Petrolina-PE), reprocesado por el Observatorio de Mercado de Mango de Embrapa.\n'
+                   'Datos de 2026 hasta el 17 de octubre.')
+    + theme_minimal()
+    + theme(
+        legend_position='none',
+        strip_text=element_text(size=20, weight='bold'),
+        axis_title_x=element_text(weight='bold', size=20),
+        axis_title_y=element_text(weight='bold', size=20),
+        axis_text_x=element_text(size=18),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        panel_spacing_x=0.06,
+        figure_size=(20, 10),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+plot.show()
 ```
-Fecha de la foto: 17/09/2026 en Petrolina.
 
-## LA PALMER MADURA EN EL ÁRBOL
+## LLUVIA DE ENERO A ABRIL EN PETROLINA {.titulo-pequeno}
 
-<br>
+#### 2024 y 2026 rompieron la racha seca de la última década
 
-```{r}
-#| label: mba_variedades33
-#| out-width: "120%"
+```{python}
+#| label: clima_lluvia
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 20
+#| fig-height: 10
+#| fig-align: "center"
 
-knitr::include_graphics("imgs/palmer1.png")
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from pathlib import Path
+from plotnine import *
+
+plt.close('all')
+plt.rcParams['savefig.transparent'] = True
+
+# Lluvia diaria (mm) en Petrolina, NASA POWER, guardada en dados/
+clima = pd.read_csv(Path('dados/clima_petrolina_temp.csv'), sep=';', parse_dates=['data'])
+ene_abr = clima[clima['data'].dt.month <= 4]
+g = ene_abr.groupby(ene_abr['data'].dt.year)['chuva']
+d = g.sum().to_frame('mm')[g.size() >= 119].reset_index()      # solo años con enero-abril completo
+d.columns = ['ano', 'mm']
+d['color'] = np.where(d['ano'].isin([2024, 2026]), 'destacado', 'otros')
+d['etiqueta'] = np.where(d['ano'].isin([2024, 2026]), d['mm'].round().astype(int).astype(str), '')
+base = d[(d['ano'] >= 2016) & (d['ano'] <= 2025)]['mm'].mean()   # promedio de los últimos 10 años completos
+
+plot = (
+    ggplot(d, aes('ano', 'mm', fill='color'))
+    + geom_col(width=0.7)
+    + geom_hline(yintercept=base, color='#FF0000', linetype='dashed', size=1.1)
+    + geom_text(aes(y='mm + 8', label='etiqueta'), size=18, fontweight='bold', va='bottom')
+    + annotate('text', x=2011.5, y=d['mm'].max() * 0.95, label=f'Línea roja: promedio de los últimos 10 años (2016–2025) = {base:.0f} mm',
+               color='#FF0000', size=18, ha='left', va='bottom')
+    + scale_fill_manual(values={'otros': '#6F2DA8', 'destacado': '#FF8C00'})
+    + scale_x_continuous(breaks=range(2000, 2027, 2))
+    + labs(x='Año', y='Lluvia acumulada de enero a abril (mm)', title='',
+           caption='Fuente: NASA POWER (precipitación diaria, Petrolina-PE), reprocesado por el Observatorio de Mercado de Mango de Embrapa.')
+    + theme_minimal()
+    + theme(
+        legend_position='none',
+        axis_title_x=element_text(weight='bold', size=20),
+        axis_title_y=element_text(weight='bold', size=20),
+        axis_text_x=element_text(size=18, angle=45, ha='center'),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=16),
+        figure_size=(20, 10),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+plot.show()
 ```
-Fecha de la foto: 10/10/2026 en Petrolina.
 
-## LA PALMER MADURA EN EL ÁRBOL
+## RETOS Y ESTRATEGIAS
 
-<br>
+- Introducción de nuevas variedades
+- Eventos climáticos extremos
+- Costos de producción
+- Escasez y costo de la mano de obra
+- Conquista de nuevos mercados
+- Mosca de la fruta
+- Enfermedades, en especial la antracnosis
+- Logística
 
-```{r}
-#| label: mba_variedades34
-#| out-width: "120%"
-
-knitr::include_graphics("imgs/palmer2.png")
-```
-Fecha de la foto: 08/2026 en São Paulo.
-
-## LA CALIDAD DEL MANGO - ANTRACNOSIS
-
-#### El mayor problema del primer semestre lluvioso
-
-<div style="text-align: center;">
-  <img src="imgs/antracnose1.png" width="78%">
-</div>
-Foto: feria libre en São Paulo, 03/2026
 
 ## {.thankslide}
 
