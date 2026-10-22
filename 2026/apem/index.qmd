@@ -529,9 +529,80 @@ plot = (
 plot.show()
 ```
 
-## PRECIO EN EE. UU. — TOMMY ATKINS: 2024 × 2025 × 2026 {.titulo-pequeno}
+## PRECIO EE. UU. — TOMMY, SIZE 8: 2024×2025×2026 {.titulo-pequeno}
 
-#### En 2026 el precio está por debajo de 2025 (semanas 36 a 43) y en la semana 43 es mucho más bajo que hace un año
+#### En el calibre 8, el precio de 2026 está solo 4 % por debajo de 2025 (semanas 36 a 43)
+
+```{python}
+#| label: mba_manga_preco_tommy_eua_8
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+import pandas as pd
+from plotnine import (
+    ggplot, aes, geom_col, geom_text, position_dodge,
+    scale_fill_manual, scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+# Calibre 8 (8 frutas por caja); mismos datos y criterio del slide del calibre 10.
+df = pd.read_csv("dados/brasil_tommy_precos_eua_2024_2026.csv")
+
+g = df[df['tamanho'] == 8][['ano', 'semana', 'tam_medio']].dropna(subset=['tam_medio']).copy()
+g['ano'] = pd.Categorical(g['ano'].astype(str), categories=['2024', '2025', '2026'],
+                          ordered=True)
+g['semana'] = pd.Categorical(g['semana'],
+                             categories=sorted(g['semana'].unique()),
+                             ordered=True)
+
+def fmt_pt(v, dec=2):
+    s = f"{v:,.{dec}f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+g['label'] = g['tam_medio'].map(lambda v: fmt_pt(v, 2))
+
+plot = (
+    ggplot(g, aes('semana', 'tam_medio', fill='ano'))
+    + geom_col(position=position_dodge(width=0.8), width=0.7)
+    + geom_text(aes(label='label'),
+                position=position_dodge(width=0.8),
+                va='bottom', ha='center', angle=90, size=13)
+    + scale_fill_manual(values={'2024': '#027559', '2025': 'gold', '2026': '#00008B'})
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v, 0) for v in l], expand=(0, 0, 0.15, 0))
+    + labs(
+        x="Semana", y="Precio (US$ por caja de 4 kg)", title="",
+        caption="Fuente: National Mango Board / USDA-AMS. Reprocesado por el Observatorio de "
+                "Mercado de Mango de Embrapa.\n2026: promedio semanal recalculado a partir del "
+                "reporte diario (el reporte semanal oficial no registra Brasil en 2026). "
+                "Calibre 8 = 8 frutas por caja. Datos de 2026 hasta la semana 43. "
+                "2025: el reporte repite valores en varias semanas."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=14),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=14),
+        figure_size=(16, 8),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+plot.show()
+```
+
+## PRECIO EE. UU. — TOMMY, SIZE 10: 2024×2025×2026 {.titulo-pequeno}
+
+#### En el calibre 10 la caída es mayor: 15 % por debajo de 2025 (semanas 36 a 43)
 
 ```{python}
 #| label: mba_manga_preco_tommy_eua
@@ -585,7 +656,8 @@ plot = (
         caption="Fuente: National Mango Board / USDA-AMS. Reprocesado por el Observatorio de "
                 "Mercado de Mango de Embrapa.\n2026: promedio semanal recalculado a partir del "
                 "reporte diario (el reporte semanal oficial no registra Brasil en 2026). "
-                "Calibre 10 = 10 frutas por caja. Datos de 2026 hasta la semana 43."
+                "Calibre 10 = 10 frutas por caja. Datos de 2026 hasta la semana 43. "
+                "2025: el reporte repite valores en varias semanas."
     )
     + theme_minimal()
     + theme(
@@ -782,7 +854,7 @@ plot = (
 + labs(x='Semana/Año', y='Contenedores de mango a Europa y Reino Unido',
        title='',
        caption='Fuente: datos reprocesados por el Observatorio de Mercado de Mango de Embrapa.\n'
-               'Nota: datos hasta la semana 41 de 2026. Área sombreada: de la semana 45 a la semana 20 del año siguiente.')
+               'Nota: datos hasta la semana 42 de 2026. Área sombreada: de la semana 45 a la semana 20 del año siguiente.')
     + theme_minimal()
     + theme(
         legend_position='none',
@@ -839,7 +911,7 @@ def comparar(ano, base, ultima_semana):
     d['sube'] = np.where(d['dif'] > 0, 'más', 'menos')
     return d
 
-d = pd.concat([comparar(2025, 2024, 52), comparar(2026, 2025, 41)], ignore_index=True)
+d = pd.concat([comparar(2025, 2024, 52), comparar(2026, 2025, 42)], ignore_index=True)
 d['painel'] = pd.Categorical(d['painel'], categories=d['painel'].unique(), ordered=True)
 sin_barco = ', '.join(str(int(s)) for s in sorted(d.loc[d['valida'] == 'sin barco', 'semana'].unique()))
 
@@ -852,7 +924,7 @@ plot = (
     + scale_alpha_manual(values={'ok': 1.0, 'sin barco': 0.3})
     + scale_x_continuous(breaks=range(1, 53, 2), limits=(0.3, 52.7), expand=(0, 0))
     + labs(x='Semana del año', y='Diferencia de contenedores (vs. el año anterior)', title='',
-           caption='Fuente: datos reprocesados por el Observatorio de Mercado de Mango de Embrapa. Datos hasta la semana 41 de 2026.\n'
+           caption='Fuente: datos reprocesados por el Observatorio de Mercado de Mango de Embrapa. Datos hasta la semana 42 de 2026.\n'
                    'Azul: más contenedores que en la misma semana del año anterior; rojo: menos. '
                    f'Barras claras: semanas sin barco en 2025 ({sin_barco}), no comparables.')
     + theme_minimal()
@@ -912,9 +984,9 @@ tabela_comparacao_manga <- function(preco_serie, dadosp) {
   # Apenas a média histórica (linha) e os anos 2025 e 2026 (barras)
   table <- data.frame(time_manga, round(medias25, 2),
                        round(tail(preco_2025, 52), 2), preco_2026[, 1])
-  colnames(table) <- c('Semanas', 'Media', 'Año 2025', 'Año 2026')
+  colnames(table) <- c('Semanas', 'Promedio 2012–2025', 'Año 2025', 'Año 2026')
 
-  tablea <- table[, c('Semanas', 'Media')]
+  tablea <- table[, c('Semanas', 'Promedio 2012–2025')]
   tableb <- table[, c('Semanas', 'Año 2025', 'Año 2026')]
 
   list(tablea2 = melt(tablea, id.var = 'Semanas'),
@@ -1511,6 +1583,8 @@ plot.show()
 ```
 
 ## RETOS Y ESTRATEGIAS
+
+<br>
 
 - Introducción de nuevas variedades
 - Eventos climáticos extremos
