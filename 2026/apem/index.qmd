@@ -529,6 +529,83 @@ plot = (
 plot.show()
 ```
 
+## PRECIO EN EE. UU. — TOMMY ATKINS: 2024 × 2025 × 2026 {.titulo-pequeno}
+
+#### En 2026 el precio está por debajo de 2025 (semanas 36 a 43) y en la semana 43 es mucho más bajo que hace un año
+
+```{python}
+#| label: mba_manga_preco_tommy_eua
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 16
+#| fig-height: 8
+#| fig-align: "center"
+
+import pandas as pd
+from plotnine import (
+    ggplot, aes, geom_col, geom_text, position_dodge,
+    scale_fill_manual, scale_y_continuous, labs, theme_minimal, theme
+)
+from plotnine.themes.elements import *
+
+# --- Datos ---
+# Tamano 10, semanas 31-50, Brasil/Tommy Atkins.
+# 2026: el reporte SEMANAL oficial del National Mango Board no trae mas
+# precios de Brasil desde fines de 2025 (las transacciones quedan
+# registradas bajo un "Entry Port" combinado con Ecuador/Peru y el
+# promedio semanal del sitio no las contabiliza). Por eso, para los tres
+# anos, el precio semanal aqui fue recalculado a partir del reporte
+# DIARIO (promedio de Low/High por semana ISO), que si trae Brasil.
+df = pd.read_csv("dados/brasil_tommy_precos_eua_2024_2026.csv")
+
+g = df[df['tamanho'] == 10][['ano', 'semana', 'tam_medio']].dropna(subset=['tam_medio']).copy()
+g['ano'] = pd.Categorical(g['ano'].astype(str), categories=['2024', '2025', '2026'],
+                          ordered=True)
+g['semana'] = pd.Categorical(g['semana'],
+                             categories=sorted(g['semana'].unique()),
+                             ordered=True)
+
+def fmt_pt(v, dec=2):
+    s = f"{v:,.{dec}f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+g['label'] = g['tam_medio'].map(lambda v: fmt_pt(v, 2))
+
+plot = (
+    ggplot(g, aes('semana', 'tam_medio', fill='ano'))
+    + geom_col(position=position_dodge(width=0.8), width=0.7)
+    + geom_text(aes(label='label'),
+                position=position_dodge(width=0.8),
+                va='bottom', ha='center', angle=90, size=13)
+    + scale_fill_manual(values={'2024': '#027559', '2025': 'gold', '2026': '#00008B'})
+    + scale_y_continuous(labels=lambda l: [fmt_pt(v, 0) for v in l], expand=(0, 0, 0.15, 0))
+    + labs(
+        x="Semana", y="Precio (US$ por caja de 4 kg)", title="",
+        caption="Fuente: National Mango Board / USDA-AMS. Reprocesado por el Observatorio de "
+                "Mercado de Mango de Embrapa.\n2026: promedio semanal recalculado a partir del "
+                "reporte diario (el reporte semanal oficial no registra Brasil en 2026). "
+                "Calibre 10 = 10 frutas por caja. Datos de 2026 hasta la semana 43."
+    )
+    + theme_minimal()
+    + theme(
+        legend_position='bottom',
+        legend_title=element_blank(),
+        legend_text=element_text(size=18),
+        axis_title_x=element_text(weight='bold', size=18),
+        axis_title_y=element_text(weight='bold', size=18),
+        axis_text_x=element_text(size=14),
+        axis_text_y=element_text(size=18),
+        plot_caption=element_text(ha='left', size=14),
+        figure_size=(16, 8),
+        panel_background=element_rect(fill='None', color='None'),
+        plot_background=element_rect(fill='None', color='None'),
+    )
+)
+
+plot.show()
+```
+
 ## EXPORTACIÓN: EE. UU. × RESTO DEL MUNDO
 
 <br> 
