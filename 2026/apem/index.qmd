@@ -1385,9 +1385,9 @@ knitr::include_graphics("imgs/richard_camp.png")
 ```
 Fuente: Campbell (2025).
 
-## TEMPERATURA DE SEPTIEMBRE A DICIEMBRE EN PETROLINA {.titulo-pequeno}
+## TEMPERATURAS DE SEPTIEMBRE A DICIEMBRE EN PETROLINA {.titulo-pequeno}
 
-#### El segundo semestre está más caliente: 2023 y 2024 fueron los años más cálidos desde 2000
+#### El segundo semestre presenta temperaturas más elevadas: 2023 y 2024 fueron los años más cálidos desde 2000
 
 ```{python}
 #| label: clima_temperatura
@@ -1446,9 +1446,9 @@ plot = (
 plot.show()
 ```
 
-## DÍAS MUY CALIENTES EN EL SEGUNDO SEMESTRE {.titulo-pequeno}
+## DÍAS DE CALOR EXTREMO EN EL SEGUNDO SEMESTRE {.titulo-pequeno}
 
-#### En 2026, de septiembre al 17 de octubre, hubo 42 días con máxima superior a 35 °C: casi el doble del promedio
+#### En 2026, de septiembre al 17 de octubre, hubo 42 días con máxima superior a 35 °C: casi el doble del promedio histórico
 
 ```{python}
 #| label: clima_dias_calientes
@@ -1522,9 +1522,9 @@ plot = (
 plot.show()
 ```
 
-## LLUVIA DE ENERO A ABRIL EN PETROLINA {.titulo-pequeno}
+## PRECIPITACIONES DE ENERO A ABRIL EN PETROLINA {.titulo-pequeno}
 
-#### 2024 y 2026 rompieron la racha seca de la última década
+#### 2024 y 2026 interrumpieron la prolongada sequía de la última década
 
 ```{python}
 #| label: clima_lluvia
