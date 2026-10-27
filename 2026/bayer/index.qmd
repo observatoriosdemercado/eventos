@@ -305,6 +305,17 @@ plot.show()
 
 ![](imgs/uva_varejo.png){style="width:80%; max-width:none; max-height:none; object-position:center top;"}
 
+## PARA PENSAR...
+
+<br>
+
+- A **oferta cresceu muito**, mais rápido do que a **exportação**;
+- Cada vez mais, o **mercado interno** precisa absorver essa oferta.
+- Na gôndola, o consumidor encontra inúmeras marcas, variedades, cores e uvas com sabores: **qual cumbuca de uva ele leva para casa?**
+- Dois desafios: **fazer o consumidor escolher a cumbuca de uva da sua empresa** (marca e diferenciação) e **entregar a qualidade que o faça ter uma boa experiência para ele voltar** a comprar a uva da sua empresa.
+- **Quem conseguir, passa por esta fase da viticultura.**
+- Então é reunir as equipes, principalmente de marketing, do setor de qualidade e o comercial e ter garantia que todos tem clareza de como deve ser a cultura da empresa.
+
 
 ## {.center .thankslide}
 <div style="text-align: center;">
