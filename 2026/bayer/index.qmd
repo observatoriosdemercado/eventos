@@ -303,7 +303,15 @@ plot.show()
 
 ## UVAS NO VAREJO
 
-![](imgs/uva_varejo.png){style="width:80%; max-width:none; max-height:none; object-position:center top;"}
+```{r}
+#| label: mba_variedades10
+
+knitr::include_graphics("imgs/uva_varejo.png")
+```
+
+## IMPORTÂNCIA DO MARKETING
+
+![](imgs/marketing1.png){style="width:90%; max-width:none; max-height:none; object-position:center top;"}
 
 ## PARA ENTENDER E COLOCAR EM PRÁTICA...
 
